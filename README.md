@@ -25,6 +25,8 @@ The payment path in this snapshot: a browser wallet creates a proof locally, han
 | `work/solana-beta-withdraw-v1/pool`, `work/solana-beta-spend-v1/verifier`, `work/solana-beta-withdraw-v1/verifier`, `work/solana-proof-buffer-v1` and their path dependencies, `PROGRAM-HASHES.json` | Sources of the four on-chain programs (settlement pool, send verifier, withdrawal verifier, proof buffer); sha256 of the four binaries the local validator loaded. The binaries and the build toolchain are not published |
 | `work/solana-upload-pipeline-v1` | Measurement code and results: transaction anatomy of a payment, upload strategies, trace width and proof-size model |
 | `evidence`-style files under each `work/*/evidence/*` | Result summaries (sha256-pinned inputs, verdicts). Raw network captures, browser profiles and logs are deliberately not published |
+| `REVIEW.md` | Where each review question lives in the code, what exists to help, and what a reviewer is asked to send back |
+| `.github/workflows/checks.yml` | Runs the relay-layer checks and the mutation-pattern tests on every push |
 | `MANIFEST.json`, `EXPORT-REPORT.json` | sha256 of every file here, and a record of what was left out, patched and scanned |
 
 ## What has been verified, and where

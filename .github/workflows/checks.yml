@@ -1,0 +1,30 @@
+name: relay-layer checks
+
+# Re-runs, on a clean machine and with no network access needed by the tests, the checks that were run on the author's Mac: the 40 checks of the windowed relay, the 62 of the relay that closes accounts
+# (the same 40, unmodified, plus 22), and the test that every mutated text of both mutation controls still matches the sources exactly once. Nothing here proves anything about privacy, a public cluster or the on-chain programs.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ZK9_WIRE_ARCHIVE: ${{ github.workspace }}/work/solana-multiwallet-privacy-v1/evidence/privacy-live-02/public-capsule
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: windowed relay checks (40)
+        working-directory: work/solana-relay-windowed-v1
+        run: node --test --test-timeout=300000 checks.mjs
+      - name: relay checks with account closing (62 = the same 40 + 22)
+        working-directory: work/solana-relay-cleanup-v1
+        run: node --test --test-timeout=300000 checks.mjs cleanup-checks.mjs
+      - name: mutation texts still match the sources exactly once
+        run: |
+          (cd work/solana-relay-windowed-v1 && python3 mutation_control.py --verify-patterns)
+          (cd work/solana-relay-cleanup-v1 && python3 mutation_control.py --verify-patterns)

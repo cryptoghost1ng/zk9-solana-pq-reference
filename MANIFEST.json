@@ -1,6 +1,10 @@
 {
  "note": "sha256 of every file except this one and EXPORT-REPORT.json (re-sealed after manual edits)",
  "files": {
+  ".github/workflows/checks.yml": {
+   "sha256": "3d25bb3c91ab4034daf3f02f4b75b28fe69e7bc2563cbe0e4421e65d591ff80d",
+   "bytes": 1458
+  },
   "CLAIMS.md": {
    "sha256": "e00f26f0f6e1333d12a44498b7d3795cee1a9c0d4fc83b0796eca6a380f69513",
    "bytes": 4094
@@ -30,12 +34,16 @@
    "bytes": 1624
   },
   "README.md": {
-   "sha256": "2313902eae4827e568114154fc89313c1df49328dbb6f4dcb4108e3a6cda014b",
-   "bytes": 6194
+   "sha256": "7dd91afe127788daf141fa361f2a10dbb5f29bff85268e1d3bdfe200d20698a0",
+   "bytes": 6431
   },
   "REPRODUCE.md": {
    "sha256": "40d3d4f1c9d2758b8e56d1cb20dc201b0eb0b38da9078a4e2b43055b4c00610e",
    "bytes": 3064
+  },
+  "REVIEW.md": {
+   "sha256": "14fae8a0486c9d45f6f535aae8193e1aeb68ad4eedebaed5fab411577036f3e2",
+   "bytes": 8769
   },
   "ROADMAP.md": {
    "sha256": "d8142ea653cad3e288bd66a509483300c3fb9d7a1e6c7be6ce3739bc8375bd38",
