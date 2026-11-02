@@ -1,0 +1,5 @@
+Prediction written BEFORE building or running the probe (2026-11-01).
+Observed in the archived capsule (capsule-analysis-02): the Merkle-opening stage (input-mmcs) consumes 710.0e6 compute units in a withdraw and 523.2e6 in a send: ratio 1.357.
+That stage hashes the opened rows, so its cost should scale with the trace width (same 64 queries). The send there is v3 (width 7525, +8 mask columns).
+Predicted withdraw v2 width: (7525+8)*1.357-8 = about 10214 columns, accepted if the probe prints a value between 9900 and 10500.
+Positive controls the probe must reproduce exactly: send v2 = 10406, send v3 public-binding liveness = 7525.

@@ -1,6 +1,6 @@
 # How this snapshot was made
 
-It was built by `tools/make_reference_release.py` from the author's working tree (about 2.7 TB), never in place: the script copies an allow-listed slice into a new directory, applies a short list of exact-match
+It was built by a script (not part of this snapshot: it carries the author's own personal-data scan patterns) from the author's working tree (about 2.7 TB), never in place: the script copies an allow-listed slice into a new directory, applies a short list of exact-match
 patches, rewrites the author's home directory to a placeholder, scans every exported text file for secrets and personal data, and writes `MANIFEST.json` (sha256 of every file) and `EXPORT-REPORT.json`.
 
 - **Left out on purpose:** the author's personal trial data and local trials, browser profiles, raw network captures, logs, build outputs (`target`, `cargo-home`), toolchains, compiled binaries, archives, and any
