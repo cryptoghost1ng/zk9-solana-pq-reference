@@ -1,0 +1,4 @@
+rebuild-01: all four on-chain program binaries pinned in PROGRAM-HASHES.json were rebuilt from their sources with their own recipes and came out BIT-FOR-BIT IDENTICAL.
+The method matters: `rebuild_as_recipe.sh` runs the recipe's own command with the recipe's own (unnormalised) path forms, in place for the read-only cargo cache and the toolchain, and writes only the target and output to a scratch directory.
+An earlier attempt of mine (rebuild_pool.sh, rebuild_equal_path.py) copied the cargo cache elsewhere and got a DIFFERENT pool binary (220,456 bytes, 268e47cf...) in both cases; I first took that to mean the binaries were not reproducible and published that wording in the repository (commit 9eee95f).
+It was wrong: the difference came from my changed paths, not from the sources. The repository has been corrected.

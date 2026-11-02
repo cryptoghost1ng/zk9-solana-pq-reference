@@ -1,5 +1,5 @@
 {
- "note": "sha256 of the four on-chain program binaries the local validator loaded in the end-to-end runs (work/solana-unified-wallet-v1/managed-validator.mjs pins them). The binaries are not published and the build toolchain (platform-tools v1.52, Solana 3.1.10) is not part of this snapshot, so the correspondence between these sources and these hashes cannot be re-checked from here.",
+ "note": "sha256 of the four on-chain program binaries the local validator loaded in the end-to-end runs (work/solana-unified-wallet-v1/managed-validator.mjs pins them). The binaries are not published and the build toolchain (platform-tools v1.52, Solana 3.1.10) is not part of this snapshot, so you cannot re-check from here that these sources build to these hashes; the author did, bit for bit, on 2026-11-02 (work/solana-reproducible-build-v1/evidence/rebuild-01).",
  "programs": [
   {
    "role": "settlement pool",

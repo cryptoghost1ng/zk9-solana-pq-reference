@@ -1,0 +1,57 @@
+{
+ "what": "each of the four on-chain program binaries rebuilt from its source with its own recipe, run with the recipe's own path forms, target and output in a scratch directory",
+ "date": "2026-11-02",
+ "toolchain": {
+  "cargo-build-sbf": "solana-cargo-build-sbf 3.1.10\nplatform-tools v1.52",
+  "platform-tools": "v1.52 (offline copy kept with the author's tree)",
+  "host": "macOS arm64"
+ },
+ "all_identical": true,
+ "programs": [
+  {
+   "program": "proof buffer",
+   "file": "zk9_solana_proof_buffer_lab.so",
+   "recipe": "work/solana-proof-buffer-v1/build.sh",
+   "pinned_sha256": "887788bb28333a704b6455a7a171c887073417928013b8e7fbc633617b502e0e",
+   "rebuilt_sha256": "887788bb28333a704b6455a7a171c887073417928013b8e7fbc633617b502e0e",
+   "bytes": 37376,
+   "identical": true
+  },
+  {
+   "program": "settlement pool",
+   "file": "zk9_solana_beta_settlement.so",
+   "recipe": "work/solana-beta-withdraw-v1/build-pool.sh",
+   "pinned_sha256": "94d918d5856d29ac2ffe53145abff133107d6ba45417db2488d5ba543450cf16",
+   "rebuilt_sha256": "94d918d5856d29ac2ffe53145abff133107d6ba45417db2488d5ba543450cf16",
+   "bytes": 222872,
+   "identical": true
+  },
+  {
+   "program": "send verifier",
+   "file": "zk9_solana_beta_verifier.so",
+   "recipe": "work/solana-beta-spend-v1/build-verifier.sh",
+   "pinned_sha256": "30fcee5b553c24e93a2d6ac6da784051c2b9b83feb5ca0818331332ee260c823",
+   "rebuilt_sha256": "30fcee5b553c24e93a2d6ac6da784051c2b9b83feb5ca0818331332ee260c823",
+   "bytes": 5644328,
+   "identical": true
+  },
+  {
+   "program": "withdrawal verifier",
+   "file": "zk9_solana_withdraw_verifier.so",
+   "recipe": "work/solana-beta-withdraw-v1/build-verifier.sh",
+   "pinned_sha256": "f6ef9ced3c5988e40f107fac6a4ddbd460cf116c6aad7eaf5495344ec56d2da4",
+   "rebuilt_sha256": "f6ef9ced3c5988e40f107fac6a4ddbd460cf116c6aad7eaf5495344ec56d2da4",
+   "bytes": 6126688,
+   "identical": true
+  }
+ ],
+ "earlier_attempt_that_differed": {
+  "pool_sha256_when_built_in_other_directories": "268e47cf3521e6fa9ea4ccd85539c8662b0e6b47bdafe7cc1d20ee829a5e5a29",
+  "bytes": 220456,
+  "why": "The compiler embeds source paths. With the cargo cache copied to a different location (and with a cache path of the same length) the registry sources are remapped to short relative paths; with the recipe's unnormalised path `<dir>/../solana-verifier-profile-v1/sbf-cargo-home` they appear in full. The pinned binary contains the full form. Keep the recipe's path forms to reproduce it."
+ },
+ "limits": [
+  "Reproduced on the author's machine with the author's offline toolchain and cargo caches, which are not published: a third party cannot repeat this from the public repository alone.",
+  "Bit-for-bit equality shows these sources and this recipe produce these binaries; it says nothing about whether the sources are correct."
+ ]
+}
