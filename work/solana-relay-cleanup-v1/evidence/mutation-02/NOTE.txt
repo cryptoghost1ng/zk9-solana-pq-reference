@@ -1,0 +1,2 @@
+mutation-02 detected all 29 mutants of the FIRST GENERATION of this directory's generated sources (kept in evidence/generation-1-sources) and is complete for them. It does not cover the router added in generation 2
+after the live run full-06 showed that the generation-1 task never ran the cleanup (see evidence/checks-02/NOTE.txt). mutation-03 is the control of generation 2 (36 mutants: these 29 plus 7 for the router).

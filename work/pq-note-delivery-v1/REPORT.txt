@@ -1,0 +1,39 @@
+ZK9 — Entrega de notas cifradas vinculada a la prueba, candidato experimental
+
+Implementados cifrado ML-KEM-1024/HKDF-SHA512/AES-256-GCM y recuperación
+desde semilla para notas del nuevo pool. Dos paquetes de1732bytes forman
+parte obligatoria de un nuevo formato. Sus huellas SHA3-512, con contexto,
+compromiso de salida y posición, entran en el transcript de la prueba STARK.
+No se modificaron los padres congelados ni el nodo/wallet instalados.
+
+Tres pruebas Go pasan dos veces: recuperación, aleatoriedad y separación de
+claves; rechazo de cada byte alterado y cada truncamiento de1732bytes;
+rechazo de otro destinatario/contexto/posición y plaintext incorrecto incluso
+con AEAD auténtico. La recuperación vuelve a comprobar dueño y compromiso.
+
+Dos ejecuciones completas independientes pasan Go->Rust->Go: cifran dos
+notas, contrastan hashes entre lenguajes, generan y verifican una prueba real,
+rechazan95variantes hostiles por ejecución y recuperan ambas notas desde las
+semillas en otro proceso. Saldos900000 y599999; comisión1. Los ciphertexts y
+las pruebas difieren entre ejecuciones, como corresponde a la aleatoriedad.
+
+cross-02: prueba+traza 27916.440ms; verificación 181.384ms; sobre 3885815bytes; RSS máximo del proceso 3348480000bytes.
+cross-03: prueba+traza 27267.976ms; verificación 190.024ms; sobre 3903236bytes; RSS máximo del proceso 3053371392bytes.
+
+Son dos observaciones funcionales; no una serie estadística de rendimiento.
+Primer intento: las comprobaciones Rust terminaron, pero time -l falló al
+consultar sysctl en sandbox. Se conserva el fallo y se usó un supervisor
+nuevo con un único hijo y getrusage, sin elevar permisos, en ambos runs finales.
+
+Alcance: un intermediario no puede modificar ni quitar los paquetes y conservar
+la prueba válida. No impide censurar toda la transacción. Un emisor malicioso
+puede construir una prueba nueva con ciphertext inútil: no se prueba cifrado
+correcto dentro del circuito. El destinatario valida el contenido al recibirlo.
+ML-KEM no acredita por sí solo anonimato del destinatario; clave estática sin
+secreto hacia adelante. La composición y el presupuesto PQ siguen sin review.
+
+Falta adoptar el formato en keeper/App, persistir/publicar los paquetes,
+implementar descubrimiento y recuperación duradera de wallet, autenticar
+direcciones y probar reorganizaciones. Después sigue la integración de UI,
+transporte, custodia protegida y operadores independientes. No hay lanzamiento
+público, depósitos/retiros reales, venta ni garantía de protección PQ integral.

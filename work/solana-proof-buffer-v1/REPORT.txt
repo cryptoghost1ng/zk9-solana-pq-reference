@@ -1,0 +1,101 @@
+ZK9 — compatibilidad del sobre nativo con Solana
+Fecha: 2026-10-14. Estado: PASS_TRANSPORT_ONLY, dos ejecuciones completas.
+
+RESULTADO
+Un programa sBPF compilado con herramientas fijadas guarda, sella y recupera
+byte a byte el sobre público sintético de un pago nativo existente. El programa
+se ejecuta en Agave3.1.10 local con transacciones firmadas y cuentas reales del
+runtime. No se emite un token ni se publica el programa en una red pública.
+El hash de integridad no verifica la prueba STARK, ni autoriza un pago.
+
+MEDICIONES (idénticas en ambas ejecuciones salvo tiempo)
+Sobre nativo:                         3.911.678 bytes
+Fragmento máximo:                    900 bytes
+Fragmentos necesarios:               4.347
+Cuenta completa:                     4.051.411 bytes
+Depósito recuperable de esa cuenta:  28,198711440 SOL sintéticos
+Transacciones de la batería:         4.354
+Comisiones de TODA la batería:       0,021780000 SOL sintéticos
+Mayor transacción serializada:       1.149 bytes
+Carga cronometrada:                  65,744 s / 66,311 s
+Inicializar:                         2.162 CU
+Escribir fragmento completo:         1.754 CU
+Escribir último fragmento corto:      1.442 CU
+Sellar hashes de todos fragmentos:    70.733 CU
+Verificar validez criptográfica:     NO IMPLEMENTADO / NO MEDIDO EN SOLANA
+
+El depósito se devuelve al cerrar la cuenta; no es una comisión ni se quema.
+Las comisiones incluyen creación, reintentos y la cuenta negativa adicional.
+No constituyen una cotización de un pago de ZK9. No incluyen despliegue, revisión,
+prioridad, relayer, verificación STARK, tokens ni operación pública. Las claves y
+los saldos son sintéticos. Se recuperaron ambos depósitos y el débito restante
+coincide exactamente con las comisiones esperadas por las firmas de la batería.
+
+El intervalo cronometrado incluye envío RPC y confirmación por lotes32 de los
+fragmentos restantes; excluye arranque, compilación, creación de cuenta, primer
+fragmento, comprobaciones adversarias y sellado. No mide latencia de un usuario
+público, throughput de producción, caché fría ni generación de pruebas. Dos
+observaciones reproducen funcionalidad; no permiten percentiles o capacidad.
+
+INTEGRIDAD
+17 comprobaciones por ejecución, repetidas en un nuevo ledger y otra cuenta:
+- Inicialización firmada y propietario; rechazo de reinicialización.
+- Rechazo de carga incompleta, firmante ajeno, índice fuera de rango y truncado.
+- Entrega desordenada; reintento idéntico sin doble conteo; alterado rechazado.
+- Datos completos pero diferentes del hash declarado no se sellan; se abortan.
+- Recuperación del sobre completo byte por byte, sellado y reintento de sellado.
+- Rechazo de escritura posterior, cierre ajeno y devolución al propietario.
+Las negativas se ejecutan mediante simulateTransaction, con firmas verificadas
+y comprobación del código de error exacto del programa compilado. No se presentan
+como transacciones negativas confirmadas. Las operaciones positivas sí se envían
+y confirman. El transporte acepta cualquier contenido que concuerde con el hash
+que declara su propietario: esto NO es un fallo del verificador, porque no hay uno.
+
+Se verificaron los 766 archivos del manifiesto padre del fixture y su hash.
+CURRENT.json conserva d049e25865e04ba4cc1fb964c18f2fa9649cad8161709ee070f900c5a7996616.
+No se cambia la wallet instalada, la web ni resultados congelados anteriores.
+La primera prueba registró exit_code=null sin señal. La segunda instrumentó la
+salida: SIGINT solicitado, sin SIGKILL; ambos ledgers temporales se eliminaron.
+Los programas compilados en ambas pruebas tienen idéntico SHA256.
+
+IMPLICACIÓN PARA EL PRODUCTO
+Este transporte demuestra compatibilidad de almacenamiento. Su formato actual
+no está preparado para una experiencia de un clic por usuario: son miles de
+transacciones y capital temporal por carga concurrente. Un patrocinador podría
+asumir firmas y depósito, pero no reduce bytes, coste agregado ni necesidad de un
+verificador. No implementamos ese patrocinador ni una autoridad que dé por válida
+una prueba. Vender un token SPL por separado tampoco crea estas capacidades.
+
+PRIORIDADES BASADAS EN ESTA MEDICIÓN
+1. Reducir datos que realmente necesita el verificador, preservando la seguridad.
+   Impacto medido: los 3,9MB dominan fragmentos, almacenamiento y depósito.
+   Dificultad alta si exige cambiar pruebas/circuitos. Primero desglosar bytes de
+   prueba, entradas públicas y cifrados; no comprimir de forma ciega ni bajar
+   parámetros. La reducción anterior de la wallet quitaba duplicación de SQLite;
+   no redujo el sobre de red y no resuelve este resultado.
+2. Implementar y medir el verificador completo, posiblemente por etapas.
+   Prioridad funcional imprescindible; impacto de CU todavía desconocido.
+   Dificultad alta: memoria, cómputo, transcript, FRI y atomicidad de aceptación.
+   Los70.733CU sólo sellan hashes; no sirven de estimación del verificador.
+3. Diseñar carga recuperable y patrocinada después de validar lo anterior.
+   Impacto esperado: experiencia de usuario y reutilización secuencial del depósito.
+   Dificultad media/alta. Debe conservar autorización, límites de recursos,
+   idempotencia y aislamiento entre usuarios; no puede confiar en el relayer para
+   declarar pagos válidos. No medimos aún ese beneficio.
+
+SIGUIENTE EXPERIMENTO CONCRETO
+Inventariar los componentes del sobre y dependencias del verificador nativo.
+Construir un candidato de verificación sBPF sin custodia y medir un fixture válido
+más alteraciones, con límites de memoria y CU del runtime. Si no cabe, identificar
+la fase dominante y diseñar continuación autenticada, nunca aceptar por firma de
+un servidor. Mantener token/pool/bridge fuera de ese experimento hasta demostrar
+validación, dominio, raíz, nullifiers y protección contra repetición.
+Un wrapper clásico compacto alteraría las garantías poscuánticas: no presentarlo
+como optimización equivalente. Solana, sus firmas y sus accesos públicos tampoco
+heredan privacidad o protección poscuántica por transportar el sobre de ZK9.
+
+Fuentes primarias de límites, consultadas para este experimento:
+https://solana.com/docs/core/transactions
+https://solana.com/docs/core/accounts
+https://solana.com/docs/core/fees/compute-budget
+Se usan transacciones legacy; no se ensayó formato v1 ni su activación pública.

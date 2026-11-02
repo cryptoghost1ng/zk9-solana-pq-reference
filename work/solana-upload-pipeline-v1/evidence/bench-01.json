@@ -1,0 +1,189 @@
+{
+  "status": "PASS_UPLOAD_PIPELINE_BENCH",
+  "label": "bench-01",
+  "smoke": false,
+  "cases": [
+    {
+      "name": "confirm-each",
+      "mode": "confirm-each",
+      "payload": "send",
+      "payload_bytes": 2971793,
+      "payload_sha256": "f9dd0aeb78a1f6095249315761cae9bfa182bf381f7a26f28420299fa72a798f",
+      "window": 1,
+      "poll_ms": 50,
+      "account_reads_per_chunk": 0,
+      "chunks_total_in_payload": 3302,
+      "chunks_written": 150,
+      "transactions_submitted": 150,
+      "wall_seconds": 72.715,
+      "seconds_per_chunk": 0.4848,
+      "projected_seconds_for_the_whole_payload": 1600.7,
+      "stored_bytes_equal_payload": true,
+      "account_space_bytes": 3077955,
+      "rent_lamports_returned_on_close": 21423457680
+    },
+    {
+      "name": "relay-like",
+      "mode": "relay-like",
+      "payload": "send",
+      "payload_bytes": 2971793,
+      "payload_sha256": "f9dd0aeb78a1f6095249315761cae9bfa182bf381f7a26f28420299fa72a798f",
+      "window": 1,
+      "poll_ms": 150,
+      "account_reads_per_chunk": 2,
+      "chunks_total_in_payload": 3302,
+      "chunks_written": 150,
+      "transactions_submitted": 150,
+      "wall_seconds": 72.785,
+      "seconds_per_chunk": 0.4852,
+      "projected_seconds_for_the_whole_payload": 1602.2,
+      "stored_bytes_equal_payload": true,
+      "account_space_bytes": 3077955,
+      "rent_lamports_returned_on_close": 21423457680
+    },
+    {
+      "name": "window-8",
+      "mode": "window",
+      "payload": "send",
+      "payload_bytes": 2971793,
+      "payload_sha256": "f9dd0aeb78a1f6095249315761cae9bfa182bf381f7a26f28420299fa72a798f",
+      "window": 8,
+      "poll_ms": null,
+      "account_reads_per_chunk": 0,
+      "chunks_total_in_payload": 3302,
+      "chunks_written": 3302,
+      "transactions_submitted": 3302,
+      "wall_seconds": 220.081,
+      "seconds_per_chunk": 0.0667,
+      "projected_seconds_for_the_whole_payload": 220.1,
+      "stored_bytes_equal_payload": true,
+      "account_space_bytes": 3077955,
+      "rent_lamports_returned_on_close": 21423457680
+    },
+    {
+      "name": "window-32",
+      "mode": "window",
+      "payload": "send",
+      "payload_bytes": 2971793,
+      "payload_sha256": "f9dd0aeb78a1f6095249315761cae9bfa182bf381f7a26f28420299fa72a798f",
+      "window": 32,
+      "poll_ms": null,
+      "account_reads_per_chunk": 0,
+      "chunks_total_in_payload": 3302,
+      "chunks_written": 3302,
+      "transactions_submitted": 3302,
+      "wall_seconds": 55.961,
+      "seconds_per_chunk": 0.0169,
+      "projected_seconds_for_the_whole_payload": 56,
+      "stored_bytes_equal_payload": true,
+      "account_space_bytes": 3077955,
+      "rent_lamports_returned_on_close": 21423457680,
+      "full_account_reads": {
+        "samples": [
+          {
+            "ms": 10,
+            "account_bytes": 3077955
+          },
+          {
+            "ms": 12,
+            "account_bytes": 3077955
+          },
+          {
+            "ms": 11,
+            "account_bytes": 3077955
+          },
+          {
+            "ms": 11,
+            "account_bytes": 3077955
+          },
+          {
+            "ms": 12,
+            "account_bytes": 3077955
+          }
+        ],
+        "median_ms": 11
+      }
+    },
+    {
+      "name": "window-128",
+      "mode": "window",
+      "payload": "send",
+      "payload_bytes": 2971793,
+      "payload_sha256": "f9dd0aeb78a1f6095249315761cae9bfa182bf381f7a26f28420299fa72a798f",
+      "window": 128,
+      "poll_ms": null,
+      "account_reads_per_chunk": 0,
+      "chunks_total_in_payload": 3302,
+      "chunks_written": 3302,
+      "transactions_submitted": 3302,
+      "wall_seconds": 13.703,
+      "seconds_per_chunk": 0.0041,
+      "projected_seconds_for_the_whole_payload": 13.7,
+      "stored_bytes_equal_payload": true,
+      "account_space_bytes": 3077955,
+      "rent_lamports_returned_on_close": 21423457680
+    },
+    {
+      "name": "rolling-64",
+      "mode": "rolling",
+      "payload": "send",
+      "payload_bytes": 2971793,
+      "payload_sha256": "f9dd0aeb78a1f6095249315761cae9bfa182bf381f7a26f28420299fa72a798f",
+      "window": 64,
+      "poll_ms": null,
+      "account_reads_per_chunk": 0,
+      "chunks_total_in_payload": 3302,
+      "chunks_written": 3302,
+      "transactions_submitted": 3302,
+      "wall_seconds": 27.895,
+      "seconds_per_chunk": 0.0084,
+      "projected_seconds_for_the_whole_payload": 27.9,
+      "stored_bytes_equal_payload": true,
+      "account_space_bytes": 3077955,
+      "rent_lamports_returned_on_close": 21423457680
+    },
+    {
+      "name": "rolling-64-withdraw-size",
+      "mode": "rolling",
+      "payload": "withdraw",
+      "payload_bytes": 4006411,
+      "payload_sha256": "2e51948fa33f7d26ddb43b0440792713e6ad4128b5a8fe58baab88a303d245ff",
+      "window": 64,
+      "poll_ms": null,
+      "account_reads_per_chunk": 0,
+      "chunks_total_in_payload": 4452,
+      "chunks_written": 4452,
+      "transactions_submitted": 4452,
+      "wall_seconds": 37.363,
+      "seconds_per_chunk": 0.0084,
+      "projected_seconds_for_the_whole_payload": 37.4,
+      "stored_bytes_equal_payload": true,
+      "account_space_bytes": 4149517,
+      "rent_lamports_returned_on_close": 28881529200
+    }
+  ],
+  "validator_version": "3.1.10",
+  "inputs": {
+    "bench_sha256": "c8e6bfbd7882503bfdcd7d38065a88f3417ddc0b7b08d19be954d009512dcf78",
+    "derived_from_trial_sha256": "69f1920c9307fb03703247fec78203cbad04824d94d12f8f7a1d708e37d214ae",
+    "program_sha256": "887788bb28333a704b6455a7a171c887073417928013b8e7fbc633617b502e0e",
+    "node": "v24.22.1",
+    "wires": {
+      "send": "2e0996342aed43b1.send.wire",
+      "withdraw": "3d7c8907982a26eb.withdraw.wire"
+    }
+  },
+  "machine": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "arch": "arm64",
+    "cpus": 10,
+    "cpu_model": "Apple M1 Max"
+  },
+  "max_transaction_bytes": 1149,
+  "validator_exit_code": null,
+  "validator_exit_signal": "SIGINT",
+  "validator_forced_kill": false,
+  "completed_at": "2026-11-01T19:33:32.591Z",
+  "scope": "Byte transport to the proof buffer program on an isolated loopback validator with real archived payloads. Local synthetic only: no proof is verified, no relay, no mainnet, no privacy claim. Timings are single local observations on this Mac, not a statistical or mainnet result."
+}

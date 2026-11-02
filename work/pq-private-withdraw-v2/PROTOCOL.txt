@@ -1,0 +1,55 @@
+ZK9 native withdrawal candidate v2 — NOT DEPLOYED
+
+Relation: input0 + input1 = output0 + output1 + fee + withdrawal_amount.
+Each quantity is an unsigned 64-bit integer represented by 64 boolean bits.
+Four base65536 limb equations with signed intermediate carries in [-4,3]
+and zero endpoint carries prove integer conservation. No scalar-modulus or
+u64 wraparound. The native constructor additionally caps total selection at u64.
+
+Public values: old payment212 + two delivery digests64 =276; withdrawal amount
+four u16 limbs at276; recipient32bytes as16u16 limbs at280; mode1 at296 =297.
+Amount is range checked in the balance AIR; recipient bits are boolean,
+stationary and pinned for the full trace; mode==1 is an AIR constraint.
+Host policy rejects zero amount, zero recipient, zero fee, zero context,
+duplicate nullifiers/output commitments and empty commitments.
+Ownership, membership, zero-padding, SHA3 schedule and full capacity handling
+are inherited without weakening. Both private outputs remain note commitments.
+Native address is exactly32 raw bytes, bound to the explicit network/genesis/
+asset context. This is NOT an EVM or cross-chain destination encoding.
+
+Hash/FRI/extension parameters unchanged from pinned private-send v2. Separate
+Fiat-Shamir domain PRIVATE-WITHDRAW/v2/recipient32/withdrawal-u64/mode1.
+No mathematical proof of end-to-end quantum security or external audit claimed.
+
+Wire: magic ZK9PQW2\0(8), LEversion2(4), network32,genesis32,asset32,feeLE8,
+mode1,amountLE8,recipient32,root64,NF0/1(128),CM0/1(128),proofLenLE4.
+Header481bytes, two mandatory1732byte note delivery packets, canonical postcard
+proof1..4194304bytes. Exact length, bounded deserialization, no trailing bytes.
+Decoder requires exact expected network/genesis/asset AND fee. Caller must
+authenticate that context, root freshness, spent set, reserve and native payout.
+Envelope bytes alone do not authenticate a node or authorize a bank transfer.
+
+Delivery ciphertext digests remain transcript-associated data, matching the
+existing scanner format. The AIR does not prove correct encryption. Native
+recipient decrypts, authenticates ownership and recomputes the commitment.
+Fixtures use real ML-KEM-1024/AES-256-GCM packets from the pinned Go library,
+decrypt/recompute both outputs, and reject modified packets/wrong slots.
+
+NEXT: implement a new keeper profile accepting both existing payment proofs
+and this explicitly versioned withdrawal proof. Shared nullifier set must
+prevent cross-mode double spending. Atomically debit private reserve, credit
+exact recipient, account for fee, append two outputs and authenticated event.
+Require raw signed App transaction/replay tests and authenticated wallet scan.
+No bridge mint/release until separately authenticated origin and finality.
+
+PROTECTED ADDRESS / ABI
+Recipient32 preserves the existing pqaccounts.Address byte width. It does NOT
+prove account registration. Keeper must check the authenticated protected-account
+registry and authorize the exact32byte destination, without20byte truncation.
+This is a native account destination, not an EVM address or bridge route.
+ABI zk9_pq_withdraw32_init/verify accepts context96 plus explicit expectedFeeu64;
+0valid,1invalid,-1uninitialized. Constructor failure is a startup failure.
+Malformedproof panics are caught at the ABI. Verification never mutates ledger.
+The C caller owns readable buffers, serializes state and uses the exact verified
+envelope for the transition. Shared nullifiers/root/reserve/registration are
+keeper responsibilities, not replaced by a success return from the ABI.

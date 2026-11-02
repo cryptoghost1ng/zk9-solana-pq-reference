@@ -1,0 +1,3 @@
+{"relation":"send v2 (pq-private-send-v1)","width":10406,"registers":6472,"keccak_blocks":148,"keccak_columns":2633,"width_equals_formula":true}
+{"relation":"send v3 public-binding liveness (pq-public-bind-liveness-v1)","width":7525,"registers":3591,"keccak_blocks":148,"keccak_columns":2633,"width_equals_formula":true}
+{"relation":"withdraw v2 (pq-private-withdraw-v2)","width":10729,"registers":6795,"keccak_blocks":148,"keccak_columns":2633,"width_equals_formula":true}

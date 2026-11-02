@@ -1,0 +1,14 @@
+[package]
+name = "zk9-solana-withdraw-round-mmcs"
+version = "0.1.0"
+edition = "2024"
+publish = false
+[workspace]
+[dependencies]
+arithmetic = { package = "zk9-solana-withdraw-arithmetic", path = "../arithmetic" }
+mmcs = { package = "zk9-solana-withdraw-mmcs", path = "../mmcs" }
+fri = { package = "zk9-solana-withdraw-fri", path = "../fri" }
+[profile.release]
+lto = "thin"
+codegen-units = 1
+overflow-checks = true

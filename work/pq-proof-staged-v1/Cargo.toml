@@ -1,0 +1,10 @@
+[package]
+name="zk9-proof-staged"
+version="0.1.0"
+edition="2024"
+publish=false
+[workspace]
+[profile.release]
+lto="thin"
+codegen-units=1
+overflow-checks=true

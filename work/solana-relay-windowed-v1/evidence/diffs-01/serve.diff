@@ -1,0 +1,57 @@
+--- ../../../solana-onion-relay-service-v1/serve.mjs	2026-11-01 10:25:26
++++ ../../../solana-onion-relay-service-v2/serve.mjs	2026-11-01 23:46:33
+@@ -1,3 +1,5 @@
++// WINDOWED revision of ../solana-onion-relay-service-v1/serve.mjs (frozen, untouched): the same composition, but the task, the repository, the funding and
++// the publication sender are the windowed ones of ../solana-relay-windowed-v1, and the proof buffer is filled WINDOW chunk uploads at a time.
+ // Relay service composition for the LOCAL onion trial: a sponsor-funded relay behind a loopback HTTP port that a v3
+ // onion service exposes. Synthetic only. The operator (the Python harness) owns the validator, the faucet that funds
+ // the sponsor, Tor and the onion name; this process owns the sponsor key, the sponsor journal and the proof admission.
+@@ -9,8 +11,8 @@
+ import {randomBytes,createHash} from 'node:crypto';
+ import {fileURLToPath,pathToFileURL} from 'node:url';
+ import {createInterface} from 'node:readline';
+-import {LocalRelayTask} from '../solana-private-relay-v1/relay-task.mjs';
+-import {RelayRepository} from '../solana-private-relay-v1/relay-repository.mjs';
++import {LocalRelayTask} from '../solana-relay-windowed-v1/relay-task.mjs';
++import {RelayRepository} from '../solana-relay-windowed-v1/relay-repository.mjs';
+ import {nativeVerifier} from '../solana-private-relay-v1/native-verifier.mjs';
+ import {readRequest} from '../solana-private-relay-v1/relay-request.mjs';
+ import {relayOffer} from '../solana-private-relay-v1/relay-offer.mjs';
+@@ -19,14 +21,16 @@
+ import {privateSigner,b58} from '../solana-chrome-wallet-v1/recovery/solana-transaction.mjs';
+ import {decodeTransaction as nativeDecode} from '../solana-beta-withdraw-v1/publisher/transport.mjs';
+ import {requireState as require,hexValue} from '../solana-chrome-wallet-v1/recovery/checkpoint.mjs';
+-import {createRequestStore} from './relay-store.mjs';
+-import {createRelayHttp} from './relay-http.mjs';
+-import {createTaskManager,RelayRefusal} from './relay-tasks.mjs';
++import {createRequestStore} from '../solana-onion-relay-service-v1/relay-store.mjs';
++import {createRelayHttp} from '../solana-onion-relay-service-v1/relay-http.mjs';
++import {createTaskManager,RelayRefusal} from '../solana-onion-relay-service-v1/relay-tasks.mjs';
+ 
+ const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+ // The Rust snapshot/settlement planner used by the qualified relay run (relay-live-04 INPUTS.json).
+ const ENGINE=Object.freeze({'snapshot.js':'c6d0002a9d0abd60816d0e0614181149e0e14283ca8ed80538c8ba1a8f8bebfd','snapshot_bg.wasm':'b542d7c27dc7ff98122628b493e38d35ee8df88134603ef24ecbee727879d4c5'});
+ const FUNDING=Object.freeze({totalLamports:'160000000000',requestLamports:'80000000000',maxFeeLamports:'10000'});   // same caps as relay-live-04
++// Chunk uploads signed, released and resolved together. Pinned by this file's hash, like every other operator setting.
++const WINDOW=64;
+ 
+ const [stateDir,configPath,configHash,profilePath,profileHash,portArg='0']=process.argv.slice(2);
+ const wanted=Number(portArg);
+@@ -100,7 +104,7 @@
+ async function openTask(raw,signal) {
+   const attested=await observer.attest(programs);
+   const task=await LocalRelayTask.open({raw,context,program,pool,profile:config.network,programData:attested.programs,sponsor,transportSeed,
+-    repository:repo,validator,verifyProof,signal,fetchImpl,funding:FUNDING});
++    repository:repo,validator,verifyProof,signal,fetchImpl,funding:FUNDING,window:WINDOW});
+   return {
+     id:task.id,transport:task.transport,
+     async step(){try{return await task.step();}catch(error){dumpDiagnostics(task.id);throw error;}},
+@@ -114,7 +118,7 @@
+ });
+ const port=await http.listen(wanted);
+ const recovered=await manager.recover();
+-emit({type:'ready',port,authority,recovered,scope:'local-onion-relay-service'});
++emit({type:'ready',port,authority,recovered,scope:'local-onion-relay-service',window:WINDOW});
+ 
+ let stopping=false;
+ async function stop(code) {

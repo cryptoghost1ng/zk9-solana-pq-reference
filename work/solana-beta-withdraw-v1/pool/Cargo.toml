@@ -1,0 +1,26 @@
+[package]
+name = "zk9-solana-beta-settlement"
+version = "0.1.0"
+edition = "2021"
+publish = false
+[workspace]
+exclude = []
+[lib]
+crate-type = ["cdylib", "lib"]
+[dependencies]
+solana-program = "=2.3.0"
+spl-token = {version = "=8.0.0", features = ["no-entrypoint"]}
+spl-token-2022 = {version = "=8.0.1", features = ["no-entrypoint"]}
+spl-token-metadata-interface = "=0.7.0"
+serde_json = "=1.0.145"
+tree = {package="zk9-solana-pq-tree",path="../../solana-pq-tree-v1"}
+tiny-keccak = {version="=2.0.2",features=["sha3"]}
+receipt = {package="zk9-solana-beta-receipt",path="../../solana-beta-spend-v1/receipt"}
+withdraw_receipt={package="zk9-solana-withdraw-receipt",path="../receipt"}
+[features]
+custom-heap = []
+custom-panic = []
+[profile.release]
+lto = "thin"
+codegen-units = 1
+overflow-checks = true

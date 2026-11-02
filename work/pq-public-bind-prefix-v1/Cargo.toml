@@ -1,0 +1,13 @@
+[package]
+name = "zk9-public-bind-prefix"
+version = "0.1.0"
+edition = "2024"
+publish = false
+[workspace]
+[dependencies]
+tiny-keccak = { version = "=2.0.2", features = ["sha3"] }
+zk9-proof-staged = { path = "../pq-proof-staged-v1" }
+[profile.release]
+lto = "thin"
+codegen-units = 1
+overflow-checks = true

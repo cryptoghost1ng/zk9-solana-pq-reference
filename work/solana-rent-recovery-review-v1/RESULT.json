@@ -1,0 +1,14 @@
+{
+  "status": "SOURCE_REVIEW_COMPLETE_NOT_INTEGRATED",
+  "buffer_close_opcode": 3,
+  "verifier_source_close_opcode": 2,
+  "refund_destination": "Recorded authority only; writable signer required",
+  "historical_buffer_transport_close_test": "../../results/solana-proof-buffer-v1/evidence/final-02.json",
+  "historical_local_buffer_lamports": "21448444080",
+  "current_wallet_or_relay_cleanup_integrated": false,
+  "new_live_tests_run": false,
+  "verifier_close_live_qualification_in_this_review": false,
+  "source_to_verifier_binary_rebuild_in_this_review": false,
+  "mainnet_cost_estimate": false,
+  "next": "Qualify policy-limited durable cleanup after independently reconciled pool settlement, retaining audit proof bytes before account closure. Do not modify current pinned trial or serial qualification inputs."
+}

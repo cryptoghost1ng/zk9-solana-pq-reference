@@ -1,0 +1,53 @@
+{
+  "adopted_in_product": false,
+  "binary_sha256": "e04cd3d579806bd0a1e2752041f893895d9fc01c1003a91ae6bc494c43b7295d",
+  "cargo_lock_sha256": "bb8d7a7d9fd524419952a7db0b5f1a1f14e021b639fb2a100cb0e780f6132e2d",
+  "full_payment": false,
+  "independent_process_repeat": 1,
+  "measurement_limits": [
+    "single machine; user desktop and browser remain open",
+    "short component timing, not full payment benchmark",
+    "OS cache not flushed; RSS measured for entire child process"
+  ],
+  "post_quantum_security_budget_verified": false,
+  "public_launch_ready": false,
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-apple-darwin\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+  "samples": 30,
+  "statistics": {
+    "init_ms": {
+      "maximum": 0.048958,
+      "median": 0.019396,
+      "median_absolute_deviation": 0.0019375000000000017,
+      "minimum": 0.009917
+    },
+    "prepare_ms": {
+      "maximum": 0.132375,
+      "median": 0.015333,
+      "median_absolute_deviation": 0.001041499999999999,
+      "minimum": 0.013208
+    },
+    "proof_bytes": {
+      "maximum": 310190,
+      "median": 307241.5,
+      "median_absolute_deviation": 1193.0,
+      "minimum": 300812
+    },
+    "prove_ms": {
+      "maximum": 63.244375000000005,
+      "median": 51.030521,
+      "median_absolute_deviation": 1.518833500000003,
+      "minimum": 48.458875
+    },
+    "verify_ms": {
+      "maximum": 2.717209,
+      "median": 1.904,
+      "median_absolute_deviation": 0.04672949999999998,
+      "minimum": 1.759708
+    }
+  },
+  "status": "PASS_HIDING_BALANCE_COMPONENT_ONLY",
+  "test_runs": 2,
+  "tests_per_run": 5,
+  "upstream_files_unchanged": 1229,
+  "upstream_revision": "f98331687e47106a64ab82a77e2e1d0d66c9161b"
+}

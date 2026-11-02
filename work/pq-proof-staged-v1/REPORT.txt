@@ -1,0 +1,86 @@
+ZK9 — lectura reanudable y progreso autenticado. 14-10-2026
+
+Resultado: el programa completa en Solana local la lectura canónica de la prueba
+original de 3907774 bytes. El pago NO está verificado criptográficamente.
+La mejora resuelve el bloqueo de leerla dentro de una sola instrucción.
+
+Implementación
+- Máquina de estados con pila fija, sin heap ni dependencias en la biblioteca.
+- Mantiene límites, formas y contador Serde equivalente para pruebas aceptadas.
+- Checkpoint de 640 bytes; cuenta de sesión de 768 bytes propiedad del programa.
+- Sesión ligada a dirección, compromiso, tamaño y versión del búfer sellado.
+- Comprueba que el programa de almacenamiento ya no admite actualizaciones.
+- El cliente solo envía secuencia esperada y límite de operaciones. No puede
+  proporcionar un cursor o checkpoint alternativo. Las transacciones fallidas
+  no guardan progreso parcial. Límite adaptativo si se agota el cómputo.
+
+Verificación nativa, repetida dos veces con el código final
+- Seis pruebas grandes; 378 mutaciones. 387 comparaciones incluyendo recorridos
+  con distintos tamaños de paso, además de 356 casos de esquema mínimo.
+- Suspensión y recarga tras CADA operación en payment-0, y pasos de 7, 257 y 4096.
+  Se conservan secciones, contadores, campos, filas y número de operaciones.
+- 15 checkpoints estructuralmente malformados rechazados. Estas comprobaciones
+  no autentican datos arbitrarios: la seguridad viene de la cuenta propietaria
+  y del vínculo con la fuente inmutable, comprobados también en Solana.
+- Cero asignaciones del lector por etapas en las ejecuciones instrumentadas.
+- Se mantiene la prueba de separación: una codificación canónica alterada puede
+  pasar el lector mientras el verificador criptográfico nativo la rechaza.
+
+Tiempos nativos en ms (mediana; muestras originales JSON/CSV, IQR en resumen)
+Fixture | original | lector anterior | nuevo | nuevo con recarga por paso
+payment-0.bin | 7.398 | 10.143 | 4.444 | 4.364
+payment-1.bin | 7.576 | 10.326 | 4.659 | 4.552
+payment-2.bin | 7.462 | 10.296 | 4.384 | 4.582
+single-1.bin | 7.435 | 10.123 | 4.425 | 4.647
+single-2.bin | 7.404 | 10.217 | 4.268 | 4.709
+single-conflict.bin | 7.433 | 10.342 | 4.323 | 4.744
+
+30 muestras por fixture y variante, tres calentamientos, orden rotativo. Datos
+en memoria, caché SO sin vaciar; compilación, carga y destrucción del Proof
+original fuera de tiempos. Sin contador de asignaciones ni otras cargas del
+laboratorio durante esta medición. No son tiempos de verificación criptográfica.
+
+Solana local, dos ejecuciones completas con el ELF final
+runtime-03: 202 pasos confirmados, máximo 1254323 CU/paso, 1010000 lamports de comisiones de avance, 110.94 s locales.
+Paquete de avance máximo: 351 bytes; ajustes de límite: [(169, 4096)]. Checkpoint final idéntico al otro recorrido.
+runtime-04: 202 pasos confirmados, máximo 1254323 CU/paso, 1010000 lamports de comisiones de avance, 110.92 s locales.
+Paquete de avance máximo: 351 bytes; ajustes de límite: [(169, 4096)]. Checkpoint final idéntico al otro recorrido.
+
+- 21 comprobaciones por ejecución: autoridad, búfer distinto/no sellado/ajeno,
+  intento de reemplazar checkpoint, saltos y reintentos, escritura tras sellar,
+  campos fuera de rango, pausa, finalización y cierre/recreación de la fuente.
+- Un ensayo separado conserva la autoridad de actualización del almacenamiento:
+  el scanner rechaza inicializar la sesión. No se relajó esta condición.
+- Heap estándar de 32 KiB. Presupuesto solicitado inferior o igual a 1.4M CU;
+  cada paso confirmado cabe. No se promete que el máximo número de operaciones
+  quepa para toda entrada: el ensayo registra y reduce pasos que agotan el CU.
+- Fuente de 3.9 MB precargada y sellada en génesis local; no se contabiliza su
+  carga como parte de este tiempo. La carga real por fragmentos está medida en
+  solana-proof-buffer-v1. Los paquetes pequeños no comprimen la prueba.
+- Creación, avances y cierre de sesiones son transacciones reales locales. Para
+  probar recreación se cierra la fuente, se carga otra pequeña en la misma
+  dirección y se sella mediante el programa de transporte real.
+- Comisiones anteriores son solo avances del escaneo, con SOL sintético. No son
+  cotización de mainnet ni coste total de privacidad/depósitos/carga/verificación.
+- El tiempo local incluye cliente, simulación previa y espera de confirmación;
+  no permite extrapolar latencia de una red pública.
+
+Límites y siguiente implementación
+El estado final se llama FORMAT_ONLY. No comprueba Fiat–Shamir, Merkle/FRI, AIR,
+contexto de pago, raíces admitidas ni nullifiers gastados. No puede liberar,
+emitir o mover monedas. No es todavía la integración privada de Solana.
+
+Siguiente: consumir estas vistas en la comprobación criptográfica por etapas,
+con el estado del transcript y sus consultas derivados dentro del programa.
+Cada transición debe quedar vinculada a la misma prueba y a su contexto; ninguna
+confirmación de formato puede convertirse en permiso de gasto. Después vendrán
+las pruebas de nullifiers, atomicidad del pago y revisión independiente.
+
+Para la UX, los cientos de avances no deben convertirse en cientos de firmas
+manuales del usuario. Esta sesión ya puede pertenecer al operador que paga su
+ejecución; una integración final deberá separar claramente el avance mecánico
+de la autorización del pago. No pedir ni compartir claves privadas del usuario.
+
+No cambios de circuito, primitivas, parámetros ni prover. No garantías nuevas
+de protección cuántica integral. CURRENT, wallet instalada y web intactos. No
+despliegue público ni fondos reales. El objetivo completo sigue pendiente.

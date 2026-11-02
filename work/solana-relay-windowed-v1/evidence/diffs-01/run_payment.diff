@@ -1,0 +1,57 @@
+--- ../../../solana-onion-e2e-v1/run_payment_v3.py	2026-11-01 11:39:14
++++ ../../../solana-onion-e2e-v1/run_payment_v4.py	2026-11-01 23:49:19
+@@ -1,4 +1,6 @@
+-"""PAYMENT LEGS of the end-to-end onion trial (v3: the sampler survives a failed RPC reply and a CDP exception is an error reply; v2 stays frozen with evidence/full-02.
++"""PAYMENT LEGS of the end-to-end onion trial with the WINDOWED relay (v4: this driver is v3 unchanged except that the relay service it launches is
++solana-onion-relay-service-v2, which fills the proof buffer WINDOW chunk uploads at a time (solana-relay-windowed-v1). v3 stays frozen with evidence/full-03 and full-04.
++v3: the sampler survives a failed RPC reply and a CDP exception is an error reply; v2 stays frozen with evidence/full-02.
+ v2: the harness reopens the wallet session after its 5-minute auto-lock, like a user entering the password again;
+ run_payment.py stays frozen with its evidence, see evidence/full-01/NOTE.txt). Local and synthetic; no real funds, no public network, nothing installed in the user's Chrome.
+ Real pieces: a local Solana validator with the REAL programs (managed-validator.mjs), a real local Tor network (TorLab) with TWO v3 onion
+@@ -12,12 +14,13 @@
+             submit, tampered proof).
+   full-NN   send-NN followed by the public withdrawal of 1 unit through the relay.
+ NOT shown by any mode: privacy or anonymity (public fixture seeds, one machine, one operator, local Tor), a public network, real funds.
+-usage: with_free_ports.py run_payment_v3.py smoke-01   (use the Python of work/wallet-onion-adoption-v1/chutney-venv)"""
++usage: with_free_ports.py run_payment_v4.py smoke-07   (use the Python of work/wallet-onion-adoption-v1/chutney-venv)"""
+ import base64,hashlib,json,os,re,shutil,signal,socket,subprocess,sys,tempfile,threading,time,traceback,types,urllib.request
+ from pathlib import Path
+ ROOT=Path(__file__).resolve().parent;WORK=ROOT.parent
+ CHROME_WALLET=WORK/'solana-chrome-wallet-v1';UNIFIED_DIR=WORK/'solana-unified-wallet-v1';OLD=WORK/'wallet-onion-adoption-v1'
+-PKG=WORK/'solana-onion-package-v1';LAUNCHER=WORK/'solana-native-launcher-v1';TRANSPORT=WORK/'solana-onion-relay-transport-v2';SERVICE=WORK/'solana-onion-relay-service-v1'
++PKG=WORK/'solana-onion-package-v1';LAUNCHER=WORK/'solana-native-launcher-v1';TRANSPORT=WORK/'solana-onion-relay-transport-v2';SERVICE=WORK/'solana-onion-relay-service-v1';SERVICE2=WORK/'solana-onion-relay-service-v2';WINDOWED=WORK/'solana-relay-windowed-v1'
++WINDOWED_MUTATION='mutation-02';WINDOWED_CHECKS='checks-01'
+ sys.path[:0]=[str(TRANSPORT/'candidate'),str(OLD),str(OLD/'chutney-source/lib'),str(CHROME_WALLET),str(LAUNCHER),str(PKG),str(ROOT)]
+ from offline_guard import acquire
+ from tor_lab import TorLab,TOR,GENCERT
+@@ -80,14 +83,14 @@
+ HOOK=open(PKG/'driver.py').read().split("HOOK='''")[1].split("'''")[0]   # the same page hook the package run used (pinned file)
+ 
+ class Relay:
+-    """The relay service process (solana-onion-relay-service-v1/serve.mjs) and the stream of events it prints."""
++    """The relay service process (solana-onion-relay-service-v2/serve.mjs, the windowed one) and the stream of events it prints."""
+     def __init__(self,state,config_path,profile_path,port):
+-        self.args=[str(NODE),str(SERVICE/'serve.mjs'),str(state),str(config_path),sha(config_path),str(profile_path),sha(profile_path),str(port)]
++        self.args=[str(NODE),str(SERVICE2/'serve.mjs'),str(state),str(config_path),sha(config_path),str(profile_path),sha(profile_path),str(port)]
+         self.events=[];self.lock=threading.Lock();self.proc=None;self.host=None;self.stderr=None;self.generation=0
+     def start(self,timeout=180):
+         self.generation+=1
+         self.stderr=(out/('relay-%d.stderr'%self.generation)).open('x')
+-        self.proc=subprocess.Popen(self.args,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=self.stderr,cwd=SERVICE,env={'PATH':'/usr/bin:/bin'})
++        self.proc=subprocess.Popen(self.args,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=self.stderr,cwd=SERVICE2,env={'PATH':'/usr/bin:/bin'})
+         threading.Thread(target=self._read,args=(self.proc,self.generation),daemon=True).start()
+         end=time.monotonic()+timeout
+         while time.monotonic()<end:
+@@ -141,8 +144,11 @@
+        (ROOT/'evidence/e2e-qualification-01/RESULT.json','PASS_ONION_E2E_READ_AND_DEPOSIT_LEGS'),(WORK/'solana-private-relay-v1/evidence/relay-live-04/RESULT.json','PASS_NATIVE_WALLETS_WITH_LIVE_SPONSORED_RELAY')]
+ for path,status in gates:assert read(path)['status']==status,path
+ mutation_gate=read(SERVICE/'evidence/mutation-03/MUTATION.json');assert mutation_gate['all_detected'] is True,'the relay service mutation control has not passed'
++windowed_mutation=read(WINDOWED/'evidence'/WINDOWED_MUTATION/'MUTATION.json');assert windowed_mutation['all_detected'] is True and not windowed_mutation['undetected'] and windowed_mutation['count']>=70,'the windowed revision mutation control has not passed'
++windowed_checks=read(WINDOWED/'evidence'/WINDOWED_CHECKS/'RESULT.json');assert windowed_checks['status']=='PASS_WINDOWED_PUBLICATION_CHECKS' and windowed_checks['tests']==windowed_checks['passed'],'the windowed revision checks have not passed'
+ tor_reference=OLD/'tor-circuits-r1/network/CONFIG-CHECK.json';assert sha(GENCERT)==read(tor_reference)['gencert_sha256']
+-paths=[*[ROOT/n for n in ('run_payment.py','run_payment_v2.py','run_payment_v3.py','history_service.py')],*[g for g,_ in gates],SERVICE/'evidence/mutation-03/MUTATION.json',*sorted(SERVICE.glob('*.mjs')),SERVICE/'mutation_control.py',
++paths=[*[ROOT/n for n in ('run_payment.py','run_payment_v2.py','run_payment_v3.py','run_payment_v4.py','history_service.py')],*[g for g,_ in gates],SERVICE/'evidence/mutation-03/MUTATION.json',*sorted(SERVICE.glob('*.mjs')),SERVICE/'mutation_control.py',
++       SERVICE2/'serve.mjs',*sorted(WINDOWED.glob('*.mjs')),WINDOWED/'mutation_control.py',WINDOWED/'evidence'/WINDOWED_MUTATION/'MUTATION.json',WINDOWED/'evidence'/WINDOWED_CHECKS/'RESULT.json',WINDOWED/'evidence'/WINDOWED_CHECKS/'INPUTS.json',
+        PKG/'build_package.py',PKG/'chrome_cdp.py',*sorted((PKG/'src').glob('*.mjs')),LAUNCHER/'launcher.py',LAUNCHER/'build_candidate.py',
+        UNIFIED_DIR/'managed-validator.mjs',UNIFIED_DIR/'host-lease.mjs',UNIFIED_DIR/'package-unified.py',OLD/'tor_lab.py',TOR,GENCERT,NODE,CHROME,Path(sys.executable).resolve()]
+ pins={str(p):sha(p) for p in paths};write(out/'INPUTS.json',pins)

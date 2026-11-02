@@ -1,0 +1,1173 @@
+{
+  "status": "FAIL_ONION_PAYMENT_FULL",
+  "error": null,
+  "mode": "full",
+  "chrome": "Google Chrome 156.0.8078.74",
+  "checks": {
+    "validator_started_with_the_real_programs": true,
+    "relay_service_started_with_its_own_sponsor": true,
+    "sponsor_funded_by_the_validator_faucet_not_by_a_wallet": true,
+    "package_built_for_this_validator_profile_from_the_unchanged_builder": true,
+    "package_names_the_real_relay_sponsor_not_a_synthetic_one": true,
+    "history_and_relay_onion_services_reachable_through_real_tor": true,
+    "recipient_wallet_restored_in_the_extension": true,
+    "recipient_first_sync_is_private_and_empty": true,
+    "recipient_has_a_receive_address_and_its_own_public_authority": true,
+    "sender_wallet_restored_in_the_extension": true,
+    "sender_public_route_found_the_funded_source": true,
+    "deposit_reached_the_deposited_state_in_the_extension": true,
+    "sender_private_sync_after_the_deposit_shows_13_units": true,
+    "the_validator_confirms_the_deposit_13_units_moved_to_the_pool_vault": true,
+    "positive_control_the_sender_wallet_authority_has_its_own_signatures": true,
+    "proof_was_generated_in_the_extension": true,
+    "relay_admitted_exactly_one_request_over_tor_and_refused_nothing": true,
+    "extension_made_no_direct_http_request_during_the_private_payment": true,
+    "no_payment_step_error_in_the_extension": true,
+    "every_wallet_relock_was_recovered_by_unlocking_again": true,
+    "relay_was_killed_mid_publication_and_resumed_the_same_stored_request": true,
+    "sponsor_kept_publishing_after_the_restart": true,
+    "wallet_authority_never_appears_in_a_relay_transaction_with_a_positive_control": true,
+    "the_recipient_public_authority_never_transacts_at_all": true,
+    "send_settled_in_the_extension_from_validated_history": true,
+    "relay_recorded_the_send_as_settled": true,
+    "send_verifier_receipt_account_is_gone_on_the_validator": true,
+    "send_proof_buffer_account_is_gone_on_the_validator": true,
+    "send_relay_confirmed_the_receipt_close_and_then_the_buffer_close": true,
+    "sender_private_sync_after_the_send_shows_2_units": true,
+    "vault_unchanged_by_the_internal_send": true,
+    "duplicate_submit_is_accepted_idempotently_and_spends_nothing": true,
+    "tampered_proof_is_refused_with_the_fixed_code_and_spends_nothing": true,
+    "the_relay_has_no_status_route": true,
+    "recipient_restored_again_from_its_words": true,
+    "recipient_restored_from_words_sees_10_units_over_tor": true,
+    "withdraw_settled_in_the_extension_from_validated_history": true,
+    "relay_recorded_the_withdrawal_as_settled": true,
+    "withdraw_verifier_receipt_account_is_gone_on_the_validator": true,
+    "withdraw_proof_buffer_account_is_gone_on_the_validator": true,
+    "withdraw_relay_confirmed_the_receipt_close_and_then_the_buffer_close": true,
+    "withdraw_leg_made_no_direct_http_request": true,
+    "every_wallet_relock_during_the_withdrawal_was_recovered_by_unlocking_again": true,
+    "withdraw_restart_resumed_the_same_stored_request": true,
+    "sender_private_sync_after_the_withdrawal_shows_0_units": true,
+    "the_validator_confirms_the_public_withdrawal_1_unit_to_the_recipient_and_12_in_the_vault": true,
+    "wallet_authority_never_appears_in_a_relay_transaction_over_both_legs": true,
+    "sender_journal_lists_both_payments_settled": true,
+    "sponsor_ledger_is_complete_and_equals_the_balance_difference": false,
+    "rent_of_every_request_account_came_back_to_the_lamport": false,
+    "everything_else_the_sponsor_paid_is_fees_and_the_pools_permanent_records": false,
+    "relay_never_reported_a_task_error_or_parked_a_request": true,
+    "lock_closes_every_native_host": true,
+    "all_tor_children_reaped": true,
+    "validator_stopped_cleanly": true,
+    "relay_service_stopped_cleanly": true,
+    "no_process_left_with_the_disposable_profiles": true,
+    "real_browser_host_directories_unchanged": true,
+    "disposable_profiles_and_relay_state_removed": true
+  },
+  "steps": {
+    "node_runtime_waiver": {
+      "scope": "only the Node binary path in the four qualification INPUTS; every other input is still verified",
+      "entries": [
+        {
+          "qualification": "publication-sender-03",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        },
+        {
+          "qualification": "unified-checks-04",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        },
+        {
+          "qualification": "format-05",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        },
+        {
+          "qualification": "memo-02",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        }
+      ]
+    },
+    "base_differences_from_unified_06": [
+      "INSTALLED-FLOW-CONFIG.json",
+      "config.mjs",
+      "manifest.json"
+    ],
+    "recipient_first_sync": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "0",
+      "owned_notes": 0,
+      "slot": 141,
+      "wallet_id": "1b3419943a1f2dadc5cc0d77d972e959299e7ab81ae9639b043280091fcbcfe3fc259d32a8f2c86506c5021f5c387d2261f5e7cf95c0a338de9e0374fe595258"
+    },
+    "recipient_public_route_methods": [
+      "getAccountInfo",
+      "getGenesisHash",
+      "getTokenAccountsByOwner",
+      "getVersion"
+    ],
+    "sender_sync_before_deposit": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "0",
+      "owned_notes": 0,
+      "slot": 145,
+      "wallet_id": "cbba8a31a5d75b249c6d4379f564778d7b0d81061f2e0ee8501f8851d361c1124a5dca70ae5945296796b76dd88c54d6b4e8081d80a81cc6cbaeacdb2399567b"
+    },
+    "sender_sync_after_deposit": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "13",
+      "owned_notes": 2,
+      "slot": 147,
+      "wallet_id": "cbba8a31a5d75b249c6d4379f564778d7b0d81061f2e0ee8501f8851d361c1124a5dca70ae5945296796b76dd88c54d6b4e8081d80a81cc6cbaeacdb2399567b"
+    },
+    "send": {
+      "kind": "send",
+      "amount": "10",
+      "review_ok": true,
+      "review_error": null,
+      "approve_ok": true,
+      "approve_error": null,
+      "operation": "31d435efd98274b00e6b548fb99c83c0",
+      "locks": [
+        {
+          "t": 441.7,
+          "why": "locked",
+          "reunlocked": true
+        },
+        {
+          "t": 743.6,
+          "why": "locked",
+          "reunlocked": true
+        },
+        {
+          "t": 1045.7,
+          "why": "locked",
+          "reunlocked": true
+        }
+      ],
+      "prove_seconds": 138.4,
+      "prove_ok": true,
+      "prove_error": null,
+      "sponsor_signature_samples": [
+        [
+          138.4,
+          1
+        ],
+        [
+          159.7,
+          1474
+        ],
+        [
+          180.7,
+          2690
+        ],
+        [
+          202.6,
+          3272
+        ],
+        [
+          224.4,
+          3312
+        ],
+        [
+          246.3,
+          3352
+        ],
+        [
+          268.1,
+          3392
+        ],
+        [
+          290.0,
+          3433
+        ],
+        [
+          311.8,
+          3473
+        ],
+        [
+          333.8,
+          3513
+        ],
+        [
+          355.7,
+          3554
+        ],
+        [
+          377.6,
+          3594
+        ],
+        [
+          399.5,
+          3634
+        ],
+        [
+          421.3,
+          3674
+        ],
+        [
+          443.9,
+          3715
+        ],
+        [
+          465.7,
+          3755
+        ],
+        [
+          487.6,
+          3796
+        ],
+        [
+          509.5,
+          3836
+        ],
+        [
+          531.3,
+          3876
+        ],
+        [
+          553.3,
+          3916
+        ],
+        [
+          575.2,
+          3957
+        ],
+        [
+          597.1,
+          3997
+        ],
+        [
+          619.1,
+          4037
+        ],
+        [
+          641.0,
+          4077
+        ],
+        [
+          662.8,
+          4117
+        ],
+        [
+          684.9,
+          4158
+        ],
+        [
+          706.8,
+          4198
+        ],
+        [
+          728.7,
+          4239
+        ],
+        [
+          751.3,
+          4279
+        ],
+        [
+          773.2,
+          4319
+        ],
+        [
+          795.1,
+          4360
+        ],
+        [
+          817.0,
+          4400
+        ],
+        [
+          838.9,
+          4440
+        ],
+        [
+          860.9,
+          4481
+        ],
+        [
+          882.8,
+          4521
+        ],
+        [
+          904.8,
+          4561
+        ],
+        [
+          926.7,
+          4601
+        ],
+        [
+          948.6,
+          4642
+        ],
+        [
+          970.6,
+          4682
+        ],
+        [
+          992.5,
+          4722
+        ],
+        [
+          1014.4,
+          4762
+        ],
+        [
+          1036.4,
+          4803
+        ],
+        [
+          1059.0,
+          4844
+        ],
+        [
+          1080.9,
+          4884
+        ],
+        [
+          1102.8,
+          4924
+        ],
+        [
+          1124.8,
+          4964
+        ],
+        [
+          1146.7,
+          5004
+        ],
+        [
+          1168.7,
+          5045
+        ]
+      ],
+      "restart": {
+        "sponsor_signatures_at_kill": 1474,
+        "method": "SIGKILL",
+        "request_bytes_before": 3963092,
+        "request_sha256_before": "3af05b2fc8c5241955073b94776b7e1649910c9317887096c860b96ff00f5c05",
+        "exit_code": -9,
+        "recovered_id": "e62d3b6e8f683d6dc9a2e57e959ba0df3deb7bba4eb38af872fb34a7bc920de9",
+        "same_request": true,
+        "same_sponsor": true,
+        "request_sha256_after": "3af05b2fc8c5241955073b94776b7e1649910c9317887096c860b96ff00f5c05",
+        "resumed": true
+      },
+      "seconds": 1182.0,
+      "state_log": [
+        [
+          "preparing",
+          0.0
+        ],
+        [
+          "ready",
+          138.4
+        ],
+        [
+          "publishing",
+          145.8
+        ],
+        [
+          "settled",
+          1182.0
+        ]
+      ],
+      "step_errors_tail": [],
+      "direct_http_during_leg": [],
+      "relay_events": [
+        {
+          "t": "2026-11-02T03:24:10.221Z",
+          "type": "admitted",
+          "id": "e62d3b6e8f683d6dc9a2e57e959ba0df3deb7bba4eb38af872fb34a7bc920de9",
+          "kind": "send",
+          "wire_bytes": 2972274,
+          "generation": 1
+        },
+        {
+          "t": "2026-11-02T03:24:28.054Z",
+          "type": "recovered",
+          "id": "e62d3b6e8f683d6dc9a2e57e959ba0df3deb7bba4eb38af872fb34a7bc920de9",
+          "kind": "send",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T03:29:10.819Z",
+          "type": "duplicate",
+          "id": "e62d3b6e8f683d6dc9a2e57e959ba0df3deb7bba4eb38af872fb34a7bc920de9",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T03:34:12.767Z",
+          "type": "duplicate",
+          "id": "e62d3b6e8f683d6dc9a2e57e959ba0df3deb7bba4eb38af872fb34a7bc920de9",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T03:39:15.006Z",
+          "type": "duplicate",
+          "id": "e62d3b6e8f683d6dc9a2e57e959ba0df3deb7bba4eb38af872fb34a7bc920de9",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T03:41:21.725Z",
+          "type": "cleanup",
+          "id": "e62d3b6e8f683d6dc9a2e57e959ba0df3deb7bba4eb38af872fb34a7bc920de9",
+          "step": "receipt-close",
+          "state": "pending",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T03:41:22.112Z",
+          "type": "cleanup",
+          "id": "e62d3b6e8f683d6dc9a2e57e959ba0df3deb7bba4eb38af872fb34a7bc920de9",
+          "step": "receipt-close",
+          "state": "step_confirmed",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T03:41:22.175Z",
+          "type": "cleanup",
+          "id": "e62d3b6e8f683d6dc9a2e57e959ba0df3deb7bba4eb38af872fb34a7bc920de9",
+          "step": "buffer-close",
+          "state": "pending",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T03:41:22.757Z",
+          "type": "cleanup",
+          "id": "e62d3b6e8f683d6dc9a2e57e959ba0df3deb7bba4eb38af872fb34a7bc920de9",
+          "step": "buffer-close",
+          "state": "step_confirmed",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T03:41:22.807Z",
+          "type": "finished",
+          "id": "e62d3b6e8f683d6dc9a2e57e959ba0df3deb7bba4eb38af872fb34a7bc920de9",
+          "kind": "send",
+          "state": "settled",
+          "steps": 5927,
+          "elapsed_ms": 1014758,
+          "generation": 2
+        }
+      ],
+      "final_state": "settled"
+    },
+    "relay_window": 64,
+    "relay_cleanup": true,
+    "relay_journal_after_send": {
+      "operations": [
+        {
+          "id": "e62d3b6e8f683d6d",
+          "version": "zk9-sponsored-publication-journal-v2",
+          "revision": 3748,
+          "attempts": 5120,
+          "pending": 0,
+          "last": "confirmed",
+          "record_bytes": 579
+        },
+        {
+          "id": "297902bf4196c2e2",
+          "version": "zk9-sponsored-settlement-v1",
+          "revision": 3,
+          "attempts": null,
+          "pending": 0,
+          "last": "settled",
+          "record_bytes": 652
+        }
+      ],
+      "funding": [
+        {
+          "cap_lamports": "80000000000",
+          "used_lamports": "23800456080"
+        }
+      ]
+    },
+    "send_sponsor_signatures_after_restart": 5045,
+    "send_authority_check": {
+      "sponsor_signatures": 5057,
+      "sender_wallet_signatures": 2,
+      "overlap": [],
+      "disjoint": true
+    },
+    "send_cleanup": {
+      "receipt": "E2dtb1TixMbqmxxDBSZf7QzVX9F7KpV2ev5MTEbwnC66",
+      "buffer": "4aUWWAgDCeB8K96zphuacD4mqxjEdNpseA15qdQwadv3",
+      "receipt_gone": true,
+      "buffer_gone": true,
+      "cleanup_events": [
+        [
+          "receipt-close",
+          "pending"
+        ],
+        [
+          "receipt-close",
+          "step_confirmed"
+        ],
+        [
+          "buffer-close",
+          "pending"
+        ],
+        [
+          "buffer-close",
+          "step_confirmed"
+        ]
+      ]
+    },
+    "sender_sync_after_send": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "2",
+      "owned_notes": 3,
+      "slot": 2319,
+      "wallet_id": "cbba8a31a5d75b249c6d4379f564778d7b0d81061f2e0ee8501f8851d361c1124a5dca70ae5945296796b76dd88c54d6b4e8081d80a81cc6cbaeacdb2399567b"
+    },
+    "idle_probes_after_send": {
+      "duplicate": {
+        "status": 200,
+        "body": {
+          "version": "zk9-sponsored-proof-v1",
+          "verified": true,
+          "published": false,
+          "settled": false
+        }
+      },
+      "tampered": {
+        "status": 422,
+        "body": {
+          "error": "invalid_proof"
+        }
+      },
+      "status_route": {
+        "status": 404
+      },
+      "sponsor_signatures_before": 5057,
+      "sponsor_signatures_after": 5057,
+      "no_new_request_stored": true
+    },
+    "recipient_sync_after_send": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "10",
+      "owned_notes": 1,
+      "slot": 2335,
+      "wallet_id": "1b3419943a1f2dadc5cc0d77d972e959299e7ab81ae9639b043280091fcbcfe3fc259d32a8f2c86506c5021f5c387d2261f5e7cf95c0a338de9e0374fe595258"
+    },
+    "withdraw": {
+      "kind": "withdraw",
+      "amount": "1",
+      "review_ok": true,
+      "review_error": null,
+      "approve_ok": true,
+      "approve_error": null,
+      "operation": "f60fdf466bf5d2947c6218e3dd8adfc1",
+      "locks": [
+        {
+          "t": 461.3,
+          "why": "locked",
+          "reunlocked": true
+        },
+        {
+          "t": 761.7,
+          "why": "locked",
+          "reunlocked": true
+        },
+        {
+          "t": 1063.0,
+          "why": "locked",
+          "reunlocked": true
+        },
+        {
+          "t": 1363.6,
+          "why": "locked",
+          "reunlocked": true
+        }
+      ],
+      "prove_seconds": 150.0,
+      "prove_ok": false,
+      "prove_error": "probe timeout",
+      "sponsor_signature_samples": [
+        [
+          150.0,
+          5057
+        ],
+        [
+          171.7,
+          5506
+        ],
+        [
+          193.8,
+          6658
+        ],
+        [
+          214.9,
+          7938
+        ],
+        [
+          235.9,
+          9154
+        ],
+        [
+          256.1,
+          9418
+        ],
+        [
+          278.4,
+          9459
+        ],
+        [
+          300.7,
+          9500
+        ],
+        [
+          323.2,
+          9541
+        ],
+        [
+          345.5,
+          9582
+        ],
+        [
+          367.8,
+          9623
+        ],
+        [
+          390.2,
+          9663
+        ],
+        [
+          412.5,
+          9703
+        ],
+        [
+          434.8,
+          9744
+        ],
+        [
+          457.1,
+          9785
+        ],
+        [
+          477.8,
+          9823
+        ],
+        [
+          500.1,
+          9864
+        ],
+        [
+          522.4,
+          9905
+        ],
+        [
+          544.7,
+          9945
+        ],
+        [
+          567.1,
+          9985
+        ],
+        [
+          589.5,
+          10026
+        ],
+        [
+          612.0,
+          10067
+        ],
+        [
+          634.4,
+          10108
+        ],
+        [
+          654.5,
+          10145
+        ],
+        [
+          676.8,
+          10186
+        ],
+        [
+          699.2,
+          10227
+        ],
+        [
+          721.6,
+          10268
+        ],
+        [
+          744.0,
+          10309
+        ],
+        [
+          764.5,
+          10347
+        ],
+        [
+          786.9,
+          10387
+        ],
+        [
+          809.3,
+          10428
+        ],
+        [
+          831.7,
+          10469
+        ],
+        [
+          854.1,
+          10509
+        ],
+        [
+          876.6,
+          10549
+        ],
+        [
+          899.0,
+          10590
+        ],
+        [
+          921.4,
+          10631
+        ],
+        [
+          943.9,
+          10672
+        ],
+        [
+          966.3,
+          10713
+        ],
+        [
+          989.0,
+          10755
+        ],
+        [
+          1011.4,
+          10796
+        ],
+        [
+          1033.9,
+          10837
+        ],
+        [
+          1056.3,
+          10878
+        ],
+        [
+          1077.2,
+          10915
+        ],
+        [
+          1099.6,
+          10956
+        ],
+        [
+          1122.0,
+          10997
+        ],
+        [
+          1144.5,
+          11038
+        ],
+        [
+          1166.9,
+          11079
+        ],
+        [
+          1189.3,
+          11120
+        ],
+        [
+          1211.8,
+          11161
+        ],
+        [
+          1234.3,
+          11202
+        ],
+        [
+          1256.6,
+          11243
+        ],
+        [
+          1278.9,
+          11284
+        ],
+        [
+          1301.2,
+          11325
+        ],
+        [
+          1323.5,
+          11366
+        ],
+        [
+          1345.7,
+          11407
+        ],
+        [
+          1366.4,
+          11444
+        ],
+        [
+          1388.6,
+          11484
+        ],
+        [
+          1410.9,
+          11523
+        ],
+        [
+          1433.1,
+          11564
+        ],
+        [
+          1455.3,
+          11605
+        ],
+        [
+          1477.6,
+          11645
+        ],
+        [
+          1499.9,
+          11686
+        ],
+        [
+          1521.9,
+          11725
+        ]
+      ],
+      "restart": {
+        "sponsor_signatures_at_kill": 5506,
+        "method": "SIGKILL",
+        "request_bytes_before": 5351948,
+        "request_sha256_before": "bc1f26c079bb47ec1585247701efd45319c733f9afc1d52312447f48a573277f",
+        "exit_code": -9,
+        "recovered_id": "b91afe7b09d7f6384a8ab605a849a2ae5861b3bd261da13b439e9d629f67c757",
+        "same_request": true,
+        "same_sponsor": true,
+        "request_sha256_after": "bc1f26c079bb47ec1585247701efd45319c733f9afc1d52312447f48a573277f",
+        "resumed": true
+      },
+      "seconds": 1524.5,
+      "state_log": [
+        [
+          "preparing",
+          0.0
+        ],
+        [
+          "ready",
+          158.0
+        ],
+        [
+          "publishing",
+          165.0
+        ],
+        [
+          "settled",
+          1524.5
+        ]
+      ],
+      "step_errors_tail": [],
+      "direct_http_during_leg": [],
+      "relay_events": [
+        {
+          "t": "2026-11-02T03:44:20.675Z",
+          "type": "admitted",
+          "id": "b91afe7b09d7f6384a8ab605a849a2ae5861b3bd261da13b439e9d629f67c757",
+          "kind": "withdraw",
+          "wire_bytes": 4013911,
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T03:44:31.516Z",
+          "type": "recovered",
+          "id": "b91afe7b09d7f6384a8ab605a849a2ae5861b3bd261da13b439e9d629f67c757",
+          "kind": "withdraw",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-02T03:49:22.405Z",
+          "type": "duplicate",
+          "id": "b91afe7b09d7f6384a8ab605a849a2ae5861b3bd261da13b439e9d629f67c757",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-02T03:54:22.764Z",
+          "type": "duplicate",
+          "id": "b91afe7b09d7f6384a8ab605a849a2ae5861b3bd261da13b439e9d629f67c757",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-02T03:59:24.205Z",
+          "type": "duplicate",
+          "id": "b91afe7b09d7f6384a8ab605a849a2ae5861b3bd261da13b439e9d629f67c757",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-02T04:04:24.681Z",
+          "type": "duplicate",
+          "id": "b91afe7b09d7f6384a8ab605a849a2ae5861b3bd261da13b439e9d629f67c757",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-02T04:06:59.700Z",
+          "type": "cleanup",
+          "id": "b91afe7b09d7f6384a8ab605a849a2ae5861b3bd261da13b439e9d629f67c757",
+          "step": "receipt-close",
+          "state": "pending",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-02T04:07:00.318Z",
+          "type": "cleanup",
+          "id": "b91afe7b09d7f6384a8ab605a849a2ae5861b3bd261da13b439e9d629f67c757",
+          "step": "receipt-close",
+          "state": "step_confirmed",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-02T04:07:00.375Z",
+          "type": "cleanup",
+          "id": "b91afe7b09d7f6384a8ab605a849a2ae5861b3bd261da13b439e9d629f67c757",
+          "step": "buffer-close",
+          "state": "pending",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-02T04:07:00.754Z",
+          "type": "cleanup",
+          "id": "b91afe7b09d7f6384a8ab605a849a2ae5861b3bd261da13b439e9d629f67c757",
+          "step": "buffer-close",
+          "state": "step_confirmed",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-02T04:07:00.797Z",
+          "type": "finished",
+          "id": "b91afe7b09d7f6384a8ab605a849a2ae5861b3bd261da13b439e9d629f67c757",
+          "kind": "withdraw",
+          "state": "settled",
+          "steps": 7358,
+          "elapsed_ms": 1349285,
+          "generation": 3
+        }
+      ],
+      "final_state": "settled"
+    },
+    "relay_journal_after_withdraw": {
+      "operations": [
+        {
+          "id": "e62d3b6e8f683d6d",
+          "version": "zk9-sponsored-publication-journal-v2",
+          "revision": 3748,
+          "attempts": 5120,
+          "pending": 0,
+          "last": "confirmed",
+          "record_bytes": 579
+        },
+        {
+          "id": "297902bf4196c2e2",
+          "version": "zk9-sponsored-settlement-v1",
+          "revision": 3,
+          "attempts": null,
+          "pending": 0,
+          "last": "settled",
+          "record_bytes": 652
+        },
+        {
+          "id": "b91afe7b09d7f638",
+          "version": "zk9-sponsored-publication-journal-v2",
+          "revision": 4848,
+          "attempts": 6808,
+          "pending": 0,
+          "last": "confirmed",
+          "record_bytes": 579
+        },
+        {
+          "id": "27a380931f49f533",
+          "version": "zk9-sponsored-settlement-v1",
+          "revision": 3,
+          "attempts": null,
+          "pending": 0,
+          "last": "settled",
+          "record_bytes": 652
+        }
+      ],
+      "funding": [
+        {
+          "cap_lamports": "80000000000",
+          "used_lamports": "23800456080"
+        },
+        {
+          "cap_lamports": "80000000000",
+          "used_lamports": "31970349680"
+        }
+      ]
+    },
+    "withdraw_cleanup": {
+      "receipt": "85nK8PGxNtjfFRWB9rYcKKwKNhLzdnG8LgokLs5yTd3X",
+      "buffer": "FLDChtKZjVhCcuBdVVAEgMF5AdtmbqkwzwGZzPQZmEzK",
+      "receipt_gone": true,
+      "buffer_gone": true,
+      "cleanup_events": [
+        [
+          "receipt-close",
+          "pending"
+        ],
+        [
+          "receipt-close",
+          "step_confirmed"
+        ],
+        [
+          "buffer-close",
+          "pending"
+        ],
+        [
+          "buffer-close",
+          "step_confirmed"
+        ]
+      ]
+    },
+    "sender_sync_after_withdraw": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "0",
+      "owned_notes": 5,
+      "slot": 5130,
+      "wallet_id": "cbba8a31a5d75b249c6d4379f564778d7b0d81061f2e0ee8501f8851d361c1124a5dca70ae5945296796b76dd88c54d6b4e8081d80a81cc6cbaeacdb2399567b"
+    },
+    "ground_truth_final": {
+      "vault_units": 12,
+      "recipient_token_units": 1
+    },
+    "withdraw_authority_check": {
+      "sponsor_signatures": 11726,
+      "sender_wallet_signatures": 2,
+      "overlap": [],
+      "disjoint": true
+    },
+    "sampler_errors": [],
+    "validator_rpc_errors_seen": [],
+    "sponsor_cost": {
+      "lamports_spent": 128657520,
+      "sponsor_signatures": 11726,
+      "note": "synthetic lamports on an isolated validator; not a mainnet cost"
+    },
+    "sponsor_ledger": {
+      "transactions_listed": 11726,
+      "transactions_paid_by_the_sponsor": 242,
+      "transactions_not_available": 11484,
+      "fees_lamports": 1210000,
+      "fee_values_lamports": {
+        "5000": 242
+      },
+      "sponsor_net_outflow_lamports": -31829779280,
+      "balance_difference_lamports": 128657520,
+      "complete": false,
+      "request_accounts": {
+        "E2dtb1TixMbqmxxDBSZf7QzVX9F7KpV2ev5MTEbwnC66": {
+          "deposited_lamports": 0,
+          "refunded_lamports": 0,
+          "net_lamports": 0
+        },
+        "4aUWWAgDCeB8K96zphuacD4mqxjEdNpseA15qdQwadv3": {
+          "deposited_lamports": 0,
+          "refunded_lamports": 0,
+          "net_lamports": 0
+        },
+        "85nK8PGxNtjfFRWB9rYcKKwKNhLzdnG8LgokLs5yTd3X": {
+          "deposited_lamports": 0,
+          "refunded_lamports": 2931106560,
+          "net_lamports": -2931106560
+        },
+        "FLDChtKZjVhCcuBdVVAEgMF5AdtmbqkwzwGZzPQZmEzK": {
+          "deposited_lamports": 0,
+          "refunded_lamports": 28935517920,
+          "net_lamports": -28935517920
+        }
+      },
+      "request_accounts_net_zero": false,
+      "other_inflow_lamports": 35635200,
+      "fees_plus_inflows_equal_the_outflow": true,
+      "largest_other_inflows": [
+        [
+          14170560,
+          "JDz7bY4FPScnuHA6Yc7tiWwrCRWHEw8t2V2rtaar1fv2"
+        ],
+        [
+          14170560,
+          "B1TQmkKWwrjSx6o7u5WoC9giJVFfpBTRMjy8auQrdeX3"
+        ],
+        [
+          2282880,
+          "E2oW5m7NHo56fmagqRsNzt2vysARpuEwy3zvvV3JHYsr"
+        ],
+        [
+          1670400,
+          "JCaoYmwarHg9YLLHh5J8E6dTbRc9peXiRAyuZWihrpKn"
+        ],
+        [
+          1670400,
+          "FtHaYVA4P3gP9XM2tDJYAtcHuUU62fvCmqoXrMzM99Ea"
+        ],
+        [
+          1670400,
+          "FrnFMuaBUC5Zb72UivtUfNo9GrNxaG2TyEdby4qBM6Ej"
+        ]
+      ],
+      "expected_pool_records_lamports": 68987520
+    },
+    "relay_event_counts": {
+      "admitted": 2,
+      "refused": 1,
+      "duplicate": 8,
+      "recovered": 2,
+      "progress": 134,
+      "task_error": 0,
+      "parked": 0,
+      "finished": 2,
+      "fatal": 0,
+      "cleanup": 8
+    }
+  },
+  "validator_run": "installed-connected-508",
+  "unified_base": "unified-508",
+  "extension_id": "bbkfifkaclggepokihcpnelfjgnkfbol",
+  "scope": {
+    "validator": "local synthetic, real programs",
+    "tor": "one-host local test network (TorLab), not public Tor",
+    "history_and_relay_operator": "both played by this machine/script (same operator as the validator)",
+    "sponsor": "relay-owned key, funded by the validator faucet; package names its real authority",
+    "private_payment": true,
+    "withdrawal": true,
+    "account_cleanup_shown": true,
+    "real_funds": false,
+    "privacy_proven": false,
+    "network_timing_anonymity_proven": false,
+    "independent_operator": false,
+    "public_fixture_seeds": true,
+    "real_profile_touched": false
+  }
+}

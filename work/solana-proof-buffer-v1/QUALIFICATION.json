@@ -1,0 +1,24 @@
+{
+  "status": "PASS_TRANSPORT_ONLY",
+  "runs": [
+    "evidence/final-01.json",
+    "evidence/final-02.json"
+  ],
+  "checks_per_run": 17,
+  "parent_manifest_sha256": "886b45d5be4e5f130881e1cc895126f5eef39075918b0e432311aa4d1acb2459",
+  "parent_files_verified": 766,
+  "scope": [
+    "compiled sBPF local byte transport",
+    "hash integrity",
+    "synthetic public keys and funds"
+  ],
+  "excluded": [
+    "Solana proof verifier",
+    "token issuance",
+    "private transfer pool",
+    "bridge",
+    "public deployment",
+    "production audit"
+  ],
+  "harness_change_between_runs": "Added termination signal, forced-kill flag and completion timestamp only; program ELF and all 17 functional checks unchanged."
+}

@@ -1,0 +1,48 @@
+✔ J1 a new window journal starts empty at revision 1 and reopens identically with the same transport (1306.555334ms)
+✔ J2 a window is signed, verified and made durable in ONE commit, with one debit of N fee ceilings (640.693042ms)
+✔ J3 nothing new can be prepared while any attempt is pending (622.890042ms)
+✔ J4 a chunk window must be non-empty, distinct, in range and at most MAX_WINDOW (741.030334ms)
+✔ J5 a tampered or malformed pending list is refused when the journal is reopened (13457.622083ms)
+✔ J6 resolveMany resolves only the listed attempts, in one commit, and refuses everything else (675.894417ms)
+✔ J7 an expiry needs BOTH the missing-signature proof and a height past the blockhash lifetime; one unproven entry refuses the whole call (644.997833ms)
+✔ J8 a ticket serves only its own kind, only once, and only at the revision it was prepared (640.458792ms)
+✔ J9 the attempt counter counts every signed attempt, window or single (653.195125ms)
+✔ R1 a window is charged N fee CEILINGS (not the lower quote) and an empty-to-full commit is the only one that is charged (646.142708ms)
+✔ R2 a shrinking pending list takes no debit, and a debit on a resolution is refused (639.911125ms)
+✔ R3 attempts can only enter an EMPTY list and a retained attempt can never be replaced or duplicated (660.340958ms)
+✔ R4 the per-request funding cap bounds the CUMULATIVE cost of windows; a refused window stores and charges nothing (811.594959ms)
+✔ R5 the attempt cap counts the whole window, and a window that fits exactly is accepted (1337.836209ms)
+✔ R6 the quote refuses a window when ANY fee is unavailable or above the cap, or the balance cannot cover all of it (802.8345ms)
+✔ R7 settlement journals keep the original single-attempt funding rules in the v2 repository (637.879375ms)
+✔ R8 record sizes: a window record up to 512 KiB, every other record stays at 32 KiB, foreign labels are refused (758.670208ms)
+✔ R10 the window quote is bound to the sponsor, to a non-empty bounded list and to the exact sum (641.271375ms)
+✔ R9 a window and its debit become durable together or not at all, across SIGKILL of the process (3073.62575ms)
+✔ S1 a whole chunk phase with window 128: every chunk once, one commit to sign and one to resolve each window, the buffer equals the wire (18729.478209ms)
+✔ S2 window 1 is the original sender: one attempt, one commit pair and one transaction per chunk (4117.294917ms)
+✔ S3 the step results of a clean window are pending, then step_confirmed; a lost send is not a failure (1312.295625ms)
+✔ S4 a restart after the durable commit but before any send releases exactly the stored bytes and signs nothing new (1717.542375ms)
+✔ S5 a partial landing resends ONLY the chunks the cluster has not seen, with the same bytes (1598.053041ms)
+✔ S6 a blockhash that expired with the chunk still unknown resolves it as EXPIRED with proof, and the chunk goes into a fresh window (1398.723333ms)
+✔ S7 a chunk that shows up at the second lookup is CONFIRMED, never expired (840.78675ms)
+✔ S8 a chunk that lands with an error is recorded as failed, the others are resolved, and the step does not go on silently (1753.768875ms)
+✔ S9 a confirmed status whose effect is not visible in the buffer stays pending as awaiting_progress (960.702541ms)
+✔ S10 a failing commit releases nothing: no send, no pending, no debit (763.4665ms)
+✔ S11 a simulation that rejects any chunk stops the window before anything is signed (773.3625ms)
+✔ S12 a window left pending is finished whatever window the restarted sender is configured with, and later windows obey the new size (2559.17525ms)
+✔ S13 the window size is validated by the sender and never exceeded (2020.143292ms)
+✔ S14 only one step runs at a time (754.820667ms)
+✔ S15 a cluster that has not reached the minimum slot is a pending result, not a failure (778.22525ms)
+✔ S16 a status that is only processed is neither a confirmation, nor an expiry, nor a reason to send again (861.6115ms)
+✔ S17 an attempt that shows up as processed only between the two lookups is not sent again with a dead blockhash (836.898875ms)
+✔ S18 the sender refuses an RPC that answers inconsistently: another signature, a short status list, a pending list that changed before the resend (2290.788375ms)
+✔ A1 the adapter checks the request id on every call and refuses to bind a payment that is no longer settling (647.972167ms)
+✔ A2 opening the task wires the v2 journal and v2 funding, validates the window before reserving funds, and reopens identically (7580.214916ms)
+✔ A3 (static) the task is wired to the windowed journal, funding and sender, and hands its window to the sender (0.6335ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 81856.367958

@@ -1,0 +1,208 @@
+--- run_payment_v4.py
++++ run_payment_v5.py
+@@ -1,4 +1,7 @@
+-"""PAYMENT LEGS of the end-to-end onion trial with the WINDOWED relay (v4: this driver is v3 unchanged except that the relay service it launches is
++"""PAYMENT LEGS of the end-to-end onion trial with the WINDOWED relay and ACCOUNT CLEANUP (v5: this driver is v4 unchanged except that the relay service it launches is
++solana-onion-relay-service-v3, which after each settled payment also closes the verifier receipt and the proof buffer so their rent returns to the sponsor (solana-relay-cleanup-v1),
++and that it asks the validator whether those accounts are gone and whether the sponsor spent only fees. v4 stays frozen with evidence/full-05.
++v4: this driver is v3 unchanged except that the relay service it launches is
+ solana-onion-relay-service-v2, which fills the proof buffer WINDOW chunk uploads at a time (solana-relay-windowed-v1). v3 stays frozen with evidence/full-03 and full-04.
+ v3: the sampler survives a failed RPC reply and a CDP exception is an error reply; v2 stays frozen with evidence/full-02.
+ v2: the harness reopens the wallet session after its 5-minute auto-lock, like a user entering the password again;
+@@ -14,13 +17,14 @@
+             submit, tampered proof).
+   full-NN   send-NN followed by the public withdrawal of 1 unit through the relay.
+ NOT shown by any mode: privacy or anonymity (public fixture seeds, one machine, one operator, local Tor), a public network, real funds.
+-usage: with_free_ports.py run_payment_v4.py smoke-07   (use the Python of work/wallet-onion-adoption-v1/chutney-venv)"""
++usage: with_free_ports.py run_payment_v5.py full-06   (use the Python of work/wallet-onion-adoption-v1/chutney-venv)"""
+ import base64,hashlib,json,os,re,shutil,signal,socket,subprocess,sys,tempfile,threading,time,traceback,types,urllib.request
+ from pathlib import Path
+ ROOT=Path(__file__).resolve().parent;WORK=ROOT.parent
+ CHROME_WALLET=WORK/'solana-chrome-wallet-v1';UNIFIED_DIR=WORK/'solana-unified-wallet-v1';OLD=WORK/'wallet-onion-adoption-v1'
+-PKG=WORK/'solana-onion-package-v1';LAUNCHER=WORK/'solana-native-launcher-v1';TRANSPORT=WORK/'solana-onion-relay-transport-v2';SERVICE=WORK/'solana-onion-relay-service-v1';SERVICE2=WORK/'solana-onion-relay-service-v2';WINDOWED=WORK/'solana-relay-windowed-v1'
++PKG=WORK/'solana-onion-package-v1';LAUNCHER=WORK/'solana-native-launcher-v1';TRANSPORT=WORK/'solana-onion-relay-transport-v2';SERVICE=WORK/'solana-onion-relay-service-v1';SERVICE2=WORK/'solana-onion-relay-service-v2';WINDOWED=WORK/'solana-relay-windowed-v1';SERVICE3=WORK/'solana-onion-relay-service-v3';CLEANUP=WORK/'solana-relay-cleanup-v1'
+ WINDOWED_MUTATION='mutation-03';WINDOWED_CHECKS='checks-02'
++CLEANUP_MUTATION='mutation-03';CLEANUP_CHECKS='checks-03'
+ sys.path[:0]=[str(TRANSPORT/'candidate'),str(OLD),str(OLD/'chutney-source/lib'),str(CHROME_WALLET),str(LAUNCHER),str(PKG),str(ROOT)]
+ from offline_guard import acquire
+ from tor_lab import TorLab,TOR,GENCERT
+@@ -83,14 +87,14 @@
+ HOOK=open(PKG/'driver.py').read().split("HOOK='''")[1].split("'''")[0]   # the same page hook the package run used (pinned file)
+ 
+ class Relay:
+-    """The relay service process (solana-onion-relay-service-v2/serve.mjs, the windowed one) and the stream of events it prints."""
++    """The relay service process (solana-onion-relay-service-v3/serve.mjs, windowed with account cleanup) and the stream of events it prints."""
+     def __init__(self,state,config_path,profile_path,port):
+-        self.args=[str(NODE),str(SERVICE2/'serve.mjs'),str(state),str(config_path),sha(config_path),str(profile_path),sha(profile_path),str(port)]
++        self.args=[str(NODE),str(SERVICE3/'serve.mjs'),str(state),str(config_path),sha(config_path),str(profile_path),sha(profile_path),str(port)]
+         self.events=[];self.lock=threading.Lock();self.proc=None;self.host=None;self.stderr=None;self.generation=0
+     def start(self,timeout=180):
+         self.generation+=1
+         self.stderr=(out/('relay-%d.stderr'%self.generation)).open('x')
+-        self.proc=subprocess.Popen(self.args,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=self.stderr,cwd=SERVICE2,env={'PATH':'/usr/bin:/bin'})
++        self.proc=subprocess.Popen(self.args,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=self.stderr,cwd=SERVICE3,env={'PATH':'/usr/bin:/bin'})
+         threading.Thread(target=self._read,args=(self.proc,self.generation),daemon=True).start()
+         end=time.monotonic()+timeout
+         while time.monotonic()<end:
+@@ -146,11 +150,13 @@
+ mutation_gate=read(SERVICE/'evidence/mutation-03/MUTATION.json');assert mutation_gate['all_detected'] is True,'the relay service mutation control has not passed'
+ windowed_mutation=read(WINDOWED/'evidence'/WINDOWED_MUTATION/'MUTATION.json');assert windowed_mutation['all_detected'] is True and not windowed_mutation['undetected'] and windowed_mutation['count']>=70,'the windowed revision mutation control has not passed'
+ windowed_checks=read(WINDOWED/'evidence'/WINDOWED_CHECKS/'RESULT.json');assert windowed_checks['status']=='PASS_WINDOWED_PUBLICATION_CHECKS' and windowed_checks['tests']==windowed_checks['passed'],'the windowed revision checks have not passed'
++cleanup_mutation=read(CLEANUP/'evidence'/CLEANUP_MUTATION/'MUTATION.json');assert cleanup_mutation['all_detected'] is True and not cleanup_mutation['undetected'] and cleanup_mutation['count']>=36,'the cleanup revision mutation control has not passed'
++cleanup_checks=read(CLEANUP/'evidence'/CLEANUP_CHECKS/'RESULT.json');assert cleanup_checks['status']=='PASS_CLEANUP_CHECKS' and cleanup_checks['tests']==cleanup_checks['passed'] and cleanup_checks['failed']==0,'the cleanup revision checks have not passed'
+ tor_reference=OLD/'tor-circuits-r1/network/CONFIG-CHECK.json';assert sha(GENCERT)==read(tor_reference)['gencert_sha256']
+-paths=[*[ROOT/n for n in ('run_payment.py','run_payment_v2.py','run_payment_v3.py','run_payment_v4.py','history_service.py')],*[g for g,_ in gates],SERVICE/'evidence/mutation-03/MUTATION.json',*sorted(SERVICE.glob('*.mjs')),SERVICE/'mutation_control.py',
+-       SERVICE2/'serve.mjs',*sorted(WINDOWED.glob('*.mjs')),WINDOWED/'mutation_control.py',WINDOWED/'evidence'/WINDOWED_MUTATION/'MUTATION.json',WINDOWED/'evidence'/WINDOWED_CHECKS/'RESULT.json',WINDOWED/'evidence'/WINDOWED_CHECKS/'INPUTS.json',
++paths=[*[ROOT/n for n in ('run_payment.py','run_payment_v2.py','run_payment_v3.py','run_payment_v4.py','run_payment_v5.py','history_service.py')],*[g for g,_ in gates],SERVICE/'evidence/mutation-03/MUTATION.json',*sorted(SERVICE.glob('*.mjs')),SERVICE/'mutation_control.py',
++       SERVICE2/'serve.mjs',SERVICE3/'serve.mjs',SERVICE3/'make_service.py',*sorted(CLEANUP.glob('*.mjs')),CLEANUP/'mutation_control.py',CLEANUP/'make_revision.py',CLEANUP/'run_checks.py',CLEANUP/'evidence'/CLEANUP_MUTATION/'MUTATION.json',CLEANUP/'evidence'/CLEANUP_CHECKS/'RESULT.json',CLEANUP/'evidence'/CLEANUP_CHECKS/'INPUTS.json',*sorted(WINDOWED.glob('*.mjs')),WINDOWED/'mutation_control.py',WINDOWED/'evidence'/WINDOWED_MUTATION/'MUTATION.json',WINDOWED/'evidence'/WINDOWED_CHECKS/'RESULT.json',WINDOWED/'evidence'/WINDOWED_CHECKS/'INPUTS.json',
+        PKG/'build_package.py',PKG/'chrome_cdp.py',*sorted((PKG/'src').glob('*.mjs')),LAUNCHER/'launcher.py',LAUNCHER/'build_candidate.py',
+-       UNIFIED_DIR/'managed-validator.mjs',UNIFIED_DIR/'host-lease.mjs',UNIFIED_DIR/'package-unified.py',OLD/'tor_lab.py',TOR,GENCERT,NODE,CHROME,Path(sys.executable).resolve()]
++       UNIFIED_DIR/'managed-validator.mjs',ROOT/'managed-validator-ledger.mjs',ROOT/'make_validator_ledger.py',UNIFIED_DIR/'host-lease.mjs',UNIFIED_DIR/'package-unified.py',OLD/'tor_lab.py',TOR,GENCERT,NODE,CHROME,Path(sys.executable).resolve()]
+ pins={str(p):sha(p) for p in paths};write(out/'INPUTS.json',pins)
+ version=subprocess.run([str(CHROME),'--version'],capture_output=True,text=True,timeout=30).stdout.strip();(out/'chrome-version.txt').write_text(version+'\n')
+ before={str(d):listing(d) for d in REAL_HOST_DIRS}
+@@ -164,7 +170,7 @@
+     # ---- validator with the real programs ----
+     vout.mkdir()
+     so,se=(vout/'bootstrap.stdout').open('x'),(vout/'bootstrap.stderr').open('x')
+-    validator=subprocess.Popen([str(NODE),str(UNIFIED_DIR/'managed-validator.mjs'),str(vout)],cwd=CHROME_WALLET,stdin=subprocess.PIPE,stdout=so,stderr=se)
++    validator=subprocess.Popen([str(NODE),str(ROOT/'managed-validator-ledger.mjs'),str(vout)],cwd=CHROME_WALLET,stdin=subprocess.PIPE,stdout=so,stderr=se)
+     def heartbeat():
+         while not stop_beat.wait(20):
+             try:validator.stdin.write(b'alive\n');validator.stdin.flush()
+@@ -317,10 +323,18 @@
+     def token_balance(account,commitment='confirmed'):return int(validator_rpc('getTokenAccountBalance',[account,{'commitment':commitment}])['value']['amount'])
+     def relay_sigs():return len(sponsor_watch.seen)
+     sponsor_watch=SigWatcher(validator_rpc,SPONSOR);sender_watch=SigWatcher(validator_rpc,config['authority']);recipient_watch=None
++    tx_cache={}
++    def harvest():
++        """Read each new sponsor transaction while the validator surely still remembers it: (fee payer, fee, [(account, balance before, balance after)])."""
++        for signature in sorted(sponsor_watch.seen-set(tx_cache)):
++            tx=validator_rpc('getTransaction',[signature,{'encoding':'json','maxSupportedTransactionVersion':0,'commitment':'confirmed'}])
++            if tx is None:continue
++            meta=tx['meta'];keys=tx['transaction']['message']['accountKeys'];tx_cache[signature]=(keys[0],meta['fee'],list(zip(keys,meta['preBalances'],meta['postBalances'])))
+     def sample():
+         # The watchers accumulate, so one missed sample costs nothing; a persistent failure shows in sampler_errors and in the final counts.
+         try:
+             a,b=sponsor_watch.poll(),sender_watch.poll();c=recipient_watch.poll() if recipient_watch else None
++            harvest()
+         except Exception as exc:
+             sampler_errors.append({'t':round(time.monotonic()-T0,1),'error':repr(exc)[:300]});note('sampler_error',error=repr(exc)[:200],count=len(sampler_errors))
+             return len(sponsor_watch.seen)
+@@ -409,7 +423,7 @@
+             if method!='provePayment':time.sleep(2.5)
+         leg['seconds']=round(time.time()-began,1);leg['state_log']=states;leg['step_errors_tail']=errors[-3:]
+         leg['direct_http_during_leg']=[r['rpc_method'] or r['url'] for r in direct_http(sender.cdp.requests[r_start:])]
+-        leg['relay_events']=[{k:v for k,v in e.items() if k not in ('transport',)} for e in relay.events[relay_events_start:] if e['type'] in ('admitted','refused','duplicate','recovered','parked','finished','task_error')]
++        leg['relay_events']=[{k:v for k,v in e.items() if k not in ('transport',)} for e in relay.events[relay_events_start:] if e['type'] in ('admitted','refused','duplicate','recovered','parked','finished','task_error','cleanup')]
+         leg['final_state']=states[-1][0] if states else None
+         return leg
+     def restart_relay(kind,count):
+@@ -452,13 +466,60 @@
+             finally:db.close()
+             return {'operations':rows,'funding':funding}
+         except Exception as exc:return {'error':str(exc)[:200]}
++    def account_gone(address):
++        """Ground truth from the validator itself, never from the relay: an account that was closed has no data and no lamports."""
++        return validator_rpc('getAccountInfo',[address,{'commitment':'confirmed','encoding':'base64'}])['value'] is None
++    def cleanup_facts(kind):
++        """What the validator says about the two accounts the relay created for this request, and the closes the relay says it confirmed."""
++        admitted=[e for e in relay.of('admitted') if e['kind']==kind][-1];transport=admitted['transport']
++        events=[(e.get('step'),e['state']) for e in relay.of('cleanup') if e['id']==admitted['id']]
++        return {'receipt':transport['receipt'],'buffer':transport['source'],'receipt_gone':account_gone(transport['receipt']),'buffer_gone':account_gone(transport['source']),'cleanup_events':events}
++    def cleanup_checks_for(kind,facts):
++        confirmed=[step for step,state in facts['cleanup_events'] if state=='step_confirmed']
++        return {'%s_verifier_receipt_account_is_gone_on_the_validator'%kind:facts['receipt_gone'] is True,
++                '%s_proof_buffer_account_is_gone_on_the_validator'%kind:facts['buffer_gone'] is True,
++                '%s_relay_confirmed_the_receipt_close_and_then_the_buffer_close'%kind:confirmed==['receipt-close','buffer-close']}
++    # Permanent records the pool program allocates at every settlement, paid by the fee payer (work/solana-beta-withdraw-v1/pool/src/spend.rs and withdraw.rs); rent = (128 + size) * 6960.
++    # send: 2 nullifier records + 2 note records + 1 root record; withdrawal: the same plus the 200-byte withdrawal record. Sizes: nullifier and root 112; note 176 + the 1732-byte packet = 1908.
++    # Worked out from the program source BEFORE the run that tests it (full-07 had shown a residual of this size and no explanation).
++    POOL_RECORD_RENT={'send':(128+112)*6960*3+(128+1908)*6960*2}
++    POOL_RECORD_RENT['withdraw']=POOL_RECORD_RENT['send']+(128+200)*6960
++    def sponsor_ledger(spent,request_accounts):
++        """Ground truth from the validator's own ledger: every transaction the sponsor paid for (fee payer = first account key), summed from the balance changes of its accounts."""
++        sample();signatures=set(sponsor_watch.seen);before=None
++        while True:   # one complete listing at the end, in case the watcher missed a few between its polls
++            options={'limit':1000,'commitment':'confirmed'}
++            if before:options['before']=before
++            page=validator_rpc('getSignaturesForAddress',[SPONSOR,options]);signatures.update(r['signature'] for r in page)
++            if len(page)<1000:break
++            before=page[-1]['signature']
++        fees=paid=unavailable=0;positive={};negative={};fee_values={}
++        for signature in sorted(signatures):
++            if signature not in tx_cache:
++                tx=validator_rpc('getTransaction',[signature,{'encoding':'json','maxSupportedTransactionVersion':0,'commitment':'confirmed'}])
++                if tx is None:unavailable+=1;continue
++                meta=tx['meta'];keys=tx['transaction']['message']['accountKeys'];tx_cache[signature]=(keys[0],meta['fee'],list(zip(keys,meta['preBalances'],meta['postBalances'])))
++            payer,fee,balances=tx_cache[signature]
++            if payer!=SPONSOR:continue          # the faucet airdrop is paid by the faucet
++            paid+=1;fees+=fee;fee_values[fee]=fee_values.get(fee,0)+1
++            for key,pre,post in balances:
++                if post>pre:positive[key]=positive.get(key,0)+post-pre
++                elif post<pre:negative[key]=negative.get(key,0)+pre-post
++        net={k:positive.get(k,0)-negative.get(k,0) for k in set(positive)|set(negative)}
++        outflow=-net.get(SPONSOR,0);others={k:v for k,v in net.items() if k!=SPONSOR and k not in request_accounts}
++        accounts={a:{'deposited_lamports':positive.get(a,0),'refunded_lamports':negative.get(a,0),'net_lamports':net.get(a,0)} for a in request_accounts}
++        return {'transactions_listed':len(signatures),'transactions_paid_by_the_sponsor':paid,'transactions_not_available':unavailable,'fees_lamports':fees,'fee_values_lamports':dict(sorted(fee_values.items())),
++                'sponsor_net_outflow_lamports':outflow,'balance_difference_lamports':spent,'complete':unavailable==0 and outflow==spent,
++                'request_accounts':accounts,'request_accounts_net_zero':len(accounts)>0 and all(v['deposited_lamports']>0 and v['net_lamports']==0 for v in accounts.values()),
++                'other_inflow_lamports':sum(others.values()),'fees_plus_inflows_equal_the_outflow':fees+sum(others.values())+sum(v['net_lamports'] for v in accounts.values())==outflow,
++                'largest_other_inflows':[[v,k] for v,k in sorted(((v,k) for k,v in others.items()),reverse=True)[:6]]}
+     def wallet_authority_disjoint():
+         sample();overlap=sponsor_watch.seen&sender_watch.seen
+         return {'sponsor_signatures':len(sponsor_watch.seen),'sender_wallet_signatures':len(sender_watch.seen),'overlap':sorted(overlap)[:3],'disjoint':not overlap}
+ 
+     # ---------- the send ----------
+     steps['send']=send=payment_leg('send','10',RECIPIENT_ADDRESS,restart=True,until_started_only=MODE=='smoke')
+-    steps['relay_window']=(relay.of('ready') or [{}])[0].get('window');steps['relay_journal_after_send']=journal_summary()
++    steps['relay_window']=(relay.of('ready') or [{}])[0].get('window');steps['relay_cleanup']=(relay.of('ready') or [{}])[0].get('cleanup');steps['relay_journal_after_send']=journal_summary()
+     admitted=relay.of('admitted');refused=relay.of('refused')
+     checks['proof_was_generated_in_the_extension']=bool(send.get('prove_ok')) and 'prove_seconds' in send
+     checks['relay_admitted_exactly_one_request_over_tor_and_refused_nothing']=len(admitted)==1 and admitted[0]['kind']=='send' and refused==[] and admitted[0]['transport']['authority']==SPONSOR
+@@ -478,6 +539,7 @@
+         # The wallet learns of the settlement from validated pool history; the relay's own supervisor may need a moment to record it and free its slot.
+         wait_finished('send');finished=[e for e in relay.of('finished') if e['kind']=='send']
+         checks['relay_recorded_the_send_as_settled']=len(finished)==1 and finished[0]['state']=='settled'
++        steps['send_cleanup']=cleanup_facts('send');checks.update(cleanup_checks_for('send',steps['send_cleanup']))
+         s2=sender.call('syncWallet');steps['sender_sync_after_send']=summarize(s2)
+         checks['sender_private_sync_after_the_send_shows_2_units']=bool(s2.get('ok')) and s2['result'].get('spendable_units')=='2'
+         checks['vault_unchanged_by_the_internal_send']=token_balance(config['vault'])==vault_after
+@@ -507,6 +569,7 @@
+         checks['withdraw_settled_in_the_extension_from_validated_history']=withdraw.get('final_state')=='settled'
+         wait_finished('withdraw');finished=[e for e in relay.of('finished') if e['kind']=='withdraw']
+         checks['relay_recorded_the_withdrawal_as_settled']=len(finished)==1 and finished[0]['state']=='settled'
++        steps['withdraw_cleanup']=cleanup_facts('withdraw');checks.update(cleanup_checks_for('withdraw',steps['withdraw_cleanup']))
+         checks['withdraw_leg_made_no_direct_http_request']=withdraw.get('direct_http_during_leg')==[]
+         checks['every_wallet_relock_during_the_withdrawal_was_recovered_by_unlocking_again']=not withdraw.get('reunlock_failed') and all(l['reunlocked'] is not False for l in withdraw.get('locks',[]))
+         checks['withdraw_restart_resumed_the_same_stored_request']=bool((withdraw.get('restart') or {}).get('resumed'))
+@@ -522,8 +585,19 @@
+     sponsor_end=validator_rpc('getBalance',[SPONSOR,{'commitment':'confirmed'}])['value']
+     steps['sampler_errors']=sampler_errors;steps['validator_rpc_errors_seen']=last_rpc_error
+     steps['sponsor_cost']={'lamports_spent':sponsor_start-sponsor_end,'sponsor_signatures':len(sponsor_watch.seen),'note':'synthetic lamports on an isolated validator; not a mainnet cost'}
++    # evidence/full-05 (windowed relay, no cleanup): 55,721,596,840 lamports spent over 11,828 sponsor signatures. evidence/full-07 (cleanup): 128,437,520; its one failed check was a bound of mine that forgot the pool's permanent records.
++    try:
++        steps['sponsor_ledger']=ledger=sponsor_ledger(sponsor_start-sponsor_end,[a for e in relay.of('admitted') for a in (e['transport']['receipt'],e['transport']['source'])])
++    except Exception as exc:
++        steps['sponsor_ledger']=ledger={'error':''.join(traceback.format_exception(exc))[-700:]}
++    if MODE in ('send','full'):
++        expected_records=POOL_RECORD_RENT['send']+(POOL_RECORD_RENT['withdraw'] if MODE=='full' else 0)
++        steps['sponsor_ledger']['expected_pool_records_lamports']=expected_records
++        checks['sponsor_ledger_is_complete_and_equals_the_balance_difference']=ledger.get('complete') is True
++        checks['rent_of_every_request_account_came_back_to_the_lamport']=ledger.get('request_accounts_net_zero') is True and len(ledger.get('request_accounts',{}))==(4 if MODE=='full' else 2)
++        checks['everything_else_the_sponsor_paid_is_fees_and_the_pools_permanent_records']=ledger.get('complete') is True and ledger.get('other_inflow_lamports')==expected_records and ledger.get('fees_plus_inflows_equal_the_outflow') is True
+     checks['relay_never_reported_a_task_error_or_parked_a_request']=not relay.of('task_error') and not relay.of('parked')
+-    steps['relay_event_counts']={t:len(relay.of(t)) for t in ('admitted','refused','duplicate','recovered','progress','task_error','parked','finished','fatal')}
++    steps['relay_event_counts']={t:len(relay.of(t)) for t in ('admitted','refused','duplicate','recovered','progress','task_error','parked','finished','fatal','cleanup')}
+     sender.close()
+     checks['lock_closes_every_native_host']=processes(str(tree/'launcher.py'))==[]
+ except BaseException as exc:
+@@ -587,7 +661,7 @@
+     result={'status':'PASS_ONION_PAYMENT_%s'%MODE.upper() if ok else 'FAIL_ONION_PAYMENT_%s'%MODE.upper(),'error':error,'mode':MODE,'chrome':version,'checks':checks,'steps':steps,
+             'validator_run':vid,'unified_base':label,'extension_id':package['extension_id'] if package else None,
+             'scope':{'validator':'local synthetic, real programs','tor':'one-host local test network (TorLab), not public Tor','history_and_relay_operator':'both played by this machine/script (same operator as the validator)',
+-                     'sponsor':'relay-owned key, funded by the validator faucet; package names its real authority','private_payment':MODE in ('send','full'),'withdrawal':MODE=='full',
++                     'sponsor':'relay-owned key, funded by the validator faucet; package names its real authority','private_payment':MODE in ('send','full'),'withdrawal':MODE=='full','account_cleanup_shown':MODE in ('send','full'),
+                      'real_funds':False,'privacy_proven':False,'network_timing_anonymity_proven':False,'independent_operator':False,'public_fixture_seeds':True,'real_profile_touched':False}}
+     write(out/'RESULT.json',result);print(json.dumps({'status':result['status'],'error':(error or '')[-800:],'checks':checks},indent=1),flush=True)
+     sys.exit(0 if ok else 1)

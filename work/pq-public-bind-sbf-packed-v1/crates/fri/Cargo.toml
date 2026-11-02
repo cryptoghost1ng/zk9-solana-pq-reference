@@ -1,0 +1,13 @@
+[package]
+name="zk9-public-bind-fri"
+version="0.1.0"
+edition="2024"
+publish=false
+[workspace]
+[dependencies]
+prefix={package="zk9-public-bind-prefix",path="../../../pq-public-bind-prefix-v1"}
+opening={package="zk9-public-bind-opening",path="../opening"}
+[profile.release]
+lto="thin"
+codegen-units=1
+overflow-checks=true

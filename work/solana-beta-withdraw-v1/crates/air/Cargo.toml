@@ -1,0 +1,13 @@
+[package]
+name = "zk9-solana-withdraw-air"
+version = "0.1.0"
+edition = "2024"
+publish = false
+[workspace]
+[dependencies]
+arithmetic = { package = "zk9-solana-withdraw-arithmetic", path = "../arithmetic" }
+prefix = { package = "zk9-solana-withdraw-prefix", path = "../prefix" }
+[profile.release]
+lto = "thin"
+codegen-units = 1
+overflow-checks = true

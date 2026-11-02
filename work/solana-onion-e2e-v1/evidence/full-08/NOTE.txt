@@ -1,0 +1,19 @@
+full-08: THIRD LIVE RUN of the cleanup revision (generation 2 of solana-relay-cleanup-v1, service v3, run_payment_v5.py as pinned in INPUTS.json; the driver differs from full-07's only in the accounting at the end).
+RESULT.json says FAIL_ONION_PAYMENT_FULL: 56 of 59 checks are true. Kept as it is. The three false checks are ALL accounting checks of the driver, none of them about the relay's behaviour:
+  sponsor_ledger_is_complete_and_equals_the_balance_difference, rent_of_every_request_account_came_back_to_the_lamport, everything_else_the_sponsor_paid_is_fees_and_the_pools_permanent_records.
+
+WHAT WORKED (measured on the validator, not reported by the relay)
+- Send: receipt-close pending -> step_confirmed, buffer-close pending -> step_confirmed, then `finished` (settled, 5,927 steps, 1,014,758 ms); first close to `finished` 1.08 s; the validator reports the receipt and the buffer gone.
+- Withdrawal: the same four events, `finished` (7,358 steps, 1,349,285 ms); 1.10 s; receipt and buffer gone on the validator.
+- 0 task_error, 0 parked, 0 fatal; SIGKILL of the relay once per payment mid-publication and the same stored request resumed; the wallet saw both payments settled after the cleanup; vault 12, recipient 1.
+- Net cost to the sponsor for the whole payment: 128,657,520 lamports (full-07: 128,437,520; full-05 without cleanup: 55,721,596,840).
+
+WHAT FAILED, AND WHY (my instrument, not the relay)
+The driver was meant to sum, from the validator's ledger, the balance changes of every transaction the sponsor paid for. It could not: 11,484 of the 11,726 signatures the validator still lists returned NO transaction body
+(`getTransaction` -> null). The local test validator keeps only a short window of transaction history (the retained 242 transactions cover roughly the last two minutes), exactly the reason the signature watcher exists. The ledger would have
+to be collected while the run goes on, faster than the validator forgets (a burst of chunk uploads lands tens of transactions per second). So the "complete" check, and the two checks that depend on it, are false.
+What the retained 242 transactions DO show (the withdrawal's settlement and its two closes): the sponsor's refunds were 2,931,106,560 lamports from the withdrawal's receipt and 28,935,517,920 from its buffer, and the lamports the
+settlement moved into accounts other than the request's own were EXACTLY 35,635,200 = 1,670,400 x 3 (two nullifier records and a root) + 14,170,560 x 2 (two note records) + 2,282,880 (the withdrawal record): the permanent records
+of the pool, with the sizes and the rent worked out from the program source before the run (work/solana-beta-withdraw-v1/pool/src: nullifier and root records 112 B, note records 176 + 1,732 B, withdrawal record 200 B; rent (128 + size) x 6,960).
+The send's settlement allocates the same records without the withdrawal record (33,352,320 lamports by construction; not seen in this run's ledger). 128,657,520 - 68,987,520 = 59,670,000 = 11,934 x 5,000: an exact multiple of the base fee,
+as in full-07 (11,890 x 5,000). The signature watcher counted fewer (11,726 listed), so the fee total cannot be cross-checked against a signature count; I cannot say where the difference of about 200 fee-paying signatures comes from.

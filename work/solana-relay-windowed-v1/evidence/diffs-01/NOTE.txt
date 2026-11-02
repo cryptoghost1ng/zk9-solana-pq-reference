@@ -1,0 +1,3 @@
+diffs-01: lo que la revision con ventanas cambia respecto a los archivos congelados de los que deriva (diff -u, generados el 2026-11-01 con el codigo ya congelado
+para las pruebas). Los congelados no se tocan; run_checks.py comprueba sus hashes. relay-funding.mjs se reescribio (importa lo congelado y solo redefine la cotizacion de
+una lista de intentos y el envoltorio financiado), por eso su diff es casi total.

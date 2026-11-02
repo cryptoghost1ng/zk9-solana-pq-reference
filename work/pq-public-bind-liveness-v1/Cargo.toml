@@ -1,0 +1,23 @@
+[package]
+name = "zk9-public-bind-liveness-lab"
+version = "0.1.0"
+edition = "2024"
+publish = false
+[workspace]
+[dependencies]
+zk9-private-send-lab = { path = "../pq-private-send-v1" }
+zk9-hiding-balance-component = { path = "../pq-pool-component-v1" }
+p3-air = { path = "../pq-pool-selection-v1/plonky3/air" }
+p3-field = { path = "../pq-pool-selection-v1/plonky3/field" }
+p3-keccak = { path = "../pq-pool-selection-v1/plonky3/keccak" }
+p3-keccak-air = { path = "../pq-pool-selection-v1/plonky3/keccak-air" }
+p3-matrix = { path = "../pq-pool-selection-v1/plonky3/matrix" }
+p3-symmetric = { path = "../pq-pool-selection-v1/plonky3/symmetric" }
+serde_json = "=1.0.150"
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+debug-assertions = false
+overflow-checks = true
+strip = "none"

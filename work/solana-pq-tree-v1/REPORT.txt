@@ -1,0 +1,32 @@
+ZK9 — actualización exacta del árbol de notas en Solana local
+
+Se ha portado el árbol nativo de32niveles conservando SHA3-512, el dominio de hash
+y los compromisos. Dos salidas contiguas comparten el camino:32hashes padre en
+lugar de64al insertarlas por separado. No es una reducción de seguridad ni una
+mejora medida de2veces en el coste total de un pago.
+
+Cinco pruebas nativas comparan1024pares con el árbol original. Para los12elementos
+del génesis y las salidas de3pagos, todos los bytes coinciden además con una
+implementación independiente en Python/hashlib. Se prueban capacidad, escrituras
+atrasadas y entradas inválidas. El límite de capacidad usa un estado sintético.
+
+Dos ejecuciones locales SBF pasan20controles cada una. El árbol empieza en una
+cuenta nueva; sus raíces y bytes se derivan dentro del programa. Cada actualización
+de dos notas ocupa381bytes de transacción y consume entre823.923 y825.054CU en
+estos9casos. Se repite la misma secuencia de cómputo. No son percentiles ni una
+medición del pago completo. La cuenta del probe ocupa2160bytes, heap32KiB.
+
+Una transacción que falla después de escribir el árbol revierte todo su estado.
+También se confirma el rechazo de repetir una actualización anterior. Son pruebas
+del árbol: no se presenta ese rechazo como prevención de doble gasto criptográfica.
+
+Conclusión práctica: estos casos caben en1,4millones deCU, dejando margen para
+integrar el consumidor de pruebas y el estado del pool. La transacción completa
+con registros permanentes y liquidación todavía debe medirse; no se garantiza
+que el margen sea suficiente. La verificación criptográfica previa sigue costando
+unos25minutos y no se acelera por este cambio.
+
+Siguiente paso: usar solo las salidas autenticadas por el adaptador, aceptar raíces
+del pool, consumir nullifiers globales, guardar notas/paquetes y liquidar de forma
+atómica. Después integrar una prueba realmente creada desde cero en el mismo
+runtime. No hay depósitos/retiros públicos, emisión, fondos reales ni auditoría.

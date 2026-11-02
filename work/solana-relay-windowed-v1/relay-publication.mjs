@@ -1,0 +1,149 @@
+// Candidate SERVER-SIDE sponsored publication journal, WINDOWED revision (v2). Derived from
+// ../solana-private-relay-v1/relay-publication.mjs, which stays frozen and untouched.
+// The one behavioural change: `pending` is a LIST. Account creation, seal and verifier steps keep exactly one
+// pending attempt. Chunk uploads may have up to MAX_WINDOW distinct pending chunks, signed and made durable in ONE
+// commit: the buffer program counts an exact retry once and a chunk does not depend on any other chunk.
+// Never installed in the wallet. The sponsor and transport seed belong to the relay, not a user.
+// No network listener or broadcast here. Admission/chain verification, durable
+// repository and trusted network scheduler must be supplied before deployment.
+import {readRequest} from '../solana-private-relay-v1/relay-request.mjs';
+import {requireState as require,integer} from '../solana-chrome-wallet-v1/recovery/checkpoint.mjs';
+import {PublicationPolicy} from '../solana-relay-performance-v1/candidate/publication-policy.mjs';
+import {b58,signedTransaction} from '../solana-chrome-wallet-v1/recovery/solana-transaction.mjs';
+import {deriveRelayTransport} from '../solana-private-relay-v1/relay-transport.mjs';
+
+export const VERSION='zk9-sponsored-publication-journal-v2';
+export const MAX_WINDOW=128;
+const RESOLUTION_KEYS=new Set(['signature','outcome','height','missingAfterExpiry']);
+const exact=(v,keys)=>require(v&&Object.keys(v).sort().join(',')===keys.slice().sort().join(','),'Invalid relay journal record.');
+const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+export class SponsoredPublication {
+  #request;#repository;#sponsor;#source;#receipt;#policy;#state;#tickets=new WeakMap();#busy=false;
+  static async open({raw,context,programData,sponsor,transportSeed,repository,verifyProof}) {
+    require(transportSeed instanceof Uint8Array&&transportSeed.length===32&&transportSeed.some(x=>x));
+    require(typeof verifyProof==='function','Native proof admission is required before sponsor signing.');
+    const j=new SponsoredPublication();j.#request=await readRequest(raw,context);
+    // The verifier is a trusted LOCAL adapter, never a boolean from HTTP.
+    require(await verifyProof(j.#request.kind,j.#request.wire.slice(),context)===true,'Proof admission failed.');
+    j.#repository=repository;j.#sponsor=sponsor;
+    const derived=await deriveRelayTransport(sponsor,transportSeed,j.#request.id);
+    j.#source=derived.source;j.#receipt=derived.receipt;
+    const transport=derived.transport;
+    j.#policy=await PublicationPolicy.create({wire:j.#request.wire,kind:j.#request.kind,transport,programData});
+    const stored=await repository.read(j.#request.id);
+    if(stored)j.#state=await j.#checked(stored);
+    else {
+      const initial={version:VERSION,id:j.#request.id,wire_hash:j.#request.wire_hash,transport,
+        revision:1,pending:[],attempts:0,last:null};
+      await repository.compareAndSwap(j.#request.id,null,initial);j.#state=initial;
+    }
+    return j;
+  }
+  get id(){return this.#request.id;}
+  get configuration(){return this.#policy.configuration;}
+  requireSync(){this.#tickets=new WeakMap();}
+  async #checked(s) {
+    exact(s,['version','id','wire_hash','transport','revision','pending','attempts','last']);
+    require(s.version===VERSION&&s.id===this.id&&s.wire_hash===this.#request.wire_hash
+      &&same(s.transport,this.configuration.transport),'Relay request binding changed.');
+    integer(s.revision);integer(s.attempts);require(s.revision>0);
+    // One attempt of any kind, or several DISTINCT chunk uploads. Nothing else may be pending together.
+    require(Array.isArray(s.pending)&&s.pending.length<=MAX_WINDOW&&s.pending.length<=s.attempts,'Invalid pending publication list.');
+    const signatures=new Set(),chunks=new Set();
+    for(const a of s.pending) {
+      await this.#policy.verifyAttempt(a);
+      require(!signatures.has(a.signature),'Duplicate pending publication signature.');signatures.add(a.signature);
+      if(s.pending.length>1) {
+        const m=/^chunk-(0|[1-9][0-9]*)$/.exec(a.descriptor.name);
+        require(m&&!chunks.has(m[1]),'Only distinct chunk uploads may be pending together.');chunks.add(m[1]);
+      }
+    }
+    if(s.last){exact(s.last,['signature','outcome','height']);integer(s.last.height);
+      require(['confirmed','failed','expired'].includes(s.last.outcome));}
+    return structuredClone(s);
+  }
+  async #fresh(){const s=await this.#repository.read(this.id);
+    require(s&&s.revision===this.#state.revision,'Relay journal changed; reopen and reconcile.');
+    require(same(await this.#checked(s),this.#state),'Relay journal content changed.');}
+  async #exclusive(fn){require(!this.#busy,'Relay operation already running.');this.#busy=true;
+    try{await this.#fresh();return await fn();}finally{this.#busy=false;}}
+  async #commit(next){next={...next,revision:this.#state.revision+1};await this.#checked(next);
+    await this.#repository.compareAndSwap(this.id,this.#state.revision,next);
+    this.#state=structuredClone(next);this.#tickets=new WeakMap();}
+  buffer(account){return this.#policy.buffer(account);}
+  receipt(account,previous){return this.#policy.receipt(account,previous);}
+  async prepare(action){return this.#exclusive(async()=>{
+    require(!this.#state.pending.length,'Resolve the existing signed transaction first.');
+    let step;
+    if(action.type==='create'){exact(action,['type','which','rent']);step=this.#policy.accountCreation(action.which,action.rent);}
+    else if(action.type==='chunk'){exact(action,['type','index']);step=this.#policy.chunk(action.index);}
+    else if(action.type==='seal'){exact(action,['type']);step=this.#policy.seal();}
+    else if(action.type==='verify'){exact(action,['type','receipt','work']);step=this.#policy.next(action.receipt,action.work);}
+    else throw Error('Unknown relay action.');
+    const ticket=Object.freeze({});this.#tickets.set(ticket,{steps:[step],batch:false,revision:this.#state.revision});return ticket;
+  });}
+  // A window of distinct chunk uploads. The same policy builds every step, so a chunk is exactly what chunk() builds.
+  async prepareChunks(action){return this.#exclusive(async()=>{
+    require(!this.#state.pending.length,'Resolve the existing signed transaction first.');
+    exact(action,['type','indexes']);require(action.type==='chunks');
+    const indexes=action.indexes;
+    require(Array.isArray(indexes)&&indexes.length>=1&&indexes.length<=MAX_WINDOW&&new Set(indexes).size===indexes.length,'Invalid chunk window.');
+    const steps=indexes.map(i=>this.#policy.chunk(i));
+    const ticket=Object.freeze({});this.#tickets.set(ticket,{steps,batch:true,revision:this.#state.revision});return ticket;
+  });}
+  #plan(ticket,batch){const p=this.#tickets.get(ticket);
+    require(p&&p.revision===this.#state.revision&&!this.#state.pending.length&&p.batch===batch,'Unknown or stale relay ticket.');return p.steps;}
+  async #unsigned(step,blockhash){
+    const unsigned=pub=>({pub,sign:async()=>new Uint8Array(64)});
+    const extras=step.extra_signers.map(pub=>pub===b58(this.#source.pub)?unsigned(this.#source.pub):unsigned(this.#receipt.pub));
+    return (await signedTransaction(unsigned(this.#sponsor.pub),step.instructions,extras,blockhash,0)).raw;
+  }
+  async simulation(ticket,blockhash){return this.#exclusive(async()=>{
+    const steps=this.#plan(ticket,false);return {raw:await this.#unsigned(steps[0],blockhash),unsigned:true};
+  });}
+  async simulations(ticket,blockhash){return this.#exclusive(async()=>{
+    const steps=this.#plan(ticket,true),raws=[];for(const step of steps)raws.push(await this.#unsigned(step,blockhash));
+    return {raws,unsigned:true};
+  });}
+  async #attempt(step,blockhash,lastValidHeight){
+    const extras=step.extra_signers.map(pub=>pub===b58(this.#source.pub)?this.#source:pub===b58(this.#receipt.pub)?this.#receipt:null);
+    require(extras.every(Boolean));
+    const tx=await signedTransaction(this.#sponsor,step.instructions,extras,blockhash,lastValidHeight);
+    const attempt={descriptor:step.descriptor,raw:tx.raw,signature:tx.signature,last_valid_height:lastValidHeight};
+    await this.#policy.verifyAttempt(attempt);return attempt;
+  }
+  async sign(ticket,blockhash,lastValidHeight){return this.#exclusive(async()=>{
+    integer(lastValidHeight);const steps=this.#plan(ticket,false);this.#tickets.delete(ticket);
+    const attempt=await this.#attempt(steps[0],blockhash,lastValidHeight);
+    // Never release signed bytes until the storage transaction commits.
+    await this.#commit({...this.#state,pending:[attempt],attempts:this.#state.attempts+1});
+    return {...structuredClone(attempt),durable:true};
+  });}
+  // Every attempt of the window is signed first and ALL of them become durable in a single commit (one debit
+  // for the whole window in the funded repository). If anything fails nothing is stored and nothing is released.
+  async signBatch(ticket,blockhash,lastValidHeight){return this.#exclusive(async()=>{
+    integer(lastValidHeight);const steps=this.#plan(ticket,true);this.#tickets.delete(ticket);
+    const attempts=[];for(const step of steps)attempts.push(await this.#attempt(step,blockhash,lastValidHeight));
+    await this.#commit({...this.#state,pending:attempts,attempts:this.#state.attempts+attempts.length});
+    return {attempts:structuredClone(attempts),durable:true};
+  });}
+  async pending(){return this.#exclusive(async()=>structuredClone(this.#state.pending));}
+  // These methods are for the trusted network scheduler, NOT client endpoints.
+  // Confirmation needs chain effect checks; expiration needs a second missing
+  // signature lookup after finalized height, as in PublicationSender.
+  // A resolution may cover only some of the pending attempts; the others stay pending.
+  async resolveMany(entries){return this.#exclusive(async()=>{
+    require(Array.isArray(entries)&&entries.length>=1&&entries.length<=MAX_WINDOW,'Invalid resolution list.');
+    const pending=new Map(this.#state.pending.map(a=>[a.signature,a])),gone=new Set();let last=null;
+    for(const e of entries) {
+      require(e&&typeof e==='object'&&Object.keys(e).every(k=>RESOLUTION_KEYS.has(k)),'Invalid resolution entry.');
+      const {signature,outcome,height,missingAfterExpiry=false}=e;integer(height);
+      const a=pending.get(signature);
+      require(a&&!gone.has(signature)&&['confirmed','failed','expired'].includes(outcome));
+      if(outcome==='expired')require(missingAfterExpiry===true&&height>a.last_valid_height,'Unproven transaction expiry.');
+      gone.add(signature);last={signature,outcome,height};
+    }
+    await this.#commit({...this.#state,pending:this.#state.pending.filter(a=>!gone.has(a.signature)),last});
+  });}
+  async resolve(signature,{outcome,height,missingAfterExpiry=false}){return this.resolveMany([{signature,outcome,height,missingAfterExpiry}]);}
+}

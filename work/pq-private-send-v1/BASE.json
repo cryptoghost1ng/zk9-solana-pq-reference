@@ -1,0 +1,10 @@
+{
+  "delivery": {
+    "manifest_sha256": "b606928b2867f24c470569f72b3c6135e37f152b8128f355e5b2d73348d54972",
+    "path": "<ZK9_ROOT>/results/pq-note-delivery-v1"
+  },
+  "wallet": {
+    "manifest_sha256": "6f44b4a8750a62c7dcd8c16244a3a2449949e7b786a853c2ba230e0f9d557a21",
+    "path": "<ZK9_ROOT>/results/pq-private-recovery-ui-v1"
+  }
+}

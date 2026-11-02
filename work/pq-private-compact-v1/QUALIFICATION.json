@@ -1,0 +1,204 @@
+{
+  "adopted_in_product": false,
+  "baseline_profile": {
+    "commitments": 231,
+    "fri_commit_phase_openings": 182168,
+    "fri_commitments": 845,
+    "fri_final_poly": 33,
+    "fri_input_batches": [
+      {
+        "authentication_bytes": 38233,
+        "bytes": 42458,
+        "matrix_widths_first_query": [
+          16
+        ],
+        "queries": 64,
+        "row_values_bytes": 4225
+      },
+      {
+        "authentication_bytes": 38262,
+        "bytes": 5626487,
+        "matrix_widths_first_query": [
+          21828
+        ],
+        "queries": 64,
+        "row_values_bytes": 5588225
+      },
+      {
+        "authentication_bytes": 100686,
+        "bytes": 167311,
+        "matrix_widths_first_query": [
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16
+        ],
+        "queries": 64,
+        "row_values_bytes": 66625
+      }
+    ],
+    "mask_openings": 4905,
+    "opened_values": 1400860,
+    "opening_proof": 6024261,
+    "total": 7425357,
+    "trace_local": 698243,
+    "trace_next": 698244
+  },
+  "binary_sha256": "a77e3a2b8576ad7e754fbb3f2a8bbabb57efa0f97318119f05854326d6fb3c32",
+  "cargo_lock_sha256": "0eeeacedbedc4f0293f57c7cd2d2c64a50c2c4ea9b1f8327be9dd8c290aefeb9",
+  "compact_initial_profile": {
+    "commitments": 231,
+    "fri_commit_phase_openings": 183682,
+    "fri_commitments": 847,
+    "fri_final_poly": 33,
+    "fri_input_batches": [
+      {
+        "authentication_bytes": 38742,
+        "bytes": 42967,
+        "matrix_widths_first_query": [
+          16
+        ],
+        "queries": 64,
+        "row_values_bytes": 4225
+      },
+      {
+        "authentication_bytes": 38725,
+        "bytes": 2675974,
+        "matrix_widths_first_query": [
+          10301
+        ],
+        "queries": 64,
+        "row_values_bytes": 2637249
+      },
+      {
+        "authentication_bytes": 101124,
+        "bytes": 167749,
+        "matrix_widths_first_query": [
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16
+        ],
+        "queries": 64,
+        "row_values_bytes": 66625
+      }
+    ],
+    "mask_openings": 4905,
+    "opened_values": 663130,
+    "opening_proof": 3076211,
+    "total": 3739577,
+    "trace_local": 329378,
+    "trace_next": 329379
+  },
+  "comparison": {
+    "proof_bytes": {
+      "baseline_median": 7428002.0,
+      "compact_median": 3740106.5,
+      "ratio": 1.9860402370895054,
+      "reduction_percent": 49.648552867917914
+    },
+    "prove_ms": {
+      "baseline_median": 6334.546979499999,
+      "compact_median": 3657.332104,
+      "ratio": 1.7320130629023125,
+      "reduction_percent": 42.26371489806707
+    },
+    "verify_ms": {
+      "baseline_median": 92.523083,
+      "compact_median": 58.985521,
+      "ratio": 1.5685727858536673,
+      "reduction_percent": 36.24777829766006
+    }
+  },
+  "cross_version_rejections": 2,
+  "durable_state": false,
+  "integral_post_quantum": false,
+  "limits": [
+    "Single M1 Max desktop, browser open; no other native lab load during measurements",
+    "OS cache not flushed; separate processes for all samples",
+    "Depth4 only; not a production pool throughput benchmark",
+    "Original circuit and compact circuit use distinct domains, not interchangeable proofs",
+    "Raw proof fits4MiB mempool, not2MB RPC; no full transaction integration tested"
+  ],
+  "model_graph_ledger_unchanged": true,
+  "parameters_unchanged_except_domain": true,
+  "parent_manifest_sha256": "5d5d551beec2c73610f5567913d1abff9497bc1221f6a4d6e30689013d5bbccc",
+  "pq_security_budget_verified": false,
+  "public_launch_ready": false,
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-apple-darwin\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+  "samples": 30,
+  "statistics": {
+    "child_peak_rss_bytes": {
+      "mad": 2637824.0,
+      "maximum": 833208320,
+      "median": 825401344.0,
+      "minimum": 795181056
+    },
+    "init_ms": {
+      "mad": 0.0021874999999999985,
+      "maximum": 0.1985,
+      "median": 0.029062499999999998,
+      "minimum": 0.014167
+    },
+    "layout_ms": {
+      "mad": 0.5467289999999991,
+      "maximum": 32.828458999999995,
+      "median": 21.473125,
+      "minimum": 19.890041
+    },
+    "prepare_ms": {
+      "mad": 1.2984375000000004,
+      "maximum": 18.170749999999998,
+      "median": 13.8987085,
+      "minimum": 11.064833
+    },
+    "proof_bytes": {
+      "mad": 2689.0,
+      "maximum": 3749371,
+      "median": 3740106.5,
+      "minimum": 3725173
+    },
+    "prove_ms": {
+      "mad": 71.4390000000003,
+      "maximum": 4028.4332919999997,
+      "median": 3657.332104,
+      "minimum": 3492.0983340000002
+    },
+    "verify_ms": {
+      "mad": 1.593104499999999,
+      "maximum": 75.24987499999999,
+      "median": 58.985521,
+      "minimum": 55.132292
+    }
+  },
+  "status": "PASS_COMPACT_PRIVATE_RELATION_DEPTH4",
+  "tests_passed": 7,
+  "tree_depth": 4,
+  "upstream_files_unchanged": 1229,
+  "width_after": 10293,
+  "width_before": 21820
+}

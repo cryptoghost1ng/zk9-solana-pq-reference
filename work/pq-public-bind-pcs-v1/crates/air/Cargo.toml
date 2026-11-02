@@ -1,0 +1,13 @@
+[package]
+name = "zk9-public-bind-air"
+version = "0.1.0"
+edition = "2024"
+publish = false
+[workspace]
+[dependencies]
+arithmetic = { package = "zk9-public-bind-arithmetic", path = "../arithmetic" }
+prefix = { package = "zk9-public-bind-prefix", path = "../../../pq-public-bind-prefix-v1" }
+[profile.release]
+lto = "thin"
+codegen-units = 1
+overflow-checks = true

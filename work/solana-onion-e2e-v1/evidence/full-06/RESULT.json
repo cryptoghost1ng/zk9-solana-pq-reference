@@ -1,0 +1,525 @@
+{
+  "status": "FAIL_ONION_PAYMENT_FULL",
+  "error": "Traceback (most recent call last):\n  File \"<ZK9_ROOT>/work/solana-onion-e2e-v1/run_payment_v5.py\", line 525, in <module>\n    steps['withdraw']=withdraw=payment_leg('withdraw','1',config['withdraw_recipient'],restart=True,until_started_only=False)\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<ZK9_ROOT>/work/solana-onion-e2e-v1/run_payment_v5.py\", line 415, in payment_leg\n    if method!='provePayment':time.sleep(2.5)\n                              ^^^^^^^^^^^^^^^\nKeyboardInterrupt\n",
+  "mode": "full",
+  "chrome": "Google Chrome 156.0.8078.74",
+  "checks": {
+    "validator_started_with_the_real_programs": true,
+    "relay_service_started_with_its_own_sponsor": true,
+    "sponsor_funded_by_the_validator_faucet_not_by_a_wallet": true,
+    "package_built_for_this_validator_profile_from_the_unchanged_builder": true,
+    "package_names_the_real_relay_sponsor_not_a_synthetic_one": true,
+    "history_and_relay_onion_services_reachable_through_real_tor": true,
+    "recipient_wallet_restored_in_the_extension": true,
+    "recipient_first_sync_is_private_and_empty": true,
+    "recipient_has_a_receive_address_and_its_own_public_authority": true,
+    "sender_wallet_restored_in_the_extension": true,
+    "sender_public_route_found_the_funded_source": true,
+    "deposit_reached_the_deposited_state_in_the_extension": true,
+    "sender_private_sync_after_the_deposit_shows_13_units": true,
+    "the_validator_confirms_the_deposit_13_units_moved_to_the_pool_vault": true,
+    "positive_control_the_sender_wallet_authority_has_its_own_signatures": true,
+    "proof_was_generated_in_the_extension": true,
+    "relay_admitted_exactly_one_request_over_tor_and_refused_nothing": true,
+    "extension_made_no_direct_http_request_during_the_private_payment": true,
+    "no_payment_step_error_in_the_extension": true,
+    "every_wallet_relock_was_recovered_by_unlocking_again": true,
+    "relay_was_killed_mid_publication_and_resumed_the_same_stored_request": true,
+    "sponsor_kept_publishing_after_the_restart": true,
+    "wallet_authority_never_appears_in_a_relay_transaction_with_a_positive_control": true,
+    "the_recipient_public_authority_never_transacts_at_all": true,
+    "send_settled_in_the_extension_from_validated_history": true,
+    "relay_recorded_the_send_as_settled": true,
+    "send_verifier_receipt_account_is_gone_on_the_validator": false,
+    "send_proof_buffer_account_is_gone_on_the_validator": false,
+    "send_relay_confirmed_the_receipt_close_and_then_the_buffer_close": false,
+    "sender_private_sync_after_the_send_shows_2_units": true,
+    "vault_unchanged_by_the_internal_send": true,
+    "duplicate_submit_is_accepted_idempotently_and_spends_nothing": true,
+    "tampered_proof_is_refused_with_the_fixed_code_and_spends_nothing": true,
+    "the_relay_has_no_status_route": true,
+    "recipient_restored_again_from_its_words": true,
+    "recipient_restored_from_words_sees_10_units_over_tor": true,
+    "all_tor_children_reaped": true,
+    "validator_stopped_cleanly": true,
+    "relay_service_stopped_cleanly": true,
+    "no_process_left_with_the_disposable_profiles": false,
+    "real_browser_host_directories_unchanged": true,
+    "disposable_profiles_and_relay_state_removed": true
+  },
+  "steps": {
+    "node_runtime_waiver": {
+      "scope": "only the Node binary path in the four qualification INPUTS; every other input is still verified",
+      "entries": [
+        {
+          "qualification": "publication-sender-03",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        },
+        {
+          "qualification": "unified-checks-04",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        },
+        {
+          "qualification": "format-05",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        },
+        {
+          "qualification": "memo-02",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        }
+      ]
+    },
+    "base_differences_from_unified_06": [
+      "INSTALLED-FLOW-CONFIG.json",
+      "config.mjs",
+      "manifest.json"
+    ],
+    "recipient_first_sync": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "0",
+      "owned_notes": 0,
+      "slot": 154,
+      "wallet_id": "6db76ec96995e15a28a4ab63a119c1a8790a31ea5d2dae044ed5ecb6065ae1807aa9232808939b9a9cf70237675c3af0c9b713a1b8491e7415cf0db9703574e5"
+    },
+    "recipient_public_route_methods": [
+      "getAccountInfo",
+      "getGenesisHash",
+      "getTokenAccountsByOwner",
+      "getVersion"
+    ],
+    "sender_sync_before_deposit": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "0",
+      "owned_notes": 0,
+      "slot": 158,
+      "wallet_id": "a2a66c2a25c554e0898c05fb83acd82fa11f98148e12102daa6a6feb47ab6e02f50f15563efcdb50a6aaf5b53a9f1493ea5ceb191fe643351bb1917aabc81a30"
+    },
+    "sender_sync_after_deposit": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "13",
+      "owned_notes": 2,
+      "slot": 160,
+      "wallet_id": "a2a66c2a25c554e0898c05fb83acd82fa11f98148e12102daa6a6feb47ab6e02f50f15563efcdb50a6aaf5b53a9f1493ea5ceb191fe643351bb1917aabc81a30"
+    },
+    "send": {
+      "kind": "send",
+      "amount": "10",
+      "review_ok": true,
+      "review_error": null,
+      "approve_ok": true,
+      "approve_error": null,
+      "operation": "c0582957337dfb5a8a0f37b7d6b06421",
+      "locks": [
+        {
+          "t": 442.3,
+          "why": "locked",
+          "reunlocked": true
+        },
+        {
+          "t": 744.1,
+          "why": "locked",
+          "reunlocked": true
+        },
+        {
+          "t": 1046.1,
+          "why": "locked",
+          "reunlocked": true
+        }
+      ],
+      "prove_seconds": 138.5,
+      "prove_ok": true,
+      "prove_error": null,
+      "sponsor_signature_samples": [
+        [
+          138.5,
+          1
+        ],
+        [
+          160.0,
+          1282
+        ],
+        [
+          181.0,
+          2882
+        ],
+        [
+          203.0,
+          3343
+        ],
+        [
+          224.9,
+          3383
+        ],
+        [
+          246.9,
+          3423
+        ],
+        [
+          268.8,
+          3464
+        ],
+        [
+          290.6,
+          3504
+        ],
+        [
+          312.5,
+          3544
+        ],
+        [
+          334.4,
+          3584
+        ],
+        [
+          356.2,
+          3624
+        ],
+        [
+          378.1,
+          3664
+        ],
+        [
+          399.9,
+          3704
+        ],
+        [
+          421.8,
+          3745
+        ],
+        [
+          444.6,
+          3786
+        ],
+        [
+          466.5,
+          3826
+        ],
+        [
+          488.4,
+          3866
+        ],
+        [
+          510.3,
+          3906
+        ],
+        [
+          532.1,
+          3947
+        ],
+        [
+          554.0,
+          3987
+        ],
+        [
+          576.0,
+          4027
+        ],
+        [
+          597.8,
+          4068
+        ],
+        [
+          619.7,
+          4108
+        ],
+        [
+          641.6,
+          4148
+        ],
+        [
+          663.5,
+          4188
+        ],
+        [
+          685.4,
+          4228
+        ],
+        [
+          707.3,
+          4268
+        ],
+        [
+          729.3,
+          4309
+        ],
+        [
+          751.8,
+          4350
+        ],
+        [
+          773.7,
+          4390
+        ],
+        [
+          795.6,
+          4431
+        ],
+        [
+          817.5,
+          4471
+        ],
+        [
+          839.4,
+          4511
+        ],
+        [
+          861.3,
+          4551
+        ],
+        [
+          883.3,
+          4592
+        ],
+        [
+          905.2,
+          4632
+        ],
+        [
+          927.0,
+          4672
+        ],
+        [
+          949.0,
+          4712
+        ],
+        [
+          970.9,
+          4752
+        ],
+        [
+          992.8,
+          4793
+        ],
+        [
+          1014.8,
+          4833
+        ],
+        [
+          1036.7,
+          4873
+        ],
+        [
+          1059.4,
+          4914
+        ],
+        [
+          1081.3,
+          4954
+        ],
+        [
+          1103.2,
+          4994
+        ],
+        [
+          1125.1,
+          5034
+        ],
+        [
+          1147.1,
+          5074
+        ],
+        [
+          1169.0,
+          5114
+        ]
+      ],
+      "restart": {
+        "sponsor_signatures_at_kill": 1282,
+        "method": "SIGKILL",
+        "request_bytes_before": 3972432,
+        "request_sha256_before": "c07ccca120ac9807e35f438f7928f924ad278437d60ad1b817a73eac460e3561",
+        "exit_code": -9,
+        "recovered_id": "cbb8213d6cbcc08f55030e31c274dada664ddd14e7e1840914d8eeb1ee4f5d91",
+        "same_request": true,
+        "same_sponsor": true,
+        "request_sha256_after": "c07ccca120ac9807e35f438f7928f924ad278437d60ad1b817a73eac460e3561",
+        "resumed": true
+      },
+      "seconds": 1176.7,
+      "state_log": [
+        [
+          "preparing",
+          0.0
+        ],
+        [
+          "ready",
+          138.5
+        ],
+        [
+          "publishing",
+          146.0
+        ],
+        [
+          "settled",
+          1176.7
+        ]
+      ],
+      "step_errors_tail": [],
+      "direct_http_during_leg": [],
+      "relay_events": [
+        {
+          "t": "2026-11-02T00:52:14.504Z",
+          "type": "admitted",
+          "id": "cbb8213d6cbcc08f55030e31c274dada664ddd14e7e1840914d8eeb1ee4f5d91",
+          "kind": "send",
+          "wire_bytes": 2979278,
+          "generation": 1
+        },
+        {
+          "t": "2026-11-02T00:52:32.375Z",
+          "type": "recovered",
+          "id": "cbb8213d6cbcc08f55030e31c274dada664ddd14e7e1840914d8eeb1ee4f5d91",
+          "kind": "send",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T00:57:15.553Z",
+          "type": "duplicate",
+          "id": "cbb8213d6cbcc08f55030e31c274dada664ddd14e7e1840914d8eeb1ee4f5d91",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T01:02:17.329Z",
+          "type": "duplicate",
+          "id": "cbb8213d6cbcc08f55030e31c274dada664ddd14e7e1840914d8eeb1ee4f5d91",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T01:07:19.292Z",
+          "type": "duplicate",
+          "id": "cbb8213d6cbcc08f55030e31c274dada664ddd14e7e1840914d8eeb1ee4f5d91",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-02T01:09:23.481Z",
+          "type": "finished",
+          "id": "cbb8213d6cbcc08f55030e31c274dada664ddd14e7e1840914d8eeb1ee4f5d91",
+          "kind": "send",
+          "state": "settled",
+          "steps": 5943,
+          "elapsed_ms": 1011110,
+          "generation": 2
+        }
+      ],
+      "final_state": "settled"
+    },
+    "relay_window": 64,
+    "relay_cleanup": true,
+    "relay_journal_after_send": {
+      "operations": [
+        {
+          "id": "cbb8213d6cbcc08f",
+          "version": "zk9-sponsored-publication-journal-v2",
+          "revision": 3735,
+          "attempts": 5120,
+          "pending": 0,
+          "last": "confirmed",
+          "record_bytes": 580
+        },
+        {
+          "id": "3d9ccb4aee899bea",
+          "version": "zk9-sponsored-settlement-v1",
+          "revision": 3,
+          "attempts": null,
+          "pending": 0,
+          "last": "settled",
+          "record_bytes": 653
+        }
+      ],
+      "funding": [
+        {
+          "cap_lamports": "80000000000",
+          "used_lamports": "23850992640"
+        }
+      ]
+    },
+    "send_sponsor_signatures_after_restart": 5114,
+    "send_authority_check": {
+      "sponsor_signatures": 5120,
+      "sender_wallet_signatures": 2,
+      "overlap": [],
+      "disjoint": true
+    },
+    "send_cleanup": {
+      "receipt": "9H94RSB8Cjm7xRtYmcoKMyyF5xgrbLiYFs1QLmqTbSKG",
+      "buffer": "932bbyuhq9pZpioRpKRyvvenzkySe4TmxMEKdFBHr7fm",
+      "receipt_gone": false,
+      "buffer_gone": false,
+      "cleanup_events": []
+    },
+    "sender_sync_after_send": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "2",
+      "owned_notes": 3,
+      "slot": 2321,
+      "wallet_id": "a2a66c2a25c554e0898c05fb83acd82fa11f98148e12102daa6a6feb47ab6e02f50f15563efcdb50a6aaf5b53a9f1493ea5ceb191fe643351bb1917aabc81a30"
+    },
+    "idle_probes_after_send": {
+      "duplicate": {
+        "status": 200,
+        "body": {
+          "version": "zk9-sponsored-proof-v1",
+          "verified": true,
+          "published": false,
+          "settled": false
+        }
+      },
+      "tampered": {
+        "status": 422,
+        "body": {
+          "error": "invalid_proof"
+        }
+      },
+      "status_route": {
+        "status": 404
+      },
+      "sponsor_signatures_before": 5120,
+      "sponsor_signatures_after": 5120,
+      "no_new_request_stored": true
+    },
+    "recipient_sync_after_send": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "10",
+      "owned_notes": 1,
+      "slot": 2337,
+      "wallet_id": "6db76ec96995e15a28a4ab63a119c1a8790a31ea5d2dae044ed5ecb6065ae1807aa9232808939b9a9cf70237675c3af0c9b713a1b8491e7415cf0db9703574e5"
+    }
+  },
+  "validator_run": "installed-connected-506",
+  "unified_base": "unified-506",
+  "extension_id": "emcgladbmbmmmcgcefcbokedniaiedem",
+  "scope": {
+    "validator": "local synthetic, real programs",
+    "tor": "one-host local test network (TorLab), not public Tor",
+    "history_and_relay_operator": "both played by this machine/script (same operator as the validator)",
+    "sponsor": "relay-owned key, funded by the validator faucet; package names its real authority",
+    "private_payment": true,
+    "withdrawal": true,
+    "account_cleanup_shown": true,
+    "real_funds": false,
+    "privacy_proven": false,
+    "network_timing_anonymity_proven": false,
+    "independent_operator": false,
+    "public_fixture_seeds": true,
+    "real_profile_touched": false
+  }
+}

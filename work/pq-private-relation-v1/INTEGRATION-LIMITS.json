@@ -1,0 +1,10 @@
+{
+  "config_sha256": "f0471b0be03283108cc71a5f6aa7388cf13992cb4502aa59123e8bccbcc9c394",
+  "consensus_block": {
+    "max_bytes": "55600190",
+    "max_gas": "50000000"
+  },
+  "genesis_sha256": "92e251861a0ef44073558bea08eb5ee936cf7125ae1f011c7f2440f8b8e50a9b",
+  "mempool_max_tx_bytes": 4194304,
+  "rpc_max_body_bytes": 2000000
+}

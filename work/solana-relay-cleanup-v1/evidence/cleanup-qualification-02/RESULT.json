@@ -1,0 +1,183 @@
+{
+  "status": "PASS_CLEANUP_QUALIFICATION",
+  "model_checks": {
+    "evidence": "evidence/checks-03",
+    "tests": 62,
+    "passed": 62,
+    "regression_unmodified_windowed": 40,
+    "cleanup": 22
+  },
+  "mutations": {
+    "evidence": "evidence/mutation-03",
+    "count": 36,
+    "all_detected": true
+  },
+  "history_kept": "evidence/checks-01, checks-02, mutation-01, mutation-02 and evidence/generation-1-sources belong to the first generation of the sources (see their NOTE.txt); solana-onion-e2e-v1/evidence/full-06 is the live run that found it",
+  "real_process_runs": {
+    "full-09": {
+      "chrome": "Google Chrome 156.0.8078.74",
+      "facts": {
+        "driver_status": "PASS_ONION_PAYMENT_FULL",
+        "checks_true": 59,
+        "checks_total": 59,
+        "relay_window": 64,
+        "relay_cleanup": true,
+        "send": {
+          "wallet_seconds": 1173.4,
+          "receipt_gone": true,
+          "buffer_gone": true,
+          "closes": [
+            [
+              "receipt-close",
+              "pending"
+            ],
+            [
+              "receipt-close",
+              "step_confirmed"
+            ],
+            [
+              "buffer-close",
+              "pending"
+            ],
+            [
+              "buffer-close",
+              "step_confirmed"
+            ]
+          ],
+          "seconds_first_close_to_finished": 1.2,
+          "relay_steps": 5955,
+          "relay_elapsed_ms": 1006858
+        },
+        "withdraw": {
+          "wallet_seconds": 1508.6,
+          "receipt_gone": true,
+          "buffer_gone": true,
+          "closes": [
+            [
+              "receipt-close",
+              "pending"
+            ],
+            [
+              "receipt-close",
+              "step_confirmed"
+            ],
+            [
+              "buffer-close",
+              "pending"
+            ],
+            [
+              "buffer-close",
+              "step_confirmed"
+            ]
+          ],
+          "seconds_first_close_to_finished": 1.05,
+          "relay_steps": 7478,
+          "relay_elapsed_ms": 1332195
+        },
+        "sponsor_cost": {
+          "lamports_spent": 128592520,
+          "sponsor_signatures": 11917,
+          "note": "synthetic lamports on an isolated validator; not a mainnet cost"
+        },
+        "sponsor_ledger": {
+          "transactions_listed": 11918,
+          "transactions_paid_by_the_sponsor": 11917,
+          "transactions_not_available": 0,
+          "fees_lamports": 59605000,
+          "fee_values_lamports": {
+            "5000": 11913,
+            "10000": 4
+          },
+          "sponsor_net_outflow_lamports": 128592520,
+          "balance_difference_lamports": 128592520,
+          "complete": true,
+          "request_accounts": {
+            "9GdojFn8ET7cdBgFT8hs4okFg2Qv9DRjo93QUh5ZMHJc": {
+              "deposited_lamports": 2288865600,
+              "refunded_lamports": 2288865600,
+              "net_lamports": 0
+            },
+            "9iXyBFoWWw8F3n85cpmZzqFsiESYPZTyeYaTyAhtKTnw": {
+              "deposited_lamports": 21402716880,
+              "refunded_lamports": 21402716880,
+              "net_lamports": 0
+            },
+            "7jqXBTgZwGHtcmKSBQcbvqTtqLSDMLL1p5L6DihmAQvx": {
+              "deposited_lamports": 2931106560,
+              "refunded_lamports": 2931106560,
+              "net_lamports": 0
+            },
+            "Drg32N8HmBqRPkQJRXqujaPxYi3JTM2k4aLpH5BfUUTw": {
+              "deposited_lamports": 28943967360,
+              "refunded_lamports": 28943967360,
+              "net_lamports": 0
+            }
+          },
+          "request_accounts_net_zero": true,
+          "other_inflow_lamports": 68987520,
+          "fees_plus_inflows_equal_the_outflow": true,
+          "largest_other_inflows": [
+            [
+              14170560,
+              "FUuWBjmGiSpBo59QWSHYz6wTh64kNSqNZ1CGzZsLQsn5"
+            ],
+            [
+              14170560,
+              "DZaPLr1ZuB3ANTLFJHCtonR4uwfQxk9d5CLAuRyLjUW9"
+            ],
+            [
+              14170560,
+              "4YkfruxKvn9mJ7PHm4gcKJXqxptmjxSu3GRzAZFWq3sT"
+            ],
+            [
+              14170560,
+              "14gLS7LWhX6c47KWuMLpe1wqpwSyUH17ND8F39yNcpBp"
+            ],
+            [
+              2282880,
+              "EJHnEztroPYYRPk3GsJEdgWpZNwdDdT8cK51CNf41Wzd"
+            ],
+            [
+              1670400,
+              "FTQwnhdv8GSqHZi72z94y7wPTokrR648zV9JW7zzxEd7"
+            ]
+          ],
+          "expected_pool_records_lamports": 68987520
+        }
+      }
+    }
+  },
+  "false_checks_explained_in_notes": {},
+  "driver_copies_kept_with_the_runs": {},
+  "pool_permanent_records_lamports_worked_out_from_the_program_source": {
+    "send": 33352320,
+    "withdraw": 35635200
+  },
+  "reference_without_cleanup": {
+    "run": "solana-onion-e2e-v1/evidence/full-05",
+    "sponsor_cost": {
+      "lamports_spent": 55721596840,
+      "sponsor_signatures": 11828,
+      "note": "synthetic lamports on an isolated validator; not a mainnet cost"
+    }
+  },
+  "inputs_unchanged_since_the_runs": true,
+  "frozen_sources_byte_identical": true,
+  "qualified_windowed_files_byte_identical": true,
+  "browser_host_directories_unchanged": true,
+  "private_payment_settled": true,
+  "verifier_receipt_and_proof_buffer_closed_on_a_local_validator": true,
+  "clean_pass_run_exists": true,
+  "synthetic_values": true,
+  "loaded_in_the_users_chrome": false,
+  "native_host_registered": false,
+  "installed": false,
+  "public_fixture_seeds": true,
+  "real_funds": false,
+  "real_tor": false,
+  "independent_operator": false,
+  "privacy_proven": false,
+  "mainnet": false,
+  "public_cluster": false,
+  "scope": "The cleanup revision (after the pool has settled a payment the relay closes the verifier receipt and then the proof buffer it created for the request, returning their rent to the sponsor) qualified by 62 model checks (40 of them the unmodified windowed checks), 36 mutants and 1 live full run(s) of the whole local stack. In every live run the relay closed both accounts of both payments, in order, before it reported the request finished, and the validator itself reports the accounts gone. Every run passed. It does NOT show that this works on a public cluster, with finalized commitment, with a funding budget that is credited back, or on a conflicted payment, and it changes nothing about the cryptography."
+}

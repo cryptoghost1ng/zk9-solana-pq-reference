@@ -1,0 +1,47 @@
+ZK9 — primera reducción medida del ancho del circuito de pago
+
+Dos perfiles nativos independientes producen la misma geometría:
+                              Original       Candidato
+Columnas totales              10406          7525
+Registros del grafo           6472           3591
+Restricciones por fila        56105          50343
+Grado máximo                  6              6
+Filas                         4096           4096
+Permutaciones Keccak          148            148
+
+Reducción de ancho: 2881 columnas (27,69%). No es una medición de reducción
+de tiempo, tamaño de prueba, transacciones ni cómputo del verificador en Solana.
+
+El cambio vincula seis digests públicos en la última ronda de su productor fijo,
+en lugar de mantener esos registros vivos durante toda la traza. Su vínculo con
+la salida real del hash se comprueba en esa misma fila. El calendario de hashes
+permanece fijo. La primera raíz sigue siendo obligatoria y la segunda conserva
+la condición de entrada de importe cero. Contexto, balance y flag siguen estables.
+
+Pasaron tres tests en modo optimizado:
+- Propietario lógico exacto de cada registro en todos sus productores/consumidores.
+- Traza válida completa, 192 alteraciones de limbs públicos en sus productores,
+  intentos de desactivar el selector y de separar el digest de la salida del hash.
+- Traza válida de segunda entrada cero, alcance de la excepción de pertenencia
+  y rechazo de un cambio del flag en la fila de la segunda raíz.
+368 archivos de entrada permanecieron idénticos entre captura anterior y posterior.
+La referencia completa de prueba a pool había terminado antes de compilar esto.
+
+Límites y siguiente paso
+Son pruebas de restricciones nativas, no pruebas criptográficas nuevas. No se
+ha demostrado equivalencia de seguridad. Falta convertir trazas hostiles en
+pruebas con el prover de release y exigir rechazo del verificador; comprobar
+ambas direcciones de aislamiento respecto al circuito anterior; y medir pruebas
+nuevas, enmascaradas de forma independiente, con los mismos parámetros.
+Después hará falta implementar/medir el verificador nuevo en SBF. No es compatible
+con el dominio PRIVATE-SEND/v2, sus pruebas ni sus programas ya conservados.
+Este experimento no contiene un API/config de generación ni un formato de red.
+
+Reproducción
+En el directorio de trabajo original, run-shape.sh exige primero la referencia
+repetida conservada. Compila offline con Rust local, guarda fuentes/herramientas,
+ejecuta dos perfiles y los tests en serie. Se requiere el árbol de dependencias
+locales registrado en evidence/shape-01/metadata.json; no es un paquete autónomo.
+qualify-shape.py revalida esta evidencia sin volver a escribir las muestras.
+README inicial se conserva como documento previo al ensayo; este informe describe
+el resultado posterior. No cambian CURRENT, wallet, web ni programas existentes.

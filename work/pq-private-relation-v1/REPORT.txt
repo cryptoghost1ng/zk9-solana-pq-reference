@@ -1,0 +1,73 @@
+ZK9 — Pago privado experimental: resultados del 14 de octubre de 2026
+
+Resultado
+La relación de dos entradas y dos salidas verifica posesión, pertenencia al
+árbol, nullifiers, compromisos de salida y conservación en una misma prueba
+con ocultamiento. Pasaron seis tests principales y treinta muestras en procesos
+independientes, además de la primera ejecución. Esto acredita funcionamiento
+experimental, no una auditoría de seguridad ni protección poscuántica integral.
+
+Mediciones en M1 Max (64 GB), versión release, sin otra carga nativa del laboratorio
+Operación             Mediana          MAD              Mínimo       Máximo
+Preparar traza        14,426 ms          1,306 ms         12,285       22,465
+Inicializar            0,018 ms          0,002 ms          0,014        0,042
+Generar prueba      6334,547 ms         98,380 ms       6180,033     7187,442
+Verificar             92,523 ms         12,915 ms         54,520      222,847
+Tamaño de prueba  7.428.002 bytes        3.116 bytes    7.416.157    7.438.575
+
+MAD es la desviación absoluta mediana. Todas las muestras originales y las
+31 pruebas exportadas están conservadas. El máximo RSS acumulado de los hijos
+de la serie es 1.803.026.432 bytes (~1,68 GiB); no es memoria exclusiva del
+prover ni permite calcular percentiles por operación. La caché del SO no se
+vacía. El escritorio y el navegador permanecieron abiertos. La verificación
+de la prueba deserializada también pasó, fuera del tiempo verify_ms informado.
+
+Alcance y pruebas
+- Árbol de profundidad 4, con solo 16 posiciones; fixture sintético público.
+- Restricciones comprobadas sobre secretos, caminos, importes y destinatarios
+  falsos, así como alteraciones de absorción, secuenciación y booleanidad.
+- Pruebas reales: vinculación de entradas públicas, rechazos de alteraciones,
+  truncamiento y camino privado inválido. El test del camino permite rechazo
+  durante generación o verificación; no atribuirlo a una etapa sin evidencia.
+- Estado en memoria: aplica una vez, consume dos nullifiers, añade dos salidas,
+  acumula comisión y rechaza repetición sin cambiar estado ante un fallo.
+- SHA3-512 contrastado con 12 vectores de hashlib y el generador nativo.
+- Entropía del SO para cada prueba; no confundirla con fixtures deterministas.
+
+Qué impide su integración inmediata
+La prueba sola supera tanto el límite RPC de 2.000.000 bytes como el límite de
+transacción del mempool de 4.194.304 bytes en la red local del candidato de
+custodia. INTEGRATION-LIMITS.json registra los límites y hashes exactos. No se
+han ampliado. Aumentarlos exige evaluar transporte, bloques, memoria, costes
+de verificación y abuso; no resuelve por sí solo la escalabilidad del pool.
+No existe aún conexión de esta relación con notas cifradas, descubrimiento de
+wallet, depósitos/salidas o consumo persistente de nullifiers en el nodo.
+
+Prioridades del siguiente experimento
+1. Reducir el tamaño de la prueba sin debilitar parámetros. Medir contribución
+   por campos y aperturas antes de rediseñar columnas/agrupación. Impacto alto:
+   los 7,43 MB medidos bloquean la ruta actual; dificultad alta. No cambiar
+   hashes o consultas para conseguir una cifra sin justificar seguridad.
+2. Medir crecimiento del árbol y coste de generación. La traza actual tiene
+   1024 filas y 21820 columnas. Los 6,33 s son la mayor latencia criptográfica
+   medida; falta un perfil para atribuirla a módulos concretos. Dificultad alta.
+3. Completar aplicación duradera y recuperación de wallet, y medir latencia
+   de usuario incluyendo cifrado, RPC y confirmación. Necesario para producto;
+   su impacto temporal aún no se ha medido. Dificultad media/alta.
+
+Dependencias y reproducción
+Cargo.lock y fuentes propias están en este resultado. Las dependencias locales
+permanecen en work/pq-pool-component-v1 y work/pq-pool-selection-v1/plonky3;
+la herramienta aislada está en work/gloas-native-integration-v1/native/.toolchain.
+El resultado NO es un paquete autónomo que contenga todo Rust y terceros.
+QUALIFICATION.json fija revisión, compilador, binario y padre. collect.py
+comprueba las 1229 fuentes upstream y el padre congelado antes de recopilar.
+Para repetir, usar cargo-local.sh en work/pq-private-relation-v1 según README.
+measure.py conserva series-01 y rechaza sobrescribirla; para una nueva serie,
+copiar el controlador a un candidato nuevo y asignar otra carpeta de salida.
+
+No se ha modificado el producto instalado ni desplegado una red pública. La
+revisión criptográfica de FRI, campo, transcript y ocultamiento como conjunto
+sigue pendiente. Una construcción basada en hashes no acredita por sí sola
+un presupuesto de seguridad cuántica. Los bridges conservan las dependencias
+de seguridad de sus redes externas.

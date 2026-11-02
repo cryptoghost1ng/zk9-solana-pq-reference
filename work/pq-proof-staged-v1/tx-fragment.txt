@@ -1,0 +1,13 @@
+function vec(n){const a=[];do{let x=n&127;n>>>=7;if(n)x|=128;a.push(x)}while(n);return Buffer.from(a)}
+function tx(instructions,signers,hash){
+ const entries=new Map();function add(pub,signer,writable){const k=b58(pub),old=entries.get(k);entries.set(k,{pub,signer:!!signer||old?.signer,writable:!!writable||old?.writable})}
+ add(authority.pub,true,true);
+ const ixs=[{program:budget,accounts:[],data:Buffer.concat([Buffer.from([2]),u32(1400000)])},...instructions];
+ for(const ix of ixs){for(const a of ix.accounts)add(a.pub,a.signer,a.writable);add(ix.program,false,false)}
+ const group=x=>x.signer?(x.writable?0:1):(x.writable?2:3);const keys=[...entries.values()].sort((a,b)=>group(a)-group(b));
+ const index=pub=>keys.findIndex(k=>k.pub.equals(pub));const signing=keys.filter(k=>k.signer);
+ const header=Buffer.from([signing.length,signing.filter(k=>!k.writable).length,keys.filter(k=>!k.signer&&!k.writable).length]);
+ const body=Buffer.concat([header,vec(keys.length),...keys.map(k=>k.pub),un58(hash),vec(ixs.length),...ixs.map(ix=>Buffer.concat([Buffer.from([index(ix.program)]),vec(ix.accounts.length),Buffer.from(ix.accounts.map(a=>index(a.pub))),vec(ix.data.length),ix.data]))]);
+ const sigs=signing.map(k=>{const pair=signers.find(s=>s.pub.equals(k.pub));assert.ok(pair);return sign(null,body,pair.secret)});
+ const raw=Buffer.concat([vec(sigs.length),...sigs,body]);assert.ok(raw.length<=1232);maxWire=Math.max(maxWire,raw.length);return raw.toString('base64')
+}

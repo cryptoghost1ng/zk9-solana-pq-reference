@@ -1,0 +1,4 @@
+mutation-01 (first run of the cleanup revision's mutation control): 28 of 29 mutants were detected by a NAMED test; ONE was not:
+  buffer_close_work_unchecked  (cleanup-policy.mjs: `require(work===0)` removed from the buffer-close step)
+Cause: C19 tampered the descriptor of the first stored close only, which is always the receipt close; the buffer-close descriptor was never tampered, so removing its check changed nothing a test looked at.
+Fix: C19 now lets the first close land and tampers BOTH closes' stored descriptors (work and rent). The run was kept as it is; mutation-02 is the repeat with the corrected C19.

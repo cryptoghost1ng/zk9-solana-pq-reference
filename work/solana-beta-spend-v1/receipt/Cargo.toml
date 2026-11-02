@@ -1,0 +1,22 @@
+[package]
+name = "zk9-solana-beta-receipt"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+solana-program = "=2.3.0"
+arithmetic = { package = "zk9-public-bind-arithmetic", path = "../../pq-public-bind-pcs-v1/crates/arithmetic" }
+
+[dev-dependencies]
+original = { package = "zk9-public-bind-wire-lab", path = "../../pq-public-bind-wire-v1" }
+serde_json = "=1.0.150"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+overflow-checks = true
+
+strip = "none"

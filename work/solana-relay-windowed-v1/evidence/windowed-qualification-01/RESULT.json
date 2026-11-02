@@ -1,0 +1,170 @@
+{
+  "status": "PASS_WINDOWED_RELAY_QUALIFICATION",
+  "model_checks": {
+    "evidence": "evidence/checks-02",
+    "tests": 40,
+    "passed": 40
+  },
+  "mutations": {
+    "evidence": "evidence/mutation-03",
+    "count": 79,
+    "all_detected": true
+  },
+  "real_process_runs": {
+    "smoke-07": {
+      "status": "PASS_ONION_PAYMENT_SMOKE",
+      "checks_passed": 32,
+      "chrome": "Google Chrome 156.0.8078.74",
+      "facts": {
+        "relay_window": 64,
+        "send_relay_journal": {
+          "operations": [
+            {
+              "id": "ca90c4c401bd6f21",
+              "version": "zk9-sponsored-publication-journal-v2",
+              "revision": 112,
+              "attempts": 3137,
+              "pending": 0,
+              "last": "confirmed",
+              "record_bytes": 578
+            },
+            {
+              "id": "7a03654269ee1f24",
+              "version": "zk9-sponsored-settlement-v1",
+              "revision": 1,
+              "attempts": null,
+              "pending": 0,
+              "last": null,
+              "record_bytes": 516
+            }
+          ],
+          "funding": [
+            {
+              "cap_lamports": "80000000000",
+              "used_lamports": "21410137520"
+            }
+          ]
+        },
+        "send_sponsor_signatures_at_kill": 1602,
+        "send_seconds": 180.9,
+        "send_prove_seconds": 138.4,
+        "sponsor_cost": {
+          "lamports_spent": 21394457520,
+          "sponsor_signatures": 3138,
+          "note": "synthetic lamports on an isolated validator; not a mainnet cost"
+        }
+      }
+    },
+    "full-05": {
+      "status": "PASS_ONION_PAYMENT_FULL",
+      "checks_passed": 50,
+      "chrome": "Google Chrome 156.0.8078.74",
+      "facts": {
+        "relay_window": 64,
+        "send_relay_journal": {
+          "operations": [
+            {
+              "id": "63037dec4039b4dc",
+              "version": "zk9-sponsored-publication-journal-v2",
+              "revision": 3750,
+              "attempts": 5127,
+              "pending": 0,
+              "last": "confirmed",
+              "record_bytes": 578
+            },
+            {
+              "id": "c7a6aad27a006e4a",
+              "version": "zk9-sponsored-settlement-v1",
+              "revision": 3,
+              "attempts": null,
+              "pending": 0,
+              "last": "settled",
+              "record_bytes": 652
+            }
+          ],
+          "funding": [
+            {
+              "cap_lamports": "80000000000",
+              "used_lamports": "23850540640"
+            }
+          ]
+        },
+        "send_sponsor_signatures_at_kill": 1474,
+        "send_seconds": 1174.2,
+        "send_prove_seconds": 138.0,
+        "withdraw_seconds": 1522.9,
+        "withdraw_relay_journal": {
+          "operations": [
+            {
+              "id": "63037dec4039b4dc",
+              "version": "zk9-sponsored-publication-journal-v2",
+              "revision": 3750,
+              "attempts": 5127,
+              "pending": 0,
+              "last": "confirmed",
+              "record_bytes": 578
+            },
+            {
+              "id": "c7a6aad27a006e4a",
+              "version": "zk9-sponsored-settlement-v1",
+              "revision": 3,
+              "attempts": null,
+              "pending": 0,
+              "last": "settled",
+              "record_bytes": 652
+            },
+            {
+              "id": "a48c4b9758f752e8",
+              "version": "zk9-sponsored-publication-journal-v2",
+              "revision": 4846,
+              "attempts": 6800,
+              "pending": 0,
+              "last": "confirmed",
+              "record_bytes": 580
+            },
+            {
+              "id": "bab278bce71fe46f",
+              "version": "zk9-sponsored-settlement-v1",
+              "revision": 3,
+              "attempts": null,
+              "pending": 0,
+              "last": "settled",
+              "record_bytes": 653
+            }
+          ],
+          "funding": [
+            {
+              "cap_lamports": "80000000000",
+              "used_lamports": "23850540640"
+            },
+            {
+              "cap_lamports": "80000000000",
+              "used_lamports": "31930681200"
+            }
+          ]
+        },
+        "sponsor_cost": {
+          "lamports_spent": 55721596840,
+          "sponsor_signatures": 11828,
+          "note": "synthetic lamports on an isolated validator; not a mainnet cost"
+        }
+      }
+    }
+  },
+  "inputs_unchanged_since_the_runs": true,
+  "frozen_sources_byte_identical": true,
+  "browser_host_directories_unchanged": true,
+  "private_payment_settled": true,
+  "withdrawal": true,
+  "synthetic_values": true,
+  "loaded_in_the_users_chrome": false,
+  "native_host_registered": false,
+  "installed": false,
+  "public_fixture_seeds": true,
+  "real_funds": false,
+  "real_tor": false,
+  "independent_operator": false,
+  "privacy_proven": false,
+  "mainnet": false,
+  "scope": "The windowed publication revision (journal v2, funded repository v2, funding quote v2, windowed sender, task and service wiring) qualified by 40 model checks, 79 mutants and 2 real-process run(s) of the whole local stack. A settled private send and public withdrawal are shown by the full run(s). It does NOT show that the windows behave on a public cluster, and it changes nothing about the cryptography."
+}

@@ -1,0 +1,51 @@
+ZK9 Solana buffer transport laboratory v1 — NOT A BRIDGE OR PROOF VERIFIER
+
+Purpose: execute a real compiled sBPF program that stores the frozen native
+payment envelope in a local Solana 3.1.10 validator. Determine actual serialized
+legacy transaction sizes, account storage, refundable account deposit, fees and
+sampled compute use. This is a compatibility experiment, not a mainnet estimate.
+The native fixture has its existing proof; Solana does NOT verify that proof here.
+Arbitrary bytes can be sealed if they match the uploader's declared hash root.
+No asset program, token mint, custody balance or bridge release exists in this code.
+
+State: magic8=ZK9BUF1\0; authority32; total u32LE; unique_received u32LE;
+expected_root32; state u8 (1=UPLOADING,2=SEALED_BYTES_ONLY); reserved_zero4.
+Then ceil(chunk_count/8) bitmap, chunk_count*32 leaf hashes, total payload bytes.
+chunk_count=ceil(total/900), 0<total<=5MiB. Exact account size is enforced.
+Only a new, zero-header, program-owned rent-exempt account signed by its account
+key and authority can initialize. System Program creates/allocates zeroed data;
+there is no instruction that writes a zero-header account before initialization.
+No data mutation exists after seal except the owner's explicit close.
+
+Instructions (exact framing, exactly two accounts: writable buffer, signer owner):
+0 INIT: total u32LE+root32. Buffer must also sign. Cannot reset initialized state.
+1 WRITE: index u32LE+exact chunk bytes, final chunk may be shorter. Authenticated
+owner only; bitmap allows out-of-order delivery. Identical retries do not increment
+the count. A different retry is rejected. Max chunk900 gives bounded transaction.
+Leaf=SHA256("ZK9/SOLANA/BUFFER/LEAF/v1\0"||totalLE||indexLE||chunk).
+2 SEAL: no payload. Requires every unique chunk. Checks
+SHA256("ZK9/SOLANA/BUFFER/ROOT/v1\0"||totalLE||all_leaf_hashes) against expected_root.
+Repeated seal is idempotent; it DOES NOT accept a proof or authorize any payment.
+3 CLOSE: no payload. Owner must be writable. Returns the account's lamports only
+to the recorded owner, shrinks to zero and assigns System Program. Allows abort.
+There is no timeout-based permission to claim another user's deposit or tokens.
+
+The bitmap/count and hashes are program-owned, updated with the chunk in the same
+atomic instruction. No administrator can replace an owner or digest. The root is
+transport integrity only and does not establish native consensus, finality, supply,
+a valid proof, chain identity or replay protection for any future asset release.
+A future verifier must bind its own chain/domain, public inputs, accepted root,
+nullifiers, output commitments and finalized authorization. Never consume state2
+as VERIFIED. Uploads/signatures/addresses are public Solana data, not PQ protection.
+
+Toolchain: local SDK copy; global shell, Rust, Solana selection and installed ZK9
+are preserved. The SDK env.sh copy checks cached tools instead of executing its
+global-install script. Cargo.lock is exact; dependency cache is a copy, not shared
+mutable data. Final accepted tool/build pins must be read from environment.json.
+
+Sources checked 2026-10-14:
+https://solana.com/docs/core/transactions
+https://solana.com/docs/core/accounts
+https://solana.com/docs/core/fees/compute-budget
+Legacy/v0 docs give1232-byte packets; v1 documents4096. This experiment uses legacy
+transactions and does not certify v1 activation or production network parameters.

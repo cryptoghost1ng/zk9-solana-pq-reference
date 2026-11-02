@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "previous_sha256": "de16de27ed0ee1f6fcfbff0f176e680b8387e763d04ad107c44179f80908759a",
+  "new_sha256": "4cc22c4a25f43c41ec754fb2f5d0d2621277cbbfdf4c071d18f494adb0fe2a60",
+  "added_key": "pq_private_relation_lab_candidate",
+  "sibling_entries_unchanged": true,
+  "backup": "<ZK9_ROOT>/work/pq-private-relation-v1/CURRENT.before-private-relation.json"
+}

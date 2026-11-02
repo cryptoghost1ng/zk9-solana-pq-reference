@@ -1,0 +1,15 @@
+[package]
+name="zk9-solana-withdraw-arithmetic"
+version="0.1.0"
+edition="2024"
+publish=false
+[workspace]
+[dependencies]
+prefix={package="zk9-solana-withdraw-prefix",path="../prefix"}
+opening={package="zk9-solana-withdraw-opening",path="../opening"}
+fri={package="zk9-solana-withdraw-fri",path="../fri"}
+mmcs={package="zk9-solana-withdraw-mmcs",path="../mmcs"}
+[profile.release]
+lto="thin"
+codegen-units=1
+overflow-checks=true

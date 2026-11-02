@@ -1,0 +1,8 @@
+checks-02 passed (60 tests, 60 passed: the 40 unmodified windowed checks plus cleanup checks C1-C20) for the FIRST GENERATION of this directory's generated sources (kept, byte for byte, in
+evidence/generation-1-sources). It is NOT the evidence for the sources as they are now.
+What the live run full-06 then showed: the generation-1 task never ran the cleanup. The settlement sender reports `settled` inside its own step (it reconciles by itself), the supervisor stops stepping a
+request as soon as it is told `settled`, and the cleanup block at the top of LocalRelayTask.step() was therefore never reached (full-06's relay printed `finished` for the send with no `cleanup` event, and the
+verifier receipt and the proof buffer of the send stayed open). No model check could see it: the task wiring (C17, C18, C20) was only checked as text, and harness.mjs never drives LocalRelayTask.step().
+Generation 2 (make_revision.py with the routeStepResult patch) sends every step result of publication and settlement through one function that holds `settled` back while the accounts are open; C21 tests that function
+dynamically and C22 pins its use in the task. checks-03 is the pinned run of generation 2.
+The cleanup instructions themselves were fine: run against the real programs on full-06's still-running validator (scratchpad experiment, see full-06/NOTE.txt) both closes landed without error and returned the whole rent.

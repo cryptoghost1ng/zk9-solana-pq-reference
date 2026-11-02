@@ -1,0 +1,63 @@
+--- ../../../solana-private-relay-v1/relay-task.mjs	2026-10-30 13:41:39
++++ ../../relay-task.mjs	2026-11-01 23:37:45
+@@ -1,27 +1,32 @@
+ // Candidate local-only service composition. No HTTP API or wallet access.
+ // Reuses the existing bounded RPC senders (simulation, CU sizing, immutable code
+ // attestation, uncertain-send reconciliation) with relay-owned journals.
+-import {readRequest} from './relay-request.mjs';
++// WINDOWED revision: derived from ../solana-private-relay-v1/relay-task.mjs (frozen, untouched). The publication side
++// uses the v2 journal (a list of pending attempts), the windowed sender and the v2 funding; settlement is the frozen one.
++import {readRequest} from '../solana-private-relay-v1/relay-request.mjs';
+ import {SponsoredPublication} from './relay-publication.mjs';
+-import {SponsoredSettlement} from './relay-settlement.mjs';
++import {SponsoredSettlement} from '../solana-private-relay-v1/relay-settlement.mjs';
+ import {LocalNetwork} from '../solana-relay-performance-v1/candidate/local-network.mjs';
+-// Use the sender qualified by the completed installed-connected-08 baseline:
+-// strict verifier/memo CU exhaustion handling, without weakening proof errors.
+-import {PublicationSender} from '../solana-unified-wallet-v1/recovery/publication-sender.mjs';
++// The unified sender (installed-connected-08 baseline: strict verifier/memo CU exhaustion handling, without weakening
++// proof errors) plus the chunk window.
++import {PublicationSender} from './publication-sender.mjs';
++import {publicationJournal} from './publication-adapter.mjs';
+ import {SettlementSender} from '../solana-chrome-wallet-v1/recovery/settlement-sender.mjs';
+ import {toBase64,digest} from '../solana-chrome-wallet-v1/recovery/payment-wire.mjs';
+ import {b58,un58,sha256} from '../solana-chrome-wallet-v1/recovery/solana-transaction.mjs';
+ import {PROFILES} from '../solana-chrome-wallet-v1/recovery/proof-progress.mjs';
+ import {checkedFunding,fundedRepository,quoteFundingDebit,COST_POOL_SHA256} from './relay-funding.mjs';
++import {MAX_WINDOW} from './relay-publication.mjs';
+ import {requireState as require,integer} from '../solana-chrome-wallet-v1/recovery/checkpoint.mjs';
+ 
+ export class LocalRelayTask {
+   #id;#logicalId;#kind;#publication;#settlement;#publisher;#settler;#reader;#programs;
+   #context;#program;#pool;#validator;#slot=0;#history=null;#state='settling';#published=false;#closed=false;#busy=false;#signal;
+   static async open({raw,context,program,pool,profile,programData,sponsor,transportSeed,repository,validator,verifyProof,signal,
+-    funding,maxPublicationAttempts=12000,fetchImpl}){
++    funding,maxPublicationAttempts=12000,window=64,fetchImpl}){
+     const t=new LocalRelayTask(),request=await readRequest(raw,context);
+     integer(maxPublicationAttempts);require(maxPublicationAttempts>0&&maxPublicationAttempts<=20000,'Invalid local relay attempt cap.');
++    require(Number.isSafeInteger(window)&&window>=1&&window<=MAX_WINDOW,'Invalid chunk window size.');
+     t.#id=request.id;t.#logicalId=request.id.slice(0,32);t.#kind=request.kind;
+     // Short ID is ONLY a sender-local API parameter. Full 256-bit request IDs
+     // bind all storage, transport derivation and externally returned responses.
+@@ -55,19 +60,8 @@
+     t.#programs=[program,config.buffer_program,config.proof_program];
+     const synchronize=response=>t.#synchronize(response);
+     const pub=t.#publication;
+-    const publicationJournal={
+-      requireSync:()=>pub.requireSync(),
+-      bind:async id=>{checkedId(id);require(t.#state==='settling','Proof already spent or conflicted.');return pub.configuration;},
+-      buffer:(id,account)=>{checkedId(id);return pub.buffer(account);},
+-      receipt:(id,account,previous)=>{checkedId(id);return pub.receipt(account,previous);},
+-      prepare:(id,action)=>{checkedId(id);return pub.prepare(action);},
+-      simulation:(id,ticket,blockhash)=>{checkedId(id);return pub.simulation(ticket,blockhash);},
+-      sign:(id,ticket,blockhash,height)=>{checkedId(id);return pub.sign(ticket,blockhash,height);},
+-      pending:id=>{checkedId(id);return pub.pending();},
+-      confirmed:(id,signature,slot,error)=>{checkedId(id);return pub.resolve(signature,{outcome:error===null?'confirmed':'failed',height:slot});},
+-      expired:(id,signature,height,missing)=>{checkedId(id);return pub.resolve(signature,{outcome:'expired',height,missingAfterExpiry:missing});},
+-    };
+-    t.#publisher=new PublicationSender({network:network(),journal:publicationJournal,synchronize,context,program,kind:request.kind,signal});
++    const journal=publicationJournal({publication:pub,checkedId,isSettling:()=>t.#state==='settling'});
++    t.#publisher=new PublicationSender({network:network(),journal,synchronize,context,program,kind:request.kind,signal,window});
+     const settlement=t.#settlement;
+     const settlementJournal={
+       requireSync:()=>settlement.requireSync(),

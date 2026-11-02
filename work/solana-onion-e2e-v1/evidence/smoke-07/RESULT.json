@@ -1,0 +1,254 @@
+{
+  "status": "PASS_ONION_PAYMENT_SMOKE",
+  "error": null,
+  "mode": "smoke",
+  "chrome": "Google Chrome 156.0.8078.74",
+  "checks": {
+    "validator_started_with_the_real_programs": true,
+    "relay_service_started_with_its_own_sponsor": true,
+    "sponsor_funded_by_the_validator_faucet_not_by_a_wallet": true,
+    "package_built_for_this_validator_profile_from_the_unchanged_builder": true,
+    "package_names_the_real_relay_sponsor_not_a_synthetic_one": true,
+    "history_and_relay_onion_services_reachable_through_real_tor": true,
+    "recipient_wallet_restored_in_the_extension": true,
+    "recipient_first_sync_is_private_and_empty": true,
+    "recipient_has_a_receive_address_and_its_own_public_authority": true,
+    "sender_wallet_restored_in_the_extension": true,
+    "sender_public_route_found_the_funded_source": true,
+    "deposit_reached_the_deposited_state_in_the_extension": true,
+    "sender_private_sync_after_the_deposit_shows_13_units": true,
+    "the_validator_confirms_the_deposit_13_units_moved_to_the_pool_vault": true,
+    "positive_control_the_sender_wallet_authority_has_its_own_signatures": true,
+    "proof_was_generated_in_the_extension": true,
+    "relay_admitted_exactly_one_request_over_tor_and_refused_nothing": true,
+    "extension_made_no_direct_http_request_during_the_private_payment": true,
+    "no_payment_step_error_in_the_extension": true,
+    "every_wallet_relock_was_recovered_by_unlocking_again": true,
+    "relay_was_killed_mid_publication_and_resumed_the_same_stored_request": true,
+    "sponsor_kept_publishing_after_the_restart": true,
+    "wallet_authority_never_appears_in_a_relay_transaction_with_a_positive_control": true,
+    "the_recipient_public_authority_never_transacts_at_all": true,
+    "relay_never_reported_a_task_error_or_parked_a_request": true,
+    "lock_closes_every_native_host": true,
+    "all_tor_children_reaped": true,
+    "validator_stopped_cleanly": true,
+    "relay_service_stopped_cleanly": true,
+    "no_process_left_with_the_disposable_profiles": true,
+    "real_browser_host_directories_unchanged": true,
+    "disposable_profiles_and_relay_state_removed": true
+  },
+  "steps": {
+    "node_runtime_waiver": {
+      "scope": "only the Node binary path in the four qualification INPUTS; every other input is still verified",
+      "entries": [
+        {
+          "qualification": "publication-sender-03",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        },
+        {
+          "qualification": "unified-checks-04",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        },
+        {
+          "qualification": "format-05",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        },
+        {
+          "qualification": "memo-02",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        }
+      ]
+    },
+    "base_differences_from_unified_06": [
+      "INSTALLED-FLOW-CONFIG.json",
+      "config.mjs",
+      "manifest.json"
+    ],
+    "recipient_first_sync": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "0",
+      "owned_notes": 0,
+      "slot": 70,
+      "wallet_id": "6d566d31862acd292d3102870e58b7fb2f2c59f90e57cdf6fcfa367086cbad6b6187906846cbe557341d8c98ce5212e7fc84c3d3980a4b0abaecdd7fad9c07f5"
+    },
+    "recipient_public_route_methods": [
+      "getAccountInfo",
+      "getGenesisHash",
+      "getTokenAccountsByOwner",
+      "getVersion"
+    ],
+    "sender_sync_before_deposit": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "0",
+      "owned_notes": 0,
+      "slot": 74,
+      "wallet_id": "29991c338d3c02b7fc3e7ffb6dddc9aa8f9db33f8600afc4e1db88b4761f4ebc2a9b7f6a5c5615f3eff4d36469d5535a6c0cc9be3423534c9e326471fc81f2ce"
+    },
+    "sender_sync_after_deposit": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "13",
+      "owned_notes": 2,
+      "slot": 76,
+      "wallet_id": "29991c338d3c02b7fc3e7ffb6dddc9aa8f9db33f8600afc4e1db88b4761f4ebc2a9b7f6a5c5615f3eff4d36469d5535a6c0cc9be3423534c9e326471fc81f2ce"
+    },
+    "send": {
+      "kind": "send",
+      "amount": "10",
+      "review_ok": true,
+      "review_error": null,
+      "approve_ok": true,
+      "approve_error": null,
+      "operation": "6d2614902944b3aa34005752fbefcba2",
+      "locks": [],
+      "prove_seconds": 138.4,
+      "prove_ok": true,
+      "prove_error": null,
+      "sponsor_signature_samples": [
+        [
+          138.4,
+          1
+        ],
+        [
+          159.9,
+          1602
+        ],
+        [
+          180.9,
+          3138
+        ]
+      ],
+      "restart": {
+        "sponsor_signatures_at_kill": 1602,
+        "method": "SIGKILL",
+        "request_bytes_before": 3954148,
+        "request_sha256_before": "c3dc02bbf20a394f55230d5fa8abc1bb5b62d52d80e7870d30e37bf56edebc81",
+        "exit_code": -9,
+        "recovered_id": "ca90c4c401bd6f2189151b9ff8184cc85dc8a201cf8e0658cd4f909543711ad5",
+        "same_request": true,
+        "same_sponsor": true,
+        "request_sha256_after": "c3dc02bbf20a394f55230d5fa8abc1bb5b62d52d80e7870d30e37bf56edebc81",
+        "resumed": true
+      },
+      "stopped_after_resume": true,
+      "seconds": 180.9,
+      "state_log": [
+        [
+          "preparing",
+          0.0
+        ],
+        [
+          "ready",
+          138.4
+        ],
+        [
+          "publishing",
+          146.0
+        ]
+      ],
+      "step_errors_tail": [],
+      "direct_http_during_leg": [],
+      "relay_events": [
+        {
+          "t": "2026-11-01T23:02:00.510Z",
+          "type": "admitted",
+          "id": "ca90c4c401bd6f2189151b9ff8184cc85dc8a201cf8e0658cd4f909543711ad5",
+          "kind": "send",
+          "wire_bytes": 2965565,
+          "generation": 1
+        },
+        {
+          "t": "2026-11-01T23:02:18.355Z",
+          "type": "recovered",
+          "id": "ca90c4c401bd6f2189151b9ff8184cc85dc8a201cf8e0658cd4f909543711ad5",
+          "kind": "send",
+          "generation": 2
+        }
+      ],
+      "final_state": "publishing"
+    },
+    "relay_window": 64,
+    "relay_journal_after_send": {
+      "operations": [
+        {
+          "id": "ca90c4c401bd6f21",
+          "version": "zk9-sponsored-publication-journal-v2",
+          "revision": 112,
+          "attempts": 3137,
+          "pending": 0,
+          "last": "confirmed",
+          "record_bytes": 578
+        },
+        {
+          "id": "7a03654269ee1f24",
+          "version": "zk9-sponsored-settlement-v1",
+          "revision": 1,
+          "attempts": null,
+          "pending": 0,
+          "last": null,
+          "record_bytes": 516
+        }
+      ],
+      "funding": [
+        {
+          "cap_lamports": "80000000000",
+          "used_lamports": "21410137520"
+        }
+      ]
+    },
+    "send_sponsor_signatures_after_restart": 3138,
+    "send_authority_check": {
+      "sponsor_signatures": 3138,
+      "sender_wallet_signatures": 2,
+      "overlap": [],
+      "disjoint": true
+    },
+    "sampler_errors": [],
+    "validator_rpc_errors_seen": [],
+    "sponsor_cost": {
+      "lamports_spent": 21394457520,
+      "sponsor_signatures": 3138,
+      "note": "synthetic lamports on an isolated validator; not a mainnet cost"
+    },
+    "relay_event_counts": {
+      "admitted": 1,
+      "refused": 0,
+      "duplicate": 0,
+      "recovered": 1,
+      "progress": 0,
+      "task_error": 0,
+      "parked": 0,
+      "finished": 0,
+      "fatal": 0
+    }
+  },
+  "validator_run": "installed-connected-307",
+  "unified_base": "unified-307",
+  "extension_id": "bjlakbicheedkjaigkinkpkihkjihlka",
+  "scope": {
+    "validator": "local synthetic, real programs",
+    "tor": "one-host local test network (TorLab), not public Tor",
+    "history_and_relay_operator": "both played by this machine/script (same operator as the validator)",
+    "sponsor": "relay-owned key, funded by the validator faucet; package names its real authority",
+    "private_payment": false,
+    "withdrawal": false,
+    "real_funds": false,
+    "privacy_proven": false,
+    "network_timing_anonymity_proven": false,
+    "independent_operator": false,
+    "public_fixture_seeds": true,
+    "real_profile_touched": false
+  }
+}

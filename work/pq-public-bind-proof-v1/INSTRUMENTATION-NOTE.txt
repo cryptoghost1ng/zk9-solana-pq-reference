@@ -1,0 +1,11 @@
+smoke-01 completed successfully with valid baseline/candidate proofs, roundtrip,
+cross-version rejection and public/proof mutations. Its environment capture had
+an inherited `proof_generated:false` field from the earlier shape-only experiment.
+That field was incorrect for this experiment; actual proof files and run results
+show successful generation. No cryptographic source or parameter was changed.
+
+The original source snapshot is retained in smoke-01-run/own-source-snapshot.
+smoke-01 is exploratory/superseded instrumentation, excluded from final series.
+Later captures describe input identity without asserting an execution outcome,
+record runtime CPU/thread context and pin the executed binary. The correction
+does not change src/config.rs, src/lib.rs or src/main.rs.

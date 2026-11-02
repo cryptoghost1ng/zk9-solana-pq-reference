@@ -1,0 +1,4 @@
+Generated sources of the FIRST GENERATION of solana-relay-cleanup-v1, kept byte for byte because evidence/checks-02, evidence/mutation-02 and solana-onion-e2e-v1/evidence/full-06 were produced against them
+(their INPUTS.json pin these hashes). They are superseded: in the live run full-06 the task of this generation never ran the cleanup (see ../checks-02/NOTE.txt). Do not use them.
+Hand-written files of that generation that were edited afterwards, and how: cleanup-checks.mjs (+ C21, C22 and the import of routeStepResult), mutation_control.py (+ 7 mutants), run_checks.py (22 cleanup checks instead of 20),
+qualify.py (never pinned; counts). The one-line differences between the two generations of the generated files are in ../diffs-01 (against the windowed originals) and in make_revision.py (the two patch pairs after the harness ones).

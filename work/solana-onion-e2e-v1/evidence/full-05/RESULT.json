@@ -1,0 +1,985 @@
+{
+  "status": "PASS_ONION_PAYMENT_FULL",
+  "error": null,
+  "mode": "full",
+  "chrome": "Google Chrome 156.0.8078.74",
+  "checks": {
+    "validator_started_with_the_real_programs": true,
+    "relay_service_started_with_its_own_sponsor": true,
+    "sponsor_funded_by_the_validator_faucet_not_by_a_wallet": true,
+    "package_built_for_this_validator_profile_from_the_unchanged_builder": true,
+    "package_names_the_real_relay_sponsor_not_a_synthetic_one": true,
+    "history_and_relay_onion_services_reachable_through_real_tor": true,
+    "recipient_wallet_restored_in_the_extension": true,
+    "recipient_first_sync_is_private_and_empty": true,
+    "recipient_has_a_receive_address_and_its_own_public_authority": true,
+    "sender_wallet_restored_in_the_extension": true,
+    "sender_public_route_found_the_funded_source": true,
+    "deposit_reached_the_deposited_state_in_the_extension": true,
+    "sender_private_sync_after_the_deposit_shows_13_units": true,
+    "the_validator_confirms_the_deposit_13_units_moved_to_the_pool_vault": true,
+    "positive_control_the_sender_wallet_authority_has_its_own_signatures": true,
+    "proof_was_generated_in_the_extension": true,
+    "relay_admitted_exactly_one_request_over_tor_and_refused_nothing": true,
+    "extension_made_no_direct_http_request_during_the_private_payment": true,
+    "no_payment_step_error_in_the_extension": true,
+    "every_wallet_relock_was_recovered_by_unlocking_again": true,
+    "relay_was_killed_mid_publication_and_resumed_the_same_stored_request": true,
+    "sponsor_kept_publishing_after_the_restart": true,
+    "wallet_authority_never_appears_in_a_relay_transaction_with_a_positive_control": true,
+    "the_recipient_public_authority_never_transacts_at_all": true,
+    "send_settled_in_the_extension_from_validated_history": true,
+    "relay_recorded_the_send_as_settled": true,
+    "sender_private_sync_after_the_send_shows_2_units": true,
+    "vault_unchanged_by_the_internal_send": true,
+    "duplicate_submit_is_accepted_idempotently_and_spends_nothing": true,
+    "tampered_proof_is_refused_with_the_fixed_code_and_spends_nothing": true,
+    "the_relay_has_no_status_route": true,
+    "recipient_restored_again_from_its_words": true,
+    "recipient_restored_from_words_sees_10_units_over_tor": true,
+    "withdraw_settled_in_the_extension_from_validated_history": true,
+    "relay_recorded_the_withdrawal_as_settled": true,
+    "withdraw_leg_made_no_direct_http_request": true,
+    "every_wallet_relock_during_the_withdrawal_was_recovered_by_unlocking_again": true,
+    "withdraw_restart_resumed_the_same_stored_request": true,
+    "sender_private_sync_after_the_withdrawal_shows_0_units": true,
+    "the_validator_confirms_the_public_withdrawal_1_unit_to_the_recipient_and_12_in_the_vault": true,
+    "wallet_authority_never_appears_in_a_relay_transaction_over_both_legs": true,
+    "sender_journal_lists_both_payments_settled": true,
+    "relay_never_reported_a_task_error_or_parked_a_request": true,
+    "lock_closes_every_native_host": true,
+    "all_tor_children_reaped": true,
+    "validator_stopped_cleanly": true,
+    "relay_service_stopped_cleanly": true,
+    "no_process_left_with_the_disposable_profiles": true,
+    "real_browser_host_directories_unchanged": true,
+    "disposable_profiles_and_relay_state_removed": true
+  },
+  "steps": {
+    "node_runtime_waiver": {
+      "scope": "only the Node binary path in the four qualification INPUTS; every other input is still verified",
+      "entries": [
+        {
+          "qualification": "publication-sender-03",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        },
+        {
+          "qualification": "unified-checks-04",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        },
+        {
+          "qualification": "format-05",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        },
+        {
+          "qualification": "memo-02",
+          "recorded_node_sha256": "dbedff294bab84a0a86c04e15fbcbeb1c97ca10bef1b32b0634cd24b36f62100",
+          "current_node_sha256": "7d2b4ed360d609a4de6485b0cbea57370eee4dba157877799e83104db570cbdd"
+        }
+      ]
+    },
+    "base_differences_from_unified_06": [
+      "INSTALLED-FLOW-CONFIG.json",
+      "config.mjs",
+      "manifest.json"
+    ],
+    "recipient_first_sync": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "0",
+      "owned_notes": 0,
+      "slot": 78,
+      "wallet_id": "4492e21b3f34c82e1f1dd60ad6052eccb2b9cf3b589b57355f1dc7d349aa08840100ef9c96634f57528f1dcd0408e02be139ef52f21565c0a8aba8d93bdb7b11"
+    },
+    "recipient_public_route_methods": [
+      "getAccountInfo",
+      "getGenesisHash",
+      "getTokenAccountsByOwner",
+      "getVersion"
+    ],
+    "sender_sync_before_deposit": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "0",
+      "owned_notes": 0,
+      "slot": 82,
+      "wallet_id": "d9cf944833b77639bb7d574fd2025397fe52d12cefe1906bb35a4406b9ae1c207775fd1b8356545bac000269c6591f8a87280aaead27f39f39b2b7b1eb58cd02"
+    },
+    "sender_sync_after_deposit": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "13",
+      "owned_notes": 2,
+      "slot": 84,
+      "wallet_id": "d9cf944833b77639bb7d574fd2025397fe52d12cefe1906bb35a4406b9ae1c207775fd1b8356545bac000269c6591f8a87280aaead27f39f39b2b7b1eb58cd02"
+    },
+    "send": {
+      "kind": "send",
+      "amount": "10",
+      "review_ok": true,
+      "review_error": null,
+      "approve_ok": true,
+      "approve_error": null,
+      "operation": "57232db45ed4774b2d08e6a6e3a9d1ab",
+      "locks": [
+        {
+          "t": 441.5,
+          "why": "locked",
+          "reunlocked": true
+        },
+        {
+          "t": 743.2,
+          "why": "locked",
+          "reunlocked": true
+        },
+        {
+          "t": 1043.6,
+          "why": "locked",
+          "reunlocked": true
+        }
+      ],
+      "prove_seconds": 138.0,
+      "prove_ok": true,
+      "prove_error": null,
+      "sponsor_signature_samples": [
+        [
+          138.0,
+          1
+        ],
+        [
+          159.4,
+          1474
+        ],
+        [
+          180.4,
+          3010
+        ],
+        [
+          202.3,
+          3348
+        ],
+        [
+          224.2,
+          3388
+        ],
+        [
+          246.0,
+          3429
+        ],
+        [
+          267.9,
+          3469
+        ],
+        [
+          289.8,
+          3509
+        ],
+        [
+          311.6,
+          3549
+        ],
+        [
+          333.5,
+          3590
+        ],
+        [
+          355.3,
+          3630
+        ],
+        [
+          377.2,
+          3670
+        ],
+        [
+          399.1,
+          3710
+        ],
+        [
+          421.0,
+          3751
+        ],
+        [
+          443.8,
+          3793
+        ],
+        [
+          465.7,
+          3833
+        ],
+        [
+          487.5,
+          3873
+        ],
+        [
+          509.5,
+          3913
+        ],
+        [
+          531.3,
+          3954
+        ],
+        [
+          553.2,
+          3994
+        ],
+        [
+          575.1,
+          4034
+        ],
+        [
+          597.0,
+          4074
+        ],
+        [
+          618.9,
+          4115
+        ],
+        [
+          640.8,
+          4155
+        ],
+        [
+          662.7,
+          4195
+        ],
+        [
+          684.5,
+          4236
+        ],
+        [
+          706.4,
+          4276
+        ],
+        [
+          728.3,
+          4316
+        ],
+        [
+          750.8,
+          4358
+        ],
+        [
+          772.6,
+          4398
+        ],
+        [
+          794.3,
+          4438
+        ],
+        [
+          816.0,
+          4478
+        ],
+        [
+          837.8,
+          4518
+        ],
+        [
+          859.6,
+          4558
+        ],
+        [
+          881.5,
+          4598
+        ],
+        [
+          903.3,
+          4638
+        ],
+        [
+          925.1,
+          4678
+        ],
+        [
+          947.1,
+          4718
+        ],
+        [
+          968.8,
+          4759
+        ],
+        [
+          990.6,
+          4798
+        ],
+        [
+          1012.5,
+          4838
+        ],
+        [
+          1034.2,
+          4878
+        ],
+        [
+          1056.8,
+          4919
+        ],
+        [
+          1078.7,
+          4959
+        ],
+        [
+          1100.7,
+          5000
+        ],
+        [
+          1122.6,
+          5040
+        ],
+        [
+          1144.5,
+          5080
+        ],
+        [
+          1166.5,
+          5121
+        ]
+      ],
+      "restart": {
+        "sponsor_signatures_at_kill": 1474,
+        "method": "SIGKILL",
+        "request_bytes_before": 3972332,
+        "request_sha256_before": "0efbb47aa15e613a2518acb517c6ffb8bc370a55063028750dd3101d0ed6f26f",
+        "exit_code": -9,
+        "recovered_id": "63037dec4039b4dc565d20f9e87f3b8154e5999b013f2739e369a6bc7082bc29",
+        "same_request": true,
+        "same_sponsor": true,
+        "request_sha256_after": "0efbb47aa15e613a2518acb517c6ffb8bc370a55063028750dd3101d0ed6f26f",
+        "resumed": true
+      },
+      "seconds": 1174.2,
+      "state_log": [
+        [
+          "preparing",
+          0.0
+        ],
+        [
+          "ready",
+          138.0
+        ],
+        [
+          "publishing",
+          145.5
+        ],
+        [
+          "settled",
+          1174.2
+        ]
+      ],
+      "step_errors_tail": [],
+      "direct_http_during_leg": [],
+      "relay_events": [
+        {
+          "t": "2026-11-01T23:06:22.439Z",
+          "type": "admitted",
+          "id": "63037dec4039b4dc565d20f9e87f3b8154e5999b013f2739e369a6bc7082bc29",
+          "kind": "send",
+          "wire_bytes": 2979203,
+          "generation": 1
+        },
+        {
+          "t": "2026-11-01T23:06:40.314Z",
+          "type": "recovered",
+          "id": "63037dec4039b4dc565d20f9e87f3b8154e5999b013f2739e369a6bc7082bc29",
+          "kind": "send",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-01T23:11:23.264Z",
+          "type": "duplicate",
+          "id": "63037dec4039b4dc565d20f9e87f3b8154e5999b013f2739e369a6bc7082bc29",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-01T23:16:24.836Z",
+          "type": "duplicate",
+          "id": "63037dec4039b4dc565d20f9e87f3b8154e5999b013f2739e369a6bc7082bc29",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-01T23:21:25.247Z",
+          "type": "duplicate",
+          "id": "63037dec4039b4dc565d20f9e87f3b8154e5999b013f2739e369a6bc7082bc29",
+          "generation": 2
+        },
+        {
+          "t": "2026-11-01T23:23:30.220Z",
+          "type": "finished",
+          "id": "63037dec4039b4dc565d20f9e87f3b8154e5999b013f2739e369a6bc7082bc29",
+          "kind": "send",
+          "state": "settled",
+          "steps": 5972,
+          "elapsed_ms": 1009910,
+          "generation": 2
+        }
+      ],
+      "final_state": "settled"
+    },
+    "relay_window": 64,
+    "relay_journal_after_send": {
+      "operations": [
+        {
+          "id": "63037dec4039b4dc",
+          "version": "zk9-sponsored-publication-journal-v2",
+          "revision": 3750,
+          "attempts": 5127,
+          "pending": 0,
+          "last": "confirmed",
+          "record_bytes": 578
+        },
+        {
+          "id": "c7a6aad27a006e4a",
+          "version": "zk9-sponsored-settlement-v1",
+          "revision": 3,
+          "attempts": null,
+          "pending": 0,
+          "last": "settled",
+          "record_bytes": 652
+        }
+      ],
+      "funding": [
+        {
+          "cap_lamports": "80000000000",
+          "used_lamports": "23850540640"
+        }
+      ]
+    },
+    "send_sponsor_signatures_after_restart": 5121,
+    "send_authority_check": {
+      "sponsor_signatures": 5128,
+      "sender_wallet_signatures": 2,
+      "overlap": [],
+      "disjoint": true
+    },
+    "sender_sync_after_send": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "2",
+      "owned_notes": 3,
+      "slot": 2244,
+      "wallet_id": "d9cf944833b77639bb7d574fd2025397fe52d12cefe1906bb35a4406b9ae1c207775fd1b8356545bac000269c6591f8a87280aaead27f39f39b2b7b1eb58cd02"
+    },
+    "idle_probes_after_send": {
+      "duplicate": {
+        "status": 200,
+        "body": {
+          "version": "zk9-sponsored-proof-v1",
+          "verified": true,
+          "published": false,
+          "settled": false
+        }
+      },
+      "tampered": {
+        "status": 422,
+        "body": {
+          "error": "invalid_proof"
+        }
+      },
+      "status_route": {
+        "status": 404
+      },
+      "sponsor_signatures_before": 5128,
+      "sponsor_signatures_after": 5128,
+      "no_new_request_stored": true
+    },
+    "recipient_sync_after_send": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "10",
+      "owned_notes": 1,
+      "slot": 2261,
+      "wallet_id": "4492e21b3f34c82e1f1dd60ad6052eccb2b9cf3b589b57355f1dc7d349aa08840100ef9c96634f57528f1dcd0408e02be139ef52f21565c0a8aba8d93bdb7b11"
+    },
+    "withdraw": {
+      "kind": "withdraw",
+      "amount": "1",
+      "review_ok": true,
+      "review_error": null,
+      "approve_ok": true,
+      "approve_error": null,
+      "operation": "6baf7dad7402a72b5317c14c41c9e6b3",
+      "locks": [
+        {
+          "t": 459.9,
+          "why": "locked",
+          "reunlocked": true
+        },
+        {
+          "t": 761.3,
+          "why": "locked",
+          "reunlocked": true
+        },
+        {
+          "t": 1061.6,
+          "why": "locked",
+          "reunlocked": true
+        },
+        {
+          "t": 1362.2,
+          "why": "locked",
+          "reunlocked": true
+        }
+      ],
+      "prove_seconds": 150.0,
+      "prove_ok": false,
+      "prove_error": "probe timeout",
+      "sponsor_signature_samples": [
+        [
+          150.0,
+          5128
+        ],
+        [
+          171.1,
+          5641
+        ],
+        [
+          193.1,
+          6767
+        ],
+        [
+          214.2,
+          8111
+        ],
+        [
+          234.7,
+          9391
+        ],
+        [
+          254.6,
+          9526
+        ],
+        [
+          276.9,
+          9567
+        ],
+        [
+          299.3,
+          9608
+        ],
+        [
+          321.6,
+          9649
+        ],
+        [
+          343.9,
+          9690
+        ],
+        [
+          366.3,
+          9731
+        ],
+        [
+          388.7,
+          9772
+        ],
+        [
+          411.0,
+          9813
+        ],
+        [
+          433.4,
+          9854
+        ],
+        [
+          455.8,
+          9895
+        ],
+        [
+          476.2,
+          9933
+        ],
+        [
+          498.4,
+          9973
+        ],
+        [
+          520.8,
+          10014
+        ],
+        [
+          543.0,
+          10054
+        ],
+        [
+          565.2,
+          10094
+        ],
+        [
+          587.4,
+          10135
+        ],
+        [
+          609.6,
+          10175
+        ],
+        [
+          631.8,
+          10215
+        ],
+        [
+          654.1,
+          10256
+        ],
+        [
+          676.2,
+          10297
+        ],
+        [
+          698.4,
+          10337
+        ],
+        [
+          720.9,
+          10378
+        ],
+        [
+          743.1,
+          10419
+        ],
+        [
+          764.1,
+          10457
+        ],
+        [
+          786.4,
+          10497
+        ],
+        [
+          808.7,
+          10538
+        ],
+        [
+          831.1,
+          10579
+        ],
+        [
+          853.5,
+          10620
+        ],
+        [
+          875.8,
+          10661
+        ],
+        [
+          898.3,
+          10702
+        ],
+        [
+          920.6,
+          10743
+        ],
+        [
+          943.0,
+          10784
+        ],
+        [
+          965.4,
+          10825
+        ],
+        [
+          987.7,
+          10866
+        ],
+        [
+          1010.1,
+          10907
+        ],
+        [
+          1032.5,
+          10948
+        ],
+        [
+          1055.0,
+          10989
+        ],
+        [
+          1075.6,
+          11026
+        ],
+        [
+          1098.0,
+          11067
+        ],
+        [
+          1120.4,
+          11107
+        ],
+        [
+          1142.8,
+          11147
+        ],
+        [
+          1165.2,
+          11188
+        ],
+        [
+          1187.7,
+          11229
+        ],
+        [
+          1210.1,
+          11270
+        ],
+        [
+          1232.6,
+          11310
+        ],
+        [
+          1255.2,
+          11351
+        ],
+        [
+          1277.6,
+          11392
+        ],
+        [
+          1300.0,
+          11433
+        ],
+        [
+          1322.2,
+          11474
+        ],
+        [
+          1344.5,
+          11515
+        ],
+        [
+          1364.9,
+          11552
+        ],
+        [
+          1387.1,
+          11592
+        ],
+        [
+          1409.6,
+          11633
+        ],
+        [
+          1431.8,
+          11674
+        ],
+        [
+          1454.0,
+          11715
+        ],
+        [
+          1476.3,
+          11756
+        ],
+        [
+          1498.5,
+          11797
+        ],
+        [
+          1520.4,
+          11828
+        ]
+      ],
+      "restart": {
+        "sponsor_signatures_at_kill": 5641,
+        "method": "SIGKILL",
+        "request_bytes_before": 5344620,
+        "request_sha256_before": "f43ad0a873c1a803664a9a4b2926683b121366effff08a419c78b6ac73d96710",
+        "exit_code": -9,
+        "recovered_id": "a48c4b9758f752e825d25d21afed4588f1594faca3202ebda1e896572aca0e33",
+        "same_request": true,
+        "same_sponsor": true,
+        "request_sha256_after": "f43ad0a873c1a803664a9a4b2926683b121366effff08a419c78b6ac73d96710",
+        "resumed": true
+      },
+      "seconds": 1522.9,
+      "state_log": [
+        [
+          "preparing",
+          0.0
+        ],
+        [
+          "ready",
+          157.4
+        ],
+        [
+          "publishing",
+          164.5
+        ],
+        [
+          "settled",
+          1522.9
+        ]
+      ],
+      "step_errors_tail": [],
+      "direct_http_during_leg": [],
+      "relay_events": [
+        {
+          "t": "2026-11-01T23:26:25.129Z",
+          "type": "admitted",
+          "id": "a48c4b9758f752e825d25d21afed4588f1594faca3202ebda1e896572aca0e33",
+          "kind": "withdraw",
+          "wire_bytes": 4008416,
+          "generation": 2
+        },
+        {
+          "t": "2026-11-01T23:26:35.781Z",
+          "type": "recovered",
+          "id": "a48c4b9758f752e825d25d21afed4588f1594faca3202ebda1e896572aca0e33",
+          "kind": "withdraw",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-01T23:31:25.735Z",
+          "type": "duplicate",
+          "id": "a48c4b9758f752e825d25d21afed4588f1594faca3202ebda1e896572aca0e33",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-01T23:36:27.150Z",
+          "type": "duplicate",
+          "id": "a48c4b9758f752e825d25d21afed4588f1594faca3202ebda1e896572aca0e33",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-01T23:41:27.538Z",
+          "type": "duplicate",
+          "id": "a48c4b9758f752e825d25d21afed4588f1594faca3202ebda1e896572aca0e33",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-01T23:46:28.066Z",
+          "type": "duplicate",
+          "id": "a48c4b9758f752e825d25d21afed4588f1594faca3202ebda1e896572aca0e33",
+          "generation": 3
+        },
+        {
+          "t": "2026-11-01T23:48:59.508Z",
+          "type": "finished",
+          "id": "a48c4b9758f752e825d25d21afed4588f1594faca3202ebda1e896572aca0e33",
+          "kind": "withdraw",
+          "state": "settled",
+          "steps": 7368,
+          "elapsed_ms": 1343732,
+          "generation": 3
+        }
+      ],
+      "final_state": "settled"
+    },
+    "relay_journal_after_withdraw": {
+      "operations": [
+        {
+          "id": "63037dec4039b4dc",
+          "version": "zk9-sponsored-publication-journal-v2",
+          "revision": 3750,
+          "attempts": 5127,
+          "pending": 0,
+          "last": "confirmed",
+          "record_bytes": 578
+        },
+        {
+          "id": "c7a6aad27a006e4a",
+          "version": "zk9-sponsored-settlement-v1",
+          "revision": 3,
+          "attempts": null,
+          "pending": 0,
+          "last": "settled",
+          "record_bytes": 652
+        },
+        {
+          "id": "a48c4b9758f752e8",
+          "version": "zk9-sponsored-publication-journal-v2",
+          "revision": 4846,
+          "attempts": 6800,
+          "pending": 0,
+          "last": "confirmed",
+          "record_bytes": 580
+        },
+        {
+          "id": "bab278bce71fe46f",
+          "version": "zk9-sponsored-settlement-v1",
+          "revision": 3,
+          "attempts": null,
+          "pending": 0,
+          "last": "settled",
+          "record_bytes": 653
+        }
+      ],
+      "funding": [
+        {
+          "cap_lamports": "80000000000",
+          "used_lamports": "23850540640"
+        },
+        {
+          "cap_lamports": "80000000000",
+          "used_lamports": "31930681200"
+        }
+      ]
+    },
+    "sender_sync_after_withdraw": {
+      "ok": true,
+      "error": null,
+      "synthetic_only": true,
+      "rpc_consensus_authenticated": false,
+      "spendable_units": "0",
+      "owned_notes": 5,
+      "slot": 5058,
+      "wallet_id": "d9cf944833b77639bb7d574fd2025397fe52d12cefe1906bb35a4406b9ae1c207775fd1b8356545bac000269c6591f8a87280aaead27f39f39b2b7b1eb58cd02"
+    },
+    "ground_truth_final": {
+      "vault_units": 12,
+      "recipient_token_units": 1
+    },
+    "withdraw_authority_check": {
+      "sponsor_signatures": 11828,
+      "sender_wallet_signatures": 2,
+      "overlap": [],
+      "disjoint": true
+    },
+    "sampler_errors": [],
+    "validator_rpc_errors_seen": [],
+    "sponsor_cost": {
+      "lamports_spent": 55721596840,
+      "sponsor_signatures": 11828,
+      "note": "synthetic lamports on an isolated validator; not a mainnet cost"
+    },
+    "relay_event_counts": {
+      "admitted": 2,
+      "refused": 1,
+      "duplicate": 8,
+      "recovered": 2,
+      "progress": 134,
+      "task_error": 0,
+      "parked": 0,
+      "finished": 2,
+      "fatal": 0
+    }
+  },
+  "validator_run": "installed-connected-505",
+  "unified_base": "unified-505",
+  "extension_id": "nfeelcbgjhfkiggehcpfiakhcoacllcc",
+  "scope": {
+    "validator": "local synthetic, real programs",
+    "tor": "one-host local test network (TorLab), not public Tor",
+    "history_and_relay_operator": "both played by this machine/script (same operator as the validator)",
+    "sponsor": "relay-owned key, funded by the validator faucet; package names its real authority",
+    "private_payment": true,
+    "withdrawal": true,
+    "real_funds": false,
+    "privacy_proven": false,
+    "network_timing_anonymity_proven": false,
+    "independent_operator": false,
+    "public_fixture_seeds": true,
+    "real_profile_touched": false
+  }
+}

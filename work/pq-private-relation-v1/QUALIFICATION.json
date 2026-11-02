@@ -1,0 +1,100 @@
+{
+  "adopted_in_product": false,
+  "balance_parent_manifest": "220725a8bd0dd24c98575f1cbd2621184a15a47701b68507dd2c24919d99d43f",
+  "binary_sha256": "b1937bd7fcdf20ccc542f464b7cc3f7a9d24422e6a45adbced4e53fffa9c4d29",
+  "cargo_lock_sha256": "c8ed1cf96ad6bfac6bd3c1ad2283af7744cf8d238d4422458aa0dbfd6508807b",
+  "ciphertext_and_wallet_integrated": false,
+  "cumulative_child_peak_rss_bytes": 1803026432,
+  "durable_state": false,
+  "independent_initial_proof_verified": true,
+  "integral_post_quantum": false,
+  "integration_limits": {
+    "config_sha256": "f0471b0be03283108cc71a5f6aa7388cf13992cb4502aa59123e8bccbcc9c394",
+    "consensus_block": {
+      "max_bytes": "55600190",
+      "max_gas": "50000000"
+    },
+    "genesis_sha256": "92e251861a0ef44073558bea08eb5ee936cf7125ae1f011c7f2440f8b8e50a9b",
+    "mempool_max_tx_bytes": 4194304,
+    "rpc_max_body_bytes": 2000000
+  },
+  "measurement_limits": [
+    "Single M1 Max; desktop/browser remain open; no parallel laboratory native workloads",
+    "OS cache not flushed; each sample uses a fresh process",
+    "RSS is cumulative child-process highwater, not a per-operation distribution",
+    "Depth4 synthetic tree; proof does not benchmark production pool capacity",
+    "Serialization and second roundtrip verification are outside reported verify_ms"
+  ],
+  "pq_security_budget_verified": false,
+  "proof_hashes": [
+    "d58e9bd55a3f6fce89f9fbace5159a818dfc470a7180a5967cfd245a9758c976",
+    "898e613f7242f9c9eeaf56cedf25ea9133efb2d3504bc35fb6e754174c4417b0",
+    "6b84798baa5205a340c558472e98843e1d840c8833524d60d88886c3cd419f4b",
+    "4e6b4ced54316a79021bb759c580f28188083312c6c4821696966d3c8e4c880d",
+    "40987e09fd2973275d5aabe0dad03d13a6534a73f2968a88e387122b5c733e6e",
+    "a6f0cf739cd108ff5c41227c550cae6ca4919c6412da0b36aa50328b392b16f3",
+    "c02e1e30f44c289704b275e394a4bf4ed1f2d654de455f06323592b085e7c27a",
+    "03dabb353b00e1453c5435e7c7afeea7fae619ffa3642644164c2f8b7ff9771d",
+    "40b96a15867e7852ad4b40808923a2e3bde2e7edc9588069a4df20a1e420c999",
+    "383c7d9482aa5cad23896e783b5e25b9cda16dc1b7e10b83941cfef8b0458f07",
+    "671d5e51cd8acfe7676b24b4570b9109cf020c11a0f731421390ced1a334b273",
+    "8b06b784c08de034a1e16eab5db50e4f95b62b6e7336cd65ced0146d0e81f17e",
+    "a24ce2016486815a22886592f1f51c3466d6944eac272bfa24ac2817c3e85ea8",
+    "51325b4bb0e1988bfa271196de090969d3cd54c8b4ead2c9b420ed4be936f112",
+    "2a1e633997ca6432b8a787d4189e63d6175f462f71da119a454d5ead34927362",
+    "315aa2fa1a75403090e31371d613209ce9a6a22873a2e3f520732faacbf2b861",
+    "6ff46da9e8d3e1fb14844e445b12953350670769baf4a45a6ed3375dc0969933",
+    "edd54117e055e695ded204bc24b07afa8341b0420ab528809c595974ac69bac4",
+    "ea14bac2b46f690af8e4f47ac5e2f18049aa710dab24281e7e9090155deb0024",
+    "b14804967e66918082897164c496f657064857b0d82d30fb6c1a1b9012516608",
+    "54e6e0b0c059c7bd5f710d2111578a96d018960fcb55c1215959921cff5645b2",
+    "1f1e6cc63a9f0552c4cb64613420e4a31091027d75ebf189e30a782dc10a7a49",
+    "bfb5424a8c4cee323e93e2717e2ac0ec31168a2d44fe6e3f4f2ea4a8395cf4af",
+    "f29a8f2e34af2f9a351c0064a82804724deb95839dcd7e1715599df0e0531774",
+    "296d9e25e33e41802b3c485e06c6c5e110fa95e2613be53328d3cce98530c595",
+    "852ecaf0e743ae5efb856433e708f23d6f7b45aa8e228ea369b0b3bbf09e176d",
+    "278dcdf20b1a4b0779033ddf90398fa3c8bf4c2443a473ce285f10dba258c9a0",
+    "a935c2d3445c44871977fe2469735ded321f5d157874bbf6b1dd5ade5b29a391",
+    "855269186a275baae84cf658b8d139135b2ea68bf961e04719df082f864b62da",
+    "5c257dcce3b49d7931063d52e01bcb67d1606d75ced321c80af4d0462a317cf8"
+  ],
+  "public_launch_ready": false,
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-apple-darwin\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+  "samples": 30,
+  "statistics": {
+    "init_ms": {
+      "mad": 0.0015209999999999998,
+      "maximum": 0.042082999999999995,
+      "median": 0.018375,
+      "minimum": 0.014124999999999999
+    },
+    "prepare_ms": {
+      "mad": 1.3063749999999992,
+      "maximum": 22.464666,
+      "median": 14.4256665,
+      "minimum": 12.285166
+    },
+    "proof_bytes": {
+      "mad": 3116.0,
+      "maximum": 7438575,
+      "median": 7428002.0,
+      "minimum": 7416157
+    },
+    "prove_ms": {
+      "mad": 98.3795629999986,
+      "maximum": 7187.441875,
+      "median": 6334.546979499999,
+      "minimum": 6180.032708
+    },
+    "verify_ms": {
+      "mad": 12.915041999999993,
+      "maximum": 222.847291,
+      "median": 92.523083,
+      "minimum": 54.52025
+    }
+  },
+  "status": "PASS_EXPERIMENTAL_PRIVATE_RELATION_DEPTH4",
+  "tests_passed": 6,
+  "upstream_files_unchanged": 1229,
+  "upstream_revision": "f98331687e47106a64ab82a77e2e1d0d66c9161b"
+}

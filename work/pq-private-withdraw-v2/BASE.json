@@ -1,0 +1,14 @@
+{
+  "delivery": {
+    "manifest_sha256": "b606928b2867f24c470569f72b3c6135e37f152b8128f355e5b2d73348d54972",
+    "path": "<ZK9_ROOT>/results/pq-note-delivery-v1"
+  },
+  "send": {
+    "manifest_sha256": "969ae4104109d62d121cb171ecca02f7b0c0ebd1a61cea5a92f6084e55b733a0",
+    "path": "<ZK9_ROOT>/results/pq-private-send-v1"
+  },
+  "withdraw20": {
+    "manifest_sha256": "12689430fb31c81e1e5fcdf470468857a6c0f76d32c6081642b880752e641391",
+    "path": "<ZK9_ROOT>/results/pq-private-withdraw-v1"
+  }
+}

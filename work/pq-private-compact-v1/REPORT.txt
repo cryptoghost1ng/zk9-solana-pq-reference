@@ -1,0 +1,32 @@
+ZK9 — Relación privada compacta, laboratorio, 14 de octubre de2026
+
+Se conservan hashes, modelo de notas, posesión, Merkle, nullifiers y balance.
+Cambian la asignación de registros y la representación redundante de capacidad
+SHA3. Los parámetros criptográficos son idénticos salvo el dominio de versión.
+7 tests pasaron y30/30 muestras se verificaron, incluida deserialización.
+
+prove_ms: mediana 6334.547 → 3657.332; reducción 42.26%; razón 1.732x.
+verify_ms: mediana 92.523 → 58.986; reducción 36.25%; razón 1.569x.
+proof_bytes: mediana 7428002.000 → 3740106.500; reducción 49.65%; razón 1.986x.
+
+Dispersión, mínimos, máximos, memoria por proceso y datos originales: evidence/series-01.
+Layout se mide separado, fuera de prove_ms; verify_ms incluye reconstruir el AIR.
+Es comparación secuencial en la misma máquina, sin controlar el escritorio ni
+la caché del SO; no una garantía de rendimiento en otro dispositivo.
+
+El perfil identificó5.588.225bytes en aperturas de filas de la traza original
+y1.396.487bytes en valores de traza fuera del dominio. Reducir columnas de21820
+a10293 ataca ambos costes; no era el tamaño de los digests el coste dominante.
+
+La prueba sola ya cabe en4MiB de mempool, pero no en2.000.000bytes de cuerpo
+RPC. Aún faltan cabeceras, firmas y codificación externa. El pool clásico actual
+limita su transferencia a64.000bytes y usa otro verificador; no es un destino
+compatible para estas pruebas. No se cambiaron esos límites ni el producto.
+El límite128KiB de pqhybrid firma Payload de cuentas de formato fijo; no es
+una ruta existente para el nuevo pago privado. Requiere módulo y versión propios.
+
+Próximo: escalar árbol, completar representación/entrada acotada del nuevo pool,
+consumo persistente de nullifiers y recuperación cifrada. Reutilizar el patrón
+CacheContext del módulo existente, sin habilitar un bypass clásico de emisión.
+El árbol sigue en16posiciones y el ledger en memoria. Parámetros y composición
+PQ no revisados externamente. No acredita protección integral ni lanzamiento.

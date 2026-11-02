@@ -1,0 +1,16 @@
+full-07: SECOND LIVE RUN of the cleanup revision (generation 2: solana-relay-cleanup-v1 with routeStepResult, solana-onion-relay-service-v3, run_payment_v5.py as pinned in INPUTS.json).
+RESULT.json says FAIL_ONION_PAYMENT_FULL: 56 of 57 checks are true. Kept as it is.
+
+WHAT WORKED (all measured by the run itself, on the validator, not reported by the relay)
+- Send: the relay printed receipt-close pending -> step_confirmed, buffer-close pending -> step_confirmed, and only then `finished` (settled, 5,955 steps, 1,025,895 ms). From the first close to `finished`: 1.03 s.
+  The validator reports the send's verifier receipt and proof buffer gone. A read-only check made while the withdrawal was still preparing agreed (sponsor balance 199.941 of 200 SOL).
+- Withdrawal: cleanup_pending (the router holding `settled` back), then the same four events, then `finished` (7,333 steps, 1,339,448 ms). First close to `finished`: 1.30 s. Receipt and buffer gone on the validator.
+- 0 task_error, 0 parked, 0 fatal; the relay was killed with SIGKILL once per payment mid-publication and resumed the same stored request (as in full-05); the wallet saw both payments settled from validated history
+  after the cleanup, the recipient restored from its words saw 10 units, the vault ended at 12 and the recipient at 1.
+
+THE ONE FALSE CHECK: sponsor_spent_only_fees_because_the_rent_of_both_payments_came_back. It was MY bound, not the relay: spent <= 10,000 lamports x the number of sponsor signatures the watcher had seen.
+The sponsor spent 128,437,520 lamports over 11,803 signatures (bound 118,030,000) - against 55,721,596,840 in full-05 without cleanup: 99.77 % of the money that used to stay locked is back.
+The bound ignored that the pool's settlement itself allocates permanent records paid by the fee payer (work/solana-beta-withdraw-v1/pool/src/spend.rs and withdraw.rs: per send 2 nullifier records and a root record of 112 B
+and 2 note records of 176 + 1,732 B; per withdrawal the same plus a 200 B record; rent (128 + size) x 6,960 lamports = 33,352,320 + 35,635,200 = 68,987,520 lamports).
+128,437,520 - 68,987,520 = 59,450,000 = 11,890 x 5,000: an exact multiple of the base fee. That decomposition was worked out after the run from the program source and is consistent with the numbers, but this run
+did not record a ledger, so it is an explanation, not a measurement. full-08 measures it: the driver now sums every sponsor transaction's balance changes from the validator's ledger and the prediction (68,987,520) is written down before it.

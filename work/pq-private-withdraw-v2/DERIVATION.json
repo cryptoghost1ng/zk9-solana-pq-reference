@@ -1,0 +1,282 @@
+{
+  "parent_manifest": "12689430fb31c81e1e5fcdf470468857a6c0f76d32c6081642b880752e641391",
+  "replacements": [
+    {
+      "count": 1,
+      "file": "Cargo.toml",
+      "new": "name = \"zk9-private-withdraw32-lab\"",
+      "old": "name = \"zk9-private-withdraw-lab\""
+    },
+    {
+      "count": 1,
+      "file": "Cargo.toml",
+      "new": "[dependencies]\nzk9-private-withdraw-lab = { path = \"../pq-private-withdraw-v1\" }",
+      "old": "[dependencies]"
+    },
+    {
+      "count": 2,
+      "file": "src/lib.rs",
+      "new": "[u8;32]",
+      "old": "[u8;20]"
+    },
+    {
+      "count": 1,
+      "file": "src/lib.rs",
+      "new": "[0;32]",
+      "old": "[0;20]"
+    },
+    {
+      "count": 2,
+      "file": "src/prepare.rs",
+      "new": "[u8;32]",
+      "old": "[u8;20]"
+    },
+    {
+      "count": 1,
+      "file": "src/prepare.rs",
+      "new": "[0;32]",
+      "old": "[0;20]"
+    },
+    {
+      "count": 1,
+      "file": "src/lib.rs",
+      "new": "PUBLIC_VALUES:usize=297",
+      "old": "PUBLIC_VALUES:usize=291"
+    },
+    {
+      "count": 1,
+      "file": "src/graph.rs",
+      "new": "g.recipient=g.alloc(256)",
+      "old": "g.recipient=g.alloc(160)"
+    },
+    {
+      "count": 1,
+      "file": "src/layout.rs",
+      "new": "g.recipient+256",
+      "old": "g.recipient+160"
+    },
+    {
+      "count": 1,
+      "file": "src/air.rs",
+      "new": "for i in 0..16 {b.assert_eq(limb(self.graph.recipient",
+      "old": "for i in 0..10 {b.assert_eq(limb(self.graph.recipient"
+    },
+    {
+      "count": 1,
+      "file": "src/air.rs",
+      "new": "public[296]",
+      "old": "public[290]"
+    },
+    {
+      "count": 1,
+      "file": "src/config.rs",
+      "new": "PRIVATE-WITHDRAW/v2/recipient32/",
+      "old": "PRIVATE-WITHDRAW/v1/recipient20/"
+    },
+    {
+      "count": 1,
+      "file": "src/wire.rs",
+      "new": "HEADER_BYTES:usize=481",
+      "old": "HEADER_BYTES:usize=469"
+    },
+    {
+      "count": 1,
+      "file": "src/wire.rs",
+      "new": "ZK9PQW2",
+      "old": "ZK9PQW1"
+    },
+    {
+      "count": 2,
+      "file": "src/wire.rs",
+      "new": "2u32.to_le_bytes()",
+      "old": "1u32.to_le_bytes()"
+    },
+    {
+      "count": 1,
+      "file": "src/wire.rs",
+      "new": "125..157",
+      "old": "125..145"
+    },
+    {
+      "count": 1,
+      "file": "src/wire.rs",
+      "new": "157..221",
+      "old": "145..209"
+    },
+    {
+      "count": 1,
+      "file": "src/wire.rs",
+      "new": "221..285",
+      "old": "209..273"
+    },
+    {
+      "count": 1,
+      "file": "src/wire.rs",
+      "new": "285..349",
+      "old": "273..337"
+    },
+    {
+      "count": 1,
+      "file": "src/wire.rs",
+      "new": "349..413",
+      "old": "337..401"
+    },
+    {
+      "count": 1,
+      "file": "src/wire.rs",
+      "new": "413..477",
+      "old": "401..465"
+    },
+    {
+      "count": 1,
+      "file": "src/wire.rs",
+      "new": "477..481",
+      "old": "465..469"
+    },
+    {
+      "count": 1,
+      "file": "src/wire.rs",
+      "new": "481..481+PACKET_BYTES",
+      "old": "469..469+PACKET_BYTES"
+    },
+    {
+      "count": 1,
+      "file": "src/wire.rs",
+      "new": "481+PACKET_BYTES..offset",
+      "old": "469+PACKET_BYTES..offset"
+    },
+    {
+      "count": 1,
+      "file": "src/bin/qualify.rs",
+      "new": "zk9_private_withdraw32_lab::{self as wd",
+      "old": "zk9_private_withdraw_lab::{self as wd"
+    },
+    {
+      "count": 5,
+      "file": "src/bin/qualify.rs",
+      "new": "[91;32]",
+      "old": "[91;20]"
+    },
+    {
+      "count": 2,
+      "file": "src/bin/qualify.rs",
+      "new": "[0;32]",
+      "old": "[0;20]"
+    },
+    {
+      "count": 1,
+      "file": "src/bin/qualify.rs",
+      "new": "for k in 0..16",
+      "old": "for k in 0..14"
+    },
+    {
+      "count": 1,
+      "file": "src/bin/qualify.rs",
+      "new": "12=>b.recipient[0]^=1,13=>b.mode=2,14=>b.recipient[31]^=1,_=>b.recipient[20..].fill(0),",
+      "old": "12=>b.recipient[0]^=1,_=>b.mode=2,"
+    },
+    {
+      "count": 1,
+      "file": "src/bin/qualify.rs",
+      "new": "[0,8,12,44,76,108,116,117,125,145,156,157,221,285,349,413,477,481,2213,3945,bytes.len()-1]",
+      "old": "[0,8,12,44,76,108,116,117,125,145,209,273,337,401,465,469,2201,3933,bytes.len()-1]"
+    },
+    {
+      "count": 1,
+      "file": "src/bin/qualify.rs",
+      "new": "[0,8,12,116,125,157,480,481,2213,3945,bytes.len()/2,bytes.len()-1]",
+      "old": "[0,8,12,116,125,145,468,469,2201,3933,bytes.len()/2,bytes.len()-1]"
+    },
+    {
+      "count": 1,
+      "file": "src/bin/qualify.rs",
+      "new": "b[477..481]",
+      "old": "b[465..469]"
+    },
+    {
+      "count": 1,
+      "file": "src/bin/qualify.rs",
+      "new": "\"public_mutations\":16",
+      "old": "\"public_mutations\":14"
+    },
+    {
+      "count": 1,
+      "file": "src/bin/qualify.rs",
+      "new": "\"malicious_trace_verifier_rejections\":13",
+      "old": "\"malicious_trace_verifier_rejections\":12"
+    },
+    {
+      "count": 1,
+      "file": "run_qualification.py",
+      "new": "'carry-constrained','recipient-constrained','recipient-tail-constrained','mode-constrained'",
+      "old": "'carry-constrained','recipient-constrained','mode-constrained'"
+    },
+    {
+      "count": 1,
+      "file": "run_qualification.py",
+      "new": "'protocol-isolation','withdrawal-width-isolation','builder-guards'",
+      "old": "'protocol-isolation','builder-guards'"
+    },
+    {
+      "count": 1,
+      "file": "run_qualification.py",
+      "new": "get('malicious_trace_verifier_rejections')==13",
+      "old": "get('malicious_trace_verifier_rejections')==12"
+    },
+    {
+      "count": 1,
+      "file": "collect.py",
+      "new": "==13",
+      "old": "==12"
+    },
+    {
+      "count": 1,
+      "file": "collect.py",
+      "new": "a[:477]==b[:477]",
+      "old": "a[:465]==b[:465]"
+    },
+    {
+      "count": 1,
+      "file": "collect.py",
+      "new": "PASS_REPEATED_NATIVE_WITHDRAWAL32_COMPONENT",
+      "old": "PASS_REPEATED_NATIVE_WITHDRAWAL_COMPONENT"
+    },
+    {
+      "count": 1,
+      "file": "collect.py",
+      "new": "raw_malicious_proof_rejections_per_run=13",
+      "old": "raw_malicious_proof_rejections_per_run=12"
+    },
+    {
+      "count": 1,
+      "file": "collect.py",
+      "new": "genera13 pruebas",
+      "old": "genera12 pruebas"
+    },
+    {
+      "count": 1,
+      "file": "collect.py",
+      "new": "Prueba16 alteraciones p\u00fablicas,21 del sobre",
+      "old": "Prueba14 alteraciones p\u00fablicas,19 del sobre"
+    },
+    {
+      "count": 1,
+      "file": "collect.py",
+      "new": "carry, destinatario (inicio y cola), modo",
+      "old": "carry, destinatario, modo"
+    },
+    {
+      "count": 1,
+      "file": "collect.py",
+      "new": "scope':'native-withdrawal32-component-only'",
+      "old": "scope':'native-withdrawal-component-only'"
+    },
+    {
+      "count": 1,
+      "file": "collect.py",
+      "new": "componente nativo de retirada a direcci\u00f3n32, comprobado",
+      "old": "componente nativo de retirada, comprobado"
+    }
+  ],
+  "scope": "Initial mechanical recipient32 derivation; extra isolation/ABI tests added separately before qualification."
+}

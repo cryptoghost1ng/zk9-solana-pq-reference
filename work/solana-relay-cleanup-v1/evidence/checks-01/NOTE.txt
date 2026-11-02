@@ -1,0 +1,4 @@
+checks-01 (first pinned run of the cleanup revision): node reported 60 tests, 60 passed, 0 failed (the 40 unmodified windowed checks plus the 20 cleanup checks), and no input changed during the run.
+RESULT.json nevertheless says FAIL_CLEANUP_CHECKS, because the runner's own bookkeeping was wrong: it separated the cleanup tests from the regression tests with a pattern that needed a space after
+the test number, and the names of the two static tests ("C18 (static) ...", "C20 (static) ...") are cut by the result parser at "C18" / "C20", so they were counted as regression tests (42 / 18 instead of 40 / 20).
+Fix: the pattern accepts a number followed by a space OR the end of the name. The run is kept as it is; checks-02 is the repeat with the corrected runner (a new pinned run, not an edit of this one).

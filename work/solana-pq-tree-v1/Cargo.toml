@@ -1,0 +1,16 @@
+[package]
+name="zk9-solana-pq-tree"
+version="0.1.0"
+edition="2024"
+publish=false
+[workspace]
+[dependencies]
+tiny-keccak={version="=2.0.2",features=["sha3"]}
+[dev-dependencies]
+original={package="zk9-private-tree-lab",path="../pq-private-tree-v1"}
+serde_json="=1.0.150"
+[profile.release]
+lto="thin"
+codegen-units=1
+overflow-checks=true
+strip="none"

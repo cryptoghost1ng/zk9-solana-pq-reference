@@ -1,0 +1,46 @@
+{
+  "status": "READ_ONLY_PUBLIC_PROFILE_OBSERVED_NOT_AUTHENTICATED_BOOTSTRAP",
+  "observation_date_utc": "2026-10-19",
+  "clusters": [
+    {
+      "cluster": "mainnet",
+      "genesis_hash": "5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d",
+      "reported_version": {
+        "feature-set": 3383571666,
+        "solana-core": "4.3.0"
+      },
+      "reported_finalized_slot": 458732121,
+      "reported_epoch": 1061,
+      "feature_account_present": false,
+      "feature_activation_slot": null,
+      "migration_certificate_reported": false,
+      "migration_slot": null,
+      "rpc_response_is_cryptographic_bootstrap": false,
+      "certificate_signature_verified": false
+    },
+    {
+      "cluster": "devnet",
+      "genesis_hash": "EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG",
+      "reported_version": {
+        "feature-set": 1855282951,
+        "solana-core": "4.4.0-beta.0"
+      },
+      "reported_finalized_slot": 512706352,
+      "reported_epoch": 1186,
+      "feature_account_present": true,
+      "feature_activation_slot": 504144000,
+      "migration_certificate_reported": true,
+      "migration_slot": 504148999,
+      "rpc_response_is_cryptographic_bootstrap": false,
+      "certificate_signature_verified": false
+    }
+  ],
+  "public_epoch_authenticated": false,
+  "issuance_authorized": false,
+  "scheduled_mainnet_activation_source": "https://solana.com/upgrades/alpenglow",
+  "scheduled_epoch_from_docs": 1064,
+  "schedule_is_not_activation_evidence": true,
+  "next_test_environment": "devnet",
+  "endpoints_source": "https://solana.com/docs/references/clusters",
+  "detection_method_source": "https://solana.com/docs/rpc/http/getaggenesiscert"
+}

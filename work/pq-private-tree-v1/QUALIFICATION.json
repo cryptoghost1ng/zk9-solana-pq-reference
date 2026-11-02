@@ -1,0 +1,106 @@
+{
+  "adopted_in_product": false,
+  "binary_sha256": "5c22e1e915a378a7959975c61a1b3d3e590e83e25390c5eee4777b0ab011438f",
+  "cargo_lock_sha256": "d06581a0b6a1fdc86033d0c460070b8f86ffb168059dbcd189c7bb15e7a9bf84",
+  "chained_payments_tested": 3,
+  "comparison": {
+    "child_peak_rss_bytes": {
+      "depth32_median": 3058778112.0,
+      "depth32_over_depth4": 3.705807040701887,
+      "depth4_median": 825401344.0
+    },
+    "layout_ms": {
+      "depth32_median": 100.7426665,
+      "depth32_over_depth4": 4.691569880955846,
+      "depth4_median": 21.473125
+    },
+    "proof_bytes": {
+      "depth32_median": 3893064.5,
+      "depth32_over_depth4": 1.0408966963908648,
+      "depth4_median": 3740106.5
+    },
+    "prove_ms": {
+      "depth32_median": 27847.234437,
+      "depth32_over_depth4": 7.614084158926574,
+      "depth4_median": 3657.332104
+    },
+    "verify_ms": {
+      "depth32_median": 195.6651455,
+      "depth32_over_depth4": 3.3171724549148256,
+      "depth4_median": 58.985521
+    }
+  },
+  "cross_version_rejections": 2,
+  "durable_state": false,
+  "final_chained_leaf_count": 18,
+  "final_spent_nullifiers": 6,
+  "integral_post_quantum": false,
+  "limits": [
+    "Synthetic fixture has12initial notes; depth32 does not prove4billion notes tested",
+    "Ledger still cloned in memory; no persistent KV or crash/consensus behavior",
+    "Desktop/browser remain open; OS cache not flushed; native lab samples serial",
+    "Per-process native-child RSS; layout separate, verify includes AIR reconstruction",
+    "No end-to-end quantum budget reviewed; no wallet or node adoption"
+  ],
+  "parameters_unchanged_except_domain_depth": true,
+  "parents": {
+    "pq-pool-component-v1": "220725a8bd0dd24c98575f1cbd2621184a15a47701b68507dd2c24919d99d43f",
+    "pq-private-compact-v1": "d359e5ea1d620a31d9f57536a32e91a062969bc8eec036093e331a31e77963b5",
+    "pq-private-relation-v1": "5d5d551beec2c73610f5567913d1abff9497bc1221f6a4d6e30689013d5bbccc"
+  },
+  "pq_security_budget_verified": false,
+  "public_launch_ready": false,
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: aarch64-apple-darwin\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+  "samples": 30,
+  "statistics": {
+    "child_peak_rss_bytes": {
+      "mad": 5586944.0,
+      "maximum": 3375988736,
+      "median": 3058778112.0,
+      "minimum": 3050029056
+    },
+    "init_ms": {
+      "mad": 0.0031460000000000012,
+      "maximum": 0.061209,
+      "median": 0.025604,
+      "minimum": 0.016125
+    },
+    "layout_ms": {
+      "mad": 1.9866454999999945,
+      "maximum": 108.580709,
+      "median": 100.7426665,
+      "minimum": 96.26091600000001
+    },
+    "prepare_ms": {
+      "mad": 2.064833,
+      "maximum": 56.708083,
+      "median": 47.1390835,
+      "minimum": 42.976166000000006
+    },
+    "proof_bytes": {
+      "mad": 3305.5,
+      "maximum": 3906536,
+      "median": 3893064.5,
+      "minimum": 3882220
+    },
+    "prove_ms": {
+      "mad": 250.5253745000009,
+      "maximum": 29358.327332999997,
+      "median": 27847.234437,
+      "minimum": 27125.825291
+    },
+    "verify_ms": {
+      "mad": 25.538292,
+      "maximum": 256.03875,
+      "median": 195.6651455,
+      "minimum": 168.794791
+    }
+  },
+  "status": "PASS_SPARSE_DEPTH32_PRIVATE_RELATION",
+  "tests_passed": 10,
+  "theoretical_capacity": 4294967296,
+  "tree_depth": 32,
+  "tree_leaves_tested": 10000,
+  "tree_stored_nodes_upper_bound": 20100,
+  "upstream_files_unchanged": 1229
+}

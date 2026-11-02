@@ -1,0 +1,37 @@
+{
+ "note": "sha256 of the four on-chain program binaries the local validator loaded in the end-to-end runs (work/solana-unified-wallet-v1/managed-validator.mjs pins them). The binaries are not published and the build toolchain (platform-tools v1.52, Solana 3.1.10) is not part of this snapshot, so the correspondence between these sources and these hashes cannot be re-checked from here.",
+ "programs": [
+  {
+   "role": "settlement pool",
+   "file": "zk9_solana_beta_settlement.so",
+   "sha256": "94d918d5856d29ac2ffe53145abff133107d6ba45417db2488d5ba543450cf16",
+   "bytes": 222872,
+   "source_crate": "work/solana-beta-withdraw-v1/pool",
+   "build_script": "work/solana-beta-withdraw-v1/build-pool.sh"
+  },
+  {
+   "role": "send verifier",
+   "file": "zk9_solana_beta_verifier.so",
+   "sha256": "30fcee5b553c24e93a2d6ac6da784051c2b9b83feb5ca0818331332ee260c823",
+   "bytes": 5644328,
+   "source_crate": "work/solana-beta-spend-v1/verifier",
+   "build_script": "work/solana-beta-spend-v1/build-verifier.sh"
+  },
+  {
+   "role": "withdrawal verifier",
+   "file": "zk9_solana_withdraw_verifier.so",
+   "sha256": "f6ef9ced3c5988e40f107fac6a4ddbd460cf116c6aad7eaf5495344ec56d2da4",
+   "bytes": 6126688,
+   "source_crate": "work/solana-beta-withdraw-v1/verifier",
+   "build_script": "work/solana-beta-withdraw-v1/build-verifier.sh"
+  },
+  {
+   "role": "proof buffer",
+   "file": "zk9_solana_proof_buffer_lab.so",
+   "sha256": "887788bb28333a704b6455a7a171c887073417928013b8e7fbc633617b502e0e",
+   "bytes": 37376,
+   "source_crate": "work/solana-proof-buffer-v1",
+   "build_script": "work/solana-proof-buffer-v1/build.sh"
+  }
+ ]
+}

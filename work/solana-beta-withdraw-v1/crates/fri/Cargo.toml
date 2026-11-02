@@ -1,0 +1,13 @@
+[package]
+name="zk9-solana-withdraw-fri"
+version="0.1.0"
+edition="2024"
+publish=false
+[workspace]
+[dependencies]
+prefix={package="zk9-solana-withdraw-prefix",path="../prefix"}
+opening={package="zk9-solana-withdraw-opening",path="../opening"}
+[profile.release]
+lto="thin"
+codegen-units=1
+overflow-checks=true

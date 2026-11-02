@@ -1,0 +1,40 @@
+ZK9 — perfil observado en las redes públicas de Solana
+Observación:19octubre2026, aproximadamente06:23–06:25UTC.
+
+Consulta de solo lectura a los endpoints oficiales documentados:
+https://api.mainnet.solana.com y https://api.devnet.solana.com.
+Requests/respuestas/cabeceras originales se conservan. No transacciones,
+firmas de wallets, gastos, claves privadas ni programas desplegados.
+
+Mainnet: RPC solana-core4.3.0, epoch1061, finalized slot458732121.
+La cuenta de feature Alpenglow resulta null. getAgGenesisCert devuelve null
+sin error. Conforme al contrato de ese método, el nodo informa de que la red
+todavía no ha migrado. No confundirlo con MethodNotFound o un timeout.
+
+Devnet: RPC4.4.0-beta.0, epoch1186, finalized slot512706352.
+Cuenta de feature presente con propietario Feature111...; getAgGenesisCert
+devuelve un certificado de migración cuyo bloque está en slot504148999.
+La firma de ese certificado NO se ha validado contra un conjunto histórico
+autenticado. Solo se registra lo que devuelve el endpoint.
+
+La documentación oficial https://solana.com/upgrades/alpenglow muestra
+Mainnet:Not activated y Devnet:Active. Publica la activación prevista para
+epoch1064,21octubre2026, aproximadamente15:00UTC. La fecha es una previsión,
+no evidencia de activación ni fecha de lanzamiento ZK9.
+Fuente del método: https://solana.com/docs/rpc/http/getaggenesiscert
+Fuente de endpoints: https://solana.com/docs/references/clusters
+
+Implicación concreta
+La versión del nodo no basta para seleccionar el consenso. Nuestro perfil
+Alpenglow local no se debe aplicar hoy a mainnet por observar4.3.0. La siguiente
+comprobación pública debe hacerse con datos de devnet, conservando la
+distinción entre descubrimiento por RPC y autenticación criptográfica.
+El perfil devnet4.4 puede activar características que el binder4.3.2 restringido
+rechaza (p.ej.UpdateParent); hay que comprobarlas, no relajarlas en silencio.
+
+Un certificado Genesis no reemplaza un certificado de finalización ordinario
+ni autentica por sí mismo el conjunto de validadores usado para verificarlo.
+El RPC no se convierte en oráculo de emisión. Este informe no satisface el
+bootstrap de producción, la revisión externa ni los otros gates públicos.
+No crear un monitor/automation salvo petición del usuario; revalidar estos
+datos cuando se haga la siguiente decisión dependiente de la activación.

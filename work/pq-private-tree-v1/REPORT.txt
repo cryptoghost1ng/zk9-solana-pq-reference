@@ -1,0 +1,31 @@
+ZK9 — Árbol disperso de32niveles y pago privado,14 de octubre de2026
+
+El árbol deja de reservar todas sus posiciones. Capacidad lógica2^32; solo
+se materializan nodos ocupados. Las pruebas usan32bits de dirección y el
+verificador fija la profundidad. Esto no significa probar4.294millones de notas.
+
+Pasaron10tests,30muestras criptográficas y2rechazos entre versiones. Los
+tests contrastan raíces/caminos con Python independiente, crecen a10.000notas
+con menos de20.100nodos y encadenan3pagos reales de laboratorio hasta18notas
+y6nullifiers consumidos, superando la capacidad anterior de16.
+
+layout_ms: profundidad4 21.473; profundidad32 100.743; factor 4.692.
+prove_ms: profundidad4 3657.332; profundidad32 27847.234; factor 7.614.
+verify_ms: profundidad4 58.986; profundidad32 195.665; factor 3.317.
+proof_bytes: profundidad4 3740106.500; profundidad32 3893064.500; factor 1.041.
+child_peak_rss_bytes: profundidad4 825401344.000; profundidad32 3058778112.000; factor 3.706.
+
+Unidades: ms,bytes y RSSbytes según campo. Mediana/MAD/mínimo/máximo y
+muestras originales en evidence/series-01. Se separan inicialización, layout
+y traza. Cada prueba se verifica también tras deserializar.
+
+Mismos hashes y parámetros, dominio nuevo,72hashes148permutaciones,4096filas
+y10405columnas. La tabla compara la misma máquina de forma secuencial; no
+controla escritorio, cachéSO ni garantiza velocidad en otros dispositivos.
+
+Pendientes para producto: estado persistente con atomicidad/recuperación,
+decodificación hostil acotada, versión propia del pool en el nodo y wallet,
+notas cifradas y descubrimiento. La aplicación actual admite otro formato
+privado de64KB; RPC tiene2MB. No se elevan límites ni se instala este candidato.
+La profundidad32 elimina un límite del laboratorio. La composición PQ,
+transporte, auditoría externa y operadores independientes siguen pendientes.

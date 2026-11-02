@@ -1,0 +1,76 @@
+{
+ "widths": {
+  "send_v2": 10406,
+  "send_v3_public_binding_liveness": 7525,
+  "withdraw_v2": 10729
+ },
+ "proof_size_model": {
+  "slope_bytes_per_column": 321.11,
+  "fixed_bytes": 552374,
+  "expected_slope_from_structure": "64 queries x 4 bytes = 256 for the opened main-trace rows, plus 2 opening points x 8 base-field coefficients x 4 bytes = 64 for out-of-domain openings: 320",
+  "fitted_on": "the two send relations",
+  "checked_on": "the withdraw relation (width read independently by the probe)",
+  "checks": [
+   {
+    "wire": "3d7c8907982a26eb.withdraw.wire",
+    "kind": "withdraw",
+    "trace_width_used": 10729,
+    "proof_bytes": 4002466,
+    "model_bytes": 3997547,
+    "error_percent": -0.12,
+    "used_in_the_fit": false
+   },
+   {
+    "wire": "bad3d160130343d1.withdraw.wire",
+    "kind": "withdraw",
+    "trace_width_used": 10729,
+    "proof_bytes": 3985621,
+    "model_bytes": 3997547,
+    "error_percent": 0.3,
+    "used_in_the_fit": false
+   },
+   {
+    "wire": "2e0996342aed43b1.send.wire",
+    "kind": "send",
+    "trace_width_used": 7525,
+    "proof_bytes": 2967889,
+    "model_bytes": 2968716,
+    "error_percent": 0.03,
+    "used_in_the_fit": true
+   },
+   {
+    "wire": "8e99c8bf5aef087b.send.wire",
+    "kind": "send",
+    "trace_width_used": 7525,
+    "proof_bytes": 2971989,
+    "model_bytes": 2968716,
+    "error_percent": -0.11,
+    "used_in_the_fit": true
+   }
+  ]
+ },
+ "failed_prediction": {
+  "written_before_building_the_probe": "width-probe/PREDICTION.txt",
+  "predicted_withdraw_width": 10214,
+  "accepted_range": [
+   9900,
+   10500
+  ],
+  "measured": 10729,
+  "result": "MISSED (+5.0 % over the prediction, outside the accepted range)",
+  "probable_cause": "the Merkle-opening stage is not proportional to width alone: a two-point fit gives 58.3 K compute units per column plus a fixed 84 M, so the compute ratio (1.357) understates the width ratio (1.425). That fit has two points and is not a validation."
+ },
+ "input_mmcs_two_point_fit": {
+  "compute_units_per_column": 58302,
+  "fixed_compute_units": 84010112,
+  "width_proportional_share_of_the_send_v3_stage": 0.839
+ },
+ "what_if_not_verified": {
+  "withdraw_with_the_same_absolute_width_reduction_as_send_v3": {
+   "width": 7848,
+   "proof_bytes": 3072434
+  },
+  "note": "Whether the public-binding change of v3 applies to the withdraw relation is an untested hypothesis."
+ },
+ "scope": "Arithmetic over measured widths and archived proof sizes. Says nothing about security parameters, privacy or mainnet cost."
+}

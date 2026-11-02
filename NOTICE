@@ -1,0 +1,12 @@
+ZK9 research snapshot
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Third-party components included in this snapshot, each under its own licence:
+
+* Plonky3 (https://github.com/Plonky3/Plonky3), revision f98331687e47106a64ab82a77e2e1d0d66c9161b, vendored under work/pq-pool-selection-v1/plonky3.
+  Licensed MIT OR Apache-2.0; the upstream LICENSE-MIT and LICENSE-APACHE files are kept in that directory. The file list and sha256 values of the vendored sources are in
+  work/pq-pool-selection-v1/SOURCES.json.
+
+* Rust crates fetched from crates.io are NOT included; each crate's Cargo.lock names the exact versions, and each of those crates carries its own licence.
+
+* The Node.js code that the relay-layer checks load uses only Node's built-in modules (no npm packages).

@@ -1,0 +1,75 @@
+ZK9 — elección preliminar del backend para el pool privado poscuántico
+
+Decisión de laboratorio, 2026-10-14: evaluar Plonky3 HidingFriPcs en la revisión
+f98331687e47106a64ab82a77e2e1d0d66c9161b. Todavía no se adopta para producción.
+La fuente completa está fijada, cotejada contra los blobs del commit y extraída
+sin ejecutar código. No hay build, prueba criptográfica ni mediciones de este
+backend en este hito. El pool instalado de ZK9 sigue siendo el anterior.
+
+Motivo verificable: el backend incluye ocultamiento, pero obliga a usar dos
+MMCS con ocultamiento; el tipo no lo impone. También exige entropía impredecible,
+suficientes máscaras y no reutilizar datos privados del prover entre pruebas.
+Un benchmark con semillas conocidas no acreditaría privacidad de datos reales.
+Fuente: https://github.com/Plonky3/Plonky3/blob/f98331687e47106a64ab82a77e2e1d0d66c9161b/fri/src/hiding_pcs.rs
+
+La cota implementada es N >= 2*(q + d*p), con N altura de máscara, q consultas,
+d grado de extensión y p puntos de apertura. Se exige además al menos d
+codewords aleatorios. Los puntos repetidos/trasladados cuentan conservadoramente.
+La configuración ZK y las aperturas de aleatorización tienen verificaciones
+específicas; habrá que usar el flujo completo, no solo ocultar un compromiso.
+Fuentes: fri/src/hiding_pcs.rs y uni-stark/src/verifier.rs de esa misma revisión.
+
+El módulo security separa estimaciones por regímenes y distingue hipótesis.
+Además limita la estimación por la resistencia a colisiones del hash configurada
+por el usuario. Su salida no demuestra por sí sola un presupuesto poscuántico
+de extremo a extremo. No trasladar bits de grinding, hashes o Fiat–Shamir a una
+promesa PQ sin justificar el modelo correspondiente.
+Fuentes: https://github.com/Plonky3/Plonky3/blob/f98331687e47106a64ab82a77e2e1d0d66c9161b/security/src/stark.rs
+y security/src/assumption.rs y security/src/grinding.rs del archivo fijado.
+
+La auditoría de Least Authority de noviembre de 2024 declara que revisó un
+sistema sin ocultamiento y no evaluó seguridad zero knowledge. No cubre por
+inferencia este backend de 2026. El árbol fijado contiene ese PDF; en esta revisión
+no se ha reunido evidencia de una auditoría que cubra la composición privada
+que ZK9 necesita. Esto no afirma que no exista otra revisión externa.
+Fuente: https://leastauthority.com/polygon-plonky3-final-audit-report/ páginas3 y6.
+
+Otros candidatos: la documentación de Winterfell consultada advierte límites
+de zero knowledge; no se toma un ejemplo por defecto como un pool privado.
+Fuente: https://github.com/facebook/winterfell/blob/main/README.md
+No se selecciona una implementación basándose en el marketing de otra moneda.
+
+Siguiente experimento de implementación
+
+1. Crear un crate propio separado, fijar dependencias/lock y compilador Rust
+   local, sin cambiar herramientas globales. No modificar la fuente upstream.
+2. Integrar una configuración HidingFriPcs cerrada: MMCS con ocultamiento,
+   CSPRNG, máscaras/aperturas coherentes y configuración del verificador fijada
+   fuera de la prueba. Documentar hashes, campos, extensión, consultas y blowup.
+3. Validar primero los mecanismos de ocultamiento y rechazo de datos alterados.
+   Ese resultado se llamará prueba de componentes, no pago privado completo.
+4. Implementar una relación de dos entradas y dos salidas con posesión de secretos,
+   pertenencia a un árbol autenticado, nullifiers ligados a la nota/red, rangos
+   enteros, mismo activo y conservación exacta de valor y comisión. Todo debe
+   quedar ligado a los inputs públicos y al transcript; no añadir una envoltura
+   sobre MASP/Groth16. El esquema definitivo de nota/hash se fija tras evaluar
+   el presupuesto de seguridad y costes; no hay formato aprobado todavía.
+5. Incorporar consumo atómico de nullifiers, rechazo de duplicados/replay,
+   raíces autorizadas y ausencia de una ruta clásica que permita inflación.
+   Después integrar cifrado, discovery y recuperación PQ de esas mismas notas.
+6. Medir preparación, prueba, verificación, tamaño y memoria por separado.
+   Empezar con una ejecución corta y serial; luego muestras repetidas. Comparar
+   el mismo enunciado y alcance, no un pequeño AIR con un pago MASP completo.
+
+No cerrado por este documento: privacidad de la configuración, presupuesto PQ,
+soundness de nuestro circuito, conservación de suministro, rendimiento,
+interoperabilidad, revisión externa ni integración de wallet/red/bridge.
+Las notas clásicas publicadas no adquieren confidencialidad retroactiva.
+
+Prioridad de lanzamiento
+
+La custodia y el consenso han avanzado con pruebas locales. La migración del pool
+privado es el cambio criptográfico mayor pendiente; debe avanzar ahora, sin
+sustituirla por más repeticiones del mismo consenso. Mantener también pendientes
+la continuidad independiente del firmante, transporte PQ, perfil Robinhood,
+configuración pública, operadores independientes y revisión externa.

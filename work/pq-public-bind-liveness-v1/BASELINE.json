@@ -1,0 +1,10 @@
+{
+  "status": "SOURCE_DRAFT_NOT_BUILT",
+  "source_pins": {
+    "<ZK9_ROOT>/work/pq-private-send-v1/src/layout.rs": "b206223b046ddea9e2e2b11baac8ab82fcef12e72307308bc9fae70ed3dbbdb8",
+    "<ZK9_ROOT>/work/pq-private-send-v1/src/air.rs": "43fcc716e5fabc305bb784b2fd7944ebb35b5073cb543c0b4130df07ace88e31",
+    "<ZK9_ROOT>/work/pq-private-send-v1/src/builder.rs": "8c276a009548f2cc487e818a575b8ad20423c62eed8b899f3a85be07e46ccac9",
+    "<ZK9_ROOT>/work/pq-private-send-v1/src/trace.rs": "1212650763e06819c9680bad520388decc363b24f03696bf452a0da49924a25a"
+  },
+  "production_ready": false
+}

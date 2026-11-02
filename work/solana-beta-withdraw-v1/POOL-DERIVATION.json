@@ -1,0 +1,14 @@
+{
+  "parent": "../solana-beta-spend-v1",
+  "parent_files": {
+    "src/lib.rs": "b9183dfa3e6f49f06117c598277258779f389bde60be0bfacd456650a0a05c1b",
+    "src/spend.rs": "457a6b6c9df521a89e3b7bf15025b643639e84772ae324506fc7864859f88cec",
+    "src/asset.rs": "5ce80155563acae6d1adee71253d2a72440c048d800a65b3affd1dc4cecc2454",
+    "Cargo.toml": "79b2c8813920cec1fd143be86b916ed09372c52dd69179bd58e59d19af769a6c"
+  },
+  "format": "ZK9BETA3",
+  "distinct_program_required": true,
+  "native_tests_pending": true,
+  "runtime_tests_pending": true,
+  "existing_pool_unchanged": true
+}

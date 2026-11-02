@@ -1,0 +1,384 @@
+{
+  "all_detected": true,
+  "undetected": [],
+  "count": 36,
+  "results": [
+    {
+      "mutation": "control_unmutated",
+      "file": "cleanup-policy.mjs",
+      "exit_code": 0,
+      "selected": ".",
+      "failing_tests": [],
+      "failing_count": 0
+    },
+    {
+      "mutation": "receipt_close_wrong_opcode",
+      "file": "cleanup-policy.mjs",
+      "exit_code": 1,
+      "selected": "^(C5) ",
+      "failing_tests": [
+        "C5 the close instructions are exactly the verifier's and the buffer pr"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "receipt_close_opcode_is_the_buffers",
+      "file": "cleanup-policy.mjs",
+      "exit_code": 1,
+      "selected": "^(C5) ",
+      "failing_tests": [
+        "C5 the close instructions are exactly the verifier's and the buffer pr"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "buffer_close_is_a_seal",
+      "file": "cleanup-policy.mjs",
+      "exit_code": 1,
+      "selected": "^(C5|C1) ",
+      "failing_tests": [
+        "C1 cleanup closes the receipt FIRST and the buffer second, each once, ",
+        "C5 the close instructions are exactly the verifier's and the buffer pr"
+      ],
+      "failing_count": 2
+    },
+    {
+      "mutation": "receipt_close_on_the_buffer_program",
+      "file": "cleanup-policy.mjs",
+      "exit_code": 1,
+      "selected": "^(C5) ",
+      "failing_tests": [
+        "C5 the close instructions are exactly the verifier's and the buffer pr"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "buffer_close_on_the_verifier_program",
+      "file": "cleanup-policy.mjs",
+      "exit_code": 1,
+      "selected": "^(C5) ",
+      "failing_tests": [
+        "C5 the close instructions are exactly the verifier's and the buffer pr"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "buffer_close_work_unchecked",
+      "file": "cleanup-policy.mjs",
+      "exit_code": 1,
+      "selected": "^(C19) ",
+      "failing_tests": [
+        "C19 a stored close whose descriptor is not canonical"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "receipt_close_work_unchecked",
+      "file": "cleanup-policy.mjs",
+      "exit_code": 1,
+      "selected": "^(C19) ",
+      "failing_tests": [
+        "C19 a stored close whose descriptor is not canonical"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "close_target_unchecked",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(C6) ",
+      "failing_tests": [
+        "C6 only the two request accounts can be named: no other target, no ext"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "close_extra_fields_allowed",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(C6) ",
+      "failing_tests": [
+        "C6 only the two request accounts can be named: no other target, no ext"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "close_targets_swapped",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(C1|C5) ",
+      "failing_tests": [
+        "C1 cleanup closes the receipt FIRST and the buffer second, each once, ",
+        "C5 the close instructions are exactly the verifier's and the buffer pr"
+      ],
+      "failing_count": 2
+    },
+    {
+      "mutation": "buffer_closed_before_the_receipt",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(C1) ",
+      "failing_tests": [
+        "C1 cleanup closes the receipt FIRST and the buffer second, each once, "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "incomplete_buffer_closed",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(C4) ",
+      "failing_tests": [
+        "C4 an unsealed or incomplete buffer is never closed"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "buffer_closed_without_reading_it",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(C3|C4) ",
+      "failing_tests": [
+        "C3 the buffer is closed only while it still holds exactly the proof we",
+        "C4 an unsealed or incomplete buffer is never closed"
+      ],
+      "failing_count": 2
+    },
+    {
+      "mutation": "cleanup_mode_always_on",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(C2|C20) ",
+      "failing_tests": [
+        "C2 nothing is ever closed while the payment is still being published",
+        "C20"
+      ],
+      "failing_count": 2
+    },
+    {
+      "mutation": "cleanup_mode_on_by_default",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(C2|C20) ",
+      "failing_tests": [
+        "C2 nothing is ever closed while the payment is still being published",
+        "C20"
+      ],
+      "failing_count": 2
+    },
+    {
+      "mutation": "cleanup_end_reported_as_verified",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(C1|C14|C20) ",
+      "failing_tests": [
+        "C1 cleanup closes the receipt FIRST and the buffer second, each once, ",
+        "C14 once everything is closed a fresh sender finds nothing to do and s",
+        "C20"
+      ],
+      "failing_count": 3
+    },
+    {
+      "mutation": "publication_end_reported_as_cleaned",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(C20) ",
+      "failing_tests": [
+        "C20"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "receipt_close_trusted_without_reading",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(C12) ",
+      "failing_tests": [
+        "C12 a close counts as done only when the account is really gone, not w"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "buffer_close_trusted_without_reading",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(C12) ",
+      "failing_tests": [
+        "C12 a close counts as done only when the account is really gone, not w"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "receipt_close_counts_when_buffer_is_gone",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(C1|C12|C15) ",
+      "failing_tests": [
+        "C1 cleanup closes the receipt FIRST and the buffer second, each once, ",
+        "C12 a close counts as done only when the account is really gone, not w"
+      ],
+      "failing_count": 2
+    },
+    {
+      "mutation": "conflicted_payment_cleaned_too",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C18) ",
+      "failing_tests": [
+        "C18"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "cleanup_failure_not_fatal",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C18) ",
+      "failing_tests": [
+        "C18"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "cleanup_off_by_default",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C17|C18) ",
+      "failing_tests": [
+        "C17 the task validates the cleanup option before reserving any funds, "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "cleanup_option_unvalidated",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C17) ",
+      "failing_tests": [
+        "C17 the task validates the cleanup option before reserving any funds, "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "journal_refuses_during_cleanup",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C18) ",
+      "failing_tests": [
+        "C18"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "journal_not_told_cleanup_began",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C18) ",
+      "failing_tests": [
+        "C18"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "sender_not_told_cleanup_began",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C18) ",
+      "failing_tests": [
+        "C18"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "unfinished_cleanup_reported_done",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C18) ",
+      "failing_tests": [
+        "C18"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "cleanup_never_marked_done",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C18) ",
+      "failing_tests": [
+        "C18"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "settled_from_the_sender_reaches_the_supervisor",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C22) ",
+      "failing_tests": [
+        "C22"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "router_ignores_the_cleanup_option",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C21) ",
+      "failing_tests": [
+        "C21 a request the settlement sender reports as settled is NOT reported"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "router_ignores_that_cleanup_is_done",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C21) ",
+      "failing_tests": [
+        "C21 a request the settlement sender reports as settled is NOT reported"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "router_ignores_the_task_state",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C21) ",
+      "failing_tests": [
+        "C21 a request the settlement sender reports as settled is NOT reported"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "router_holds_back_every_result",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C21) ",
+      "failing_tests": [
+        "C21 a request the settlement sender reports as settled is NOT reported"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "router_drops_the_task_id",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C21) ",
+      "failing_tests": [
+        "C21 a request the settlement sender reports as settled is NOT reported"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "router_pending_state_is_final",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(C21|C22) ",
+      "failing_tests": [
+        "C21 a request the settlement sender reports as settled is NOT reported",
+        "C22"
+      ],
+      "failing_count": 2
+    }
+  ]
+}

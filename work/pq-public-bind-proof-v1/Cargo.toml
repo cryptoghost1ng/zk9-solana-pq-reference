@@ -1,0 +1,39 @@
+[package]
+name = "zk9-public-bind-proof-lab"
+version = "0.1.0"
+edition = "2024"
+publish = false
+[workspace]
+[dependencies]
+zk9-private-send-lab = { path = "../pq-private-send-v1" }
+zk9-public-bind-liveness-lab = { path = "../pq-public-bind-liveness-v1" }
+zk9-private-tree-lab = { path = "../pq-private-tree-v1" }
+serde = "=1.0.229"
+zk9-private-compact-lab = { path = "../pq-private-compact-v1" }
+zk9-hiding-balance-component = { path = "../pq-pool-component-v1" }
+p3-air = { path = "../pq-pool-selection-v1/plonky3/air" }
+p3-baby-bear = { path = "../pq-pool-selection-v1/plonky3/baby-bear" }
+p3-challenger = { path = "../pq-pool-selection-v1/plonky3/challenger" }
+p3-commit = { path = "../pq-pool-selection-v1/plonky3/commit" }
+p3-dft = { path = "../pq-pool-selection-v1/plonky3/dft" }
+p3-field = { path = "../pq-pool-selection-v1/plonky3/field" }
+p3-fri = { path = "../pq-pool-selection-v1/plonky3/fri" }
+p3-keccak = { path = "../pq-pool-selection-v1/plonky3/keccak" }
+p3-keccak-air = { path = "../pq-pool-selection-v1/plonky3/keccak-air" }
+p3-matrix = { path = "../pq-pool-selection-v1/plonky3/matrix" }
+p3-merkle-tree = { path = "../pq-pool-selection-v1/plonky3/merkle-tree" }
+p3-symmetric = { path = "../pq-pool-selection-v1/plonky3/symmetric" }
+p3-uni-stark = { path = "../pq-pool-selection-v1/plonky3/uni-stark" }
+rand = { version = "=0.10.3", default-features = false, features = ["std", "std_rng", "sys_rng"] }
+tiny-keccak = { version = "=2.0.2", features = ["sha3"] }
+postcard = { version = "=1.1.3", features = ["alloc"], default-features = false }
+serde_json = "=1.0.150"
+zk9-note-delivery = { path = "../pq-note-delivery-v1" }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+debug-assertions = false
+overflow-checks = true
+strip = "none"

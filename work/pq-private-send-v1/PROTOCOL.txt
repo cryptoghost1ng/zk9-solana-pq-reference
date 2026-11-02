@@ -1,0 +1,51 @@
+ZK9 private send v2 — cambio de relación experimental
+
+Problema resuelto por el circuito
+El formato anterior exigía dos entradas con pertenencia al árbol. Una wallet
+con una sola nota recibida no podía construir un pago. La nueva relación admite
+una o dos entradas reales conservando dos nullifiers y dos compromisos de salida.
+
+Invariantes
+1. La primera entrada demuestra siempre propiedad, compromiso y pertenencia
+   al árbol SHA3-512 de profundidad 32. No existe un pago sin entrada real.
+2. Un bit privado, booleano y constante durante toda la traza, indica si la
+   segunda entrada requiere pertenencia. Si vale cero, CADA uno de sus 64 bits
+   de importe debe valer cero. No se reduce el importe completo módulo BabyBear.
+3. Ambas entradas conservan todos los trabajos de hash, direcciones derivadas,
+   compromisos y nullifiers. Ningún trabajo o ronda es opcional. El relleno lleva
+   un secreto y rho aleatorios; su marcador también debe registrarse como gastado.
+4. Conservación de valor, rangos u64, comisión, contexto, salidas y vinculación
+   de los paquetes cifrados mantienen las obligaciones del circuito padre.
+5. Versionado incompatible: dominio PRIVATE-SEND/v2, magic ZK9PQS2\0 y versión
+   binaria 2. El keeper/verificador antiguo no debe aceptar este formato.
+
+Constructor nativo prepare.rs
+Comprueba que el árbol LOCAL completo coincide con una raíz autenticada por el
+llamador; comprueba índice, compromiso y propietario de cada nota seleccionada;
+calcula cambio y comisión sin overflow; genera rho de ambas salidas y relleno
+con entropía del sistema. No acepta claves de relleno o rho de salida de la UI.
+Admite hasta dos notas seleccionadas, con suma dentro de u64. No proporciona
+selección/consolidación de más notas. El llamador debe excluir notas gastadas y
+reservarlas de forma duradera. El constructor no equivale a esa reserva.
+
+Privacidad y alcance
+El indicador es privado, pero la forma fija no prueba anonimato de red ni evita
+correlación temporal. ML-KEM/AEAD de los paquetes no cambia en este hito. Los
+paquetes de qualify.rs son bytes de prueba, NO notas cifradas válidas. Las
+pruebas criptográficas son reales; los saldos y claves son sintéticos y públicos.
+La seguridad poscuántica compuesta continúa pendiente de revisión externa.
+
+Integración necesaria a continuación
+- Autenticar y conservar todos los compromisos, incluidos los de génesis, para
+  reconstruir caminos localmente. Pedir sólo los índices propios a un RPC
+  revelaría qué notas interesan a la wallet. La consulta de membership existente
+  del keeper no debe convertirse en ese patrón de consulta privada.
+- Versionar el perfil y adoptar el verificador v2 en keeper/App; verificar
+  doble gasto, backing y persistencia con sobres cifrados de esta nueva versión.
+- Añadir selección/reservas/outbox cifrados, aprobación nativa, construcción de
+  paquetes, envío y recuperación tras interrupciones. Bump explícito del esquema
+  de backup: su versión actual rechaza tablas/columnas desconocidas.
+- Integrar todo el recorrido en la wallet y comprobarlo con operadores
+  independientes. Este componente no cambia el producto instalado ni CURRENT.
+
+No constituye lanzamiento público, mainnet, habilitación de venta ni auditoría.

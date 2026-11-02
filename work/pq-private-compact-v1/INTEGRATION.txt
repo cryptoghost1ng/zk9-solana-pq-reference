@@ -1,0 +1,20 @@
+Lectura de integración, sin cambios en el nodo instalado
+
+En work/gloas-native-integration-v1/native:
+- internal/privatepool/yield_transfer.go: TransferPrivateYield rechaza tx>64000,
+  usa maspverify.TransferVerifier, precheck de nullifiers y CacheContext con
+  commit solo al final. El nuevo pool necesita versión/esquema propios; estas
+  pruebas NO pueden sustituir directamente a la transacción privada clásica.
+- app/private_pool_enabled.go: configuración soporta0/2, pool v2 desde génesis
+  nueva, vincula reserva y notas iniciales. Conservar contabilidad de respaldo
+  y atomicidad; no permitir emisión mediante una ruta clásica paralela.
+- internal/pqaccounts/accounts.go: Payload serializa campos fijos de cuenta,
+  acción, secuencia, vencimiento, destinatario, cantidad, propietario y recuperación.
+  No incluye una prueba privada. El límite128KiB de pqhybrid/auth.go no es un
+  límite ya aplicado a una transacción de este nuevo pool.
+- Config del candidato pq-signer-guard node0: RPC2.000.000bytes, mempool4MiB,
+  bloque55.600.190bytes. Datos/hashes en el resultado de la relación padre.
+
+No elevar límites como sustituto de dimensionar el árbol, decodificar entradas
+hostiles, calibrar gas/tiempo/RAM y completar la ruta wallet→nodo. Ninguna prueba
+de este experimento se ha enviado a ese nodo ni adoptado como formato público.

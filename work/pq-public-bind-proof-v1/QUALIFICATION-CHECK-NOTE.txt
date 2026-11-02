@@ -1,0 +1,14 @@
+qualify-01 native command completed with all four valid proofs and eleven genuine
+malformed-trace proofs rejected. The first evidence checker then failed because
+it expected Debug text `OodEvaluationMismatch` without its structured field.
+Pinned p3 uni-stark error.rs defines OodEvaluationMismatch { index: Option<usize> };
+verifier.rs returns OodEvaluationMismatch { index: None } for this failed constraint
+identity. All eleven actual errors have exactly that Debug string.
+
+The original checker/runner and failed driver stderr are preserved. New
+check-qualification-v2.py changes only the expected string to the exact pinned
+variant; it still refuses other error kinds or index values. Supporting source
+and checker hashes are in evidence/checker-v2-change.json. No circuit, proof,
+compiler, native binary, parameters or assertion category changed.
+qualify-01-rechecked.json records the successful v2 recheck. Subsequent runs use
+run-qualification-v2.sh and check-qualification-v2.py. The repeat is still required.

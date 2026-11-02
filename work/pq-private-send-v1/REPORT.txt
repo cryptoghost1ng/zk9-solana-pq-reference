@@ -1,0 +1,37 @@
+ZK9 — una o dos entradas privadas, componente verificado
+
+El circuito permite gastar una sola nota manteniendo dos posiciones públicas.
+La segunda sólo puede omitir pertenencia cuando sus 64 bits de importe son cero.
+La primera conserva propiedad y pertenencia obligatorias. El indicador privado
+es booleano y constante; todo el calendario de hashes se mantiene fijo.
+
+Constructor nativo: recibe notas seleccionadas y árbol local, comprueba raíz,
+propietario, compromiso e índice; calcula cambio/comisión con límites u64 y
+genera aleatoriedad de salidas/relleno con el sistema operativo. No autentica
+consenso, reserva notas, cifra paquetes ni envía pagos por sí mismo.
+
+Verificación: tres tests de constructor pasan. Dos procesos independientes
+completan 14 casos cada uno; ambos generan/verifican pagos de una entrada, dos
+entradas, valor u64 máximo y construcción desde nota local. Comprueban aislamiento
+del protocolo anterior, 11 alteraciones públicas, cinco de prueba, 16 de sobre,
+nueve truncamientos y otros rechazos de formato/balance. Siete trazas hostiles
+por proceso son convertidas en pruebas por el prover de release y rechazadas
+por el verificador, incluyendo el importe 2013265921 disfrazado de valor cero.
+Los tests de flag booleano y estacionario usan una nota cero que SÍ pertenece
+al árbol, para aislar esas condiciones de la condición de pertenencia.
+
+Las pruebas aleatorias difieren entre ejecuciones. Los escenarios fijos mantienen
+los mismos campos públicos y paquetes. Los paquetes son placeholders sintéticos:
+este hito no prueba de nuevo ML-KEM ni crea transacciones válidas para el nodo.
+Se conserva la evidencia del primer build fallido por tipos distintos de prueba
+entre crates; se corrigió el test diferencial mediante serialización canónica.
+
+Ejecución 1: 347.807 s para toda la batería; RSS máximo 5427101696 bytes.
+Ejecución 2: 341.823 s para toda la batería; RSS máximo 6057951232 bytes.
+
+No son benchmarks ni resultados de mainnet. Falta adoptar wire v2/perfil nuevo
+en keeper/App, conservar árbol completo en wallet, reservas y outbox cifradas,
+revisión nativa, cifrado de paquetes, envío/reintento y recuperación integral.
+El esquema de copias debe versionarse explícitamente. No cambia CURRENT ni el
+producto instalado. La red pública, operadores independientes, revisión externa
+y protección poscuántica integral siguen pendientes.

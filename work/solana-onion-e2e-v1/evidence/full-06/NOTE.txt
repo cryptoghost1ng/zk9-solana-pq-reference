@@ -1,0 +1,21 @@
+full-06: FIRST LIVE RUN of the cleanup revision (generation 1 of ../../../solana-relay-cleanup-v1, service v3 generation 1, run_payment_v5.py generation 1). It is a FAILURE, kept as it is. It found what the model checks could not.
+
+WHAT IT SHOWED
+- The send leg ran and settled in the extension (final_state settled, 1,176.7 s, proof 138.5 s), the relay was killed with SIGKILL once mid-publication and resumed, exactly as in full-05.
+- The relay then printed `finished` (settled, 5,943 steps, 1,011 s) for the send WITHOUT a single `cleanup` event, and the validator still held the send's verifier receipt and proof buffer (checks
+  send_verifier_receipt_account_is_gone_on_the_validator, send_proof_buffer_account_is_gone_on_the_validator and send_relay_confirmed_the_receipt_close_and_then_the_buffer_close are false: 38 of 42 checks true).
+- Cause: the settlement sender reports `settled` inside its own step (it reconciles by itself), the supervisor stops stepping a request the moment it is told `settled`, and the cleanup block at the top of
+  LocalRelayTask.step() was never reached. The model checks (checks-02, mutation-02) could not see it: the task wiring was only checked as text. Generation 2 routes every step result through routeStepResult.
+
+WHAT I DID TO THE RUNNING LAB (this record is therefore NOT a clean measurement of anything after minute ~26)
+- With the validator still alive I ran close_experiment.mjs (kept here) against it: the cleanup revision's own journal and policy build the two closes (receipt, then buffer) for the SEND request and then for the WITHDRAW request
+  (still being published) and the script signs them with the relay's own sponsor key and sends them. The results, which settle the question the source review had left open (it had not run the verifier close against the pinned binaries):
+    send     receipt close  (send verifier,  opcode 2): simulation ok (7,653 CU), landed err=null, account gone, refund 2,288,865,600 lamports - 5,000 fee, single signer (the sponsor)
+    send     buffer  close  (proof buffer,   opcode 3): simulation ok (7,017 CU), landed err=null, account gone, refund 21,477,564,720 lamports - 5,000 fee
+    withdraw receipt close  (withdraw verifier, opcode 2): simulation ok, landed err=null, account gone, refund 2,931,106,560 lamports (balance delta 10,000 lower: its own fee plus one concurrent relay transaction)
+    withdraw buffer  close  (proof buffer,  opcode 3): simulation ok, landed err=null, account gone, refund 28,898,393,280 lamports - 5,000 fee
+  The first two refunds were checked exactly against the pre/post balances of each transaction (delta == refund - fee).
+  Closing the withdrawal's accounts while it was publishing broke that leg on purpose; I then interrupted the driver with SIGINT (the error in RESULT.json is that KeyboardInterrupt, and
+  no_process_left_with_the_disposable_profiles is false because of it). The withdrawal leg of full-06 therefore never settled, and its sponsor-cost numbers do not exist.
+- Nothing from this run counts towards the qualification of the cleanup revision; it is the reason generation 2 exists. full-07 is the repeat.
+run_payment_v5.generation-1.py is the driver as it was in this run (its hash is the one pinned in INPUTS.json).

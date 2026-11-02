@@ -1,0 +1,22 @@
+ZK9 — recuperación del saldo de almacenamiento
+Revisión de código y evidencia histórica; no implementación ni ensayo nuevo.
+
+Hallazgo
+El programa congelado del buffer ya implementa CLOSE (opcode 3). Exige firma del propietario registrado y devuelve lamports solamente a ese propietario; reduce el tamaño a cero y asigna la cuenta al System Program. El manifiesto de src/lib.rs y del ELF coincide con sus bytes actuales. La evidencia histórica final-02 incluye cierre y recuperación de depósitos en el ensayo de transporte, no después de un pago completo.
+
+Los fuentes actuales de los verificadores de envío y retirada también implementan CLOSE (opcode 2): cinco cuentas, recibo de tamaño exacto y propietario correcto, autoridad firmante registrada y destino de devolución fijado a esa autoridad. La rama sale antes de consultar los bytes del buffer. Esta revisión no reconstruyó los verificadores ni ensayó su cierre; la correspondencia con cada binario aceptado y su comportamiento deben verificarse antes de integrar.
+
+Brecha concreta
+PublicationPolicy no ofrece instrucciones de cierre. LocalRelayTask.step devuelve settled/conflicted al reconciliar el pool y no ejecuta limpieza. Su método close() cierra objetos locales, no cuentas de Solana. La observación local-cost-02 registró 21.448444080 SOL sintéticos retenidos en un buffer de 3.081.545 bytes. Esa cifra es saldo reservado en la cuenta, no una comisión consumida ni una estimación de mainnet. Las cuentas de recibo añaden almacenamiento; su recuperación conjunta no está demostrada por aquella observación.
+
+Condiciones de la futura integración
+- Primero verificar la transición exacta del pool, con nullifiers, compromisos y destino/importes de retirada; un mensaje del relay o una firma confirmada no bastan.
+- Conservar antes del cierre las pruebas públicas y evidencia necesarias para la auditoría independiente. El auditor actual obtiene la prueba del buffer; cerrarlo antes rompería esa comprobación.
+- Autorizar únicamente las dos cuentas efímeras vinculadas al request, al contexto y al sponsor. No cerrar vaults, notas, nullifiers, cuentas de tokens ni cuentas recibidas libremente del cliente.
+- Fijar programas y cuentas de programa; reconstruir instrucciones exactas de cierre. Solo el sponsor original recibe el reembolso. No habilitar firma arbitraria ni cambiar la política de publicación mientras haya intentos pendientes.
+- Persistir cada intento firmado antes de enviarlo. Tras pérdida de respuesta/reinicio, reconciliar la cuenta y la firma antes de firmar otro intento. Una cuenta ausente por sí sola no demuestra que el reembolso esperado ocurrió.
+- Verificar rechazo de firma/destino/cuenta ajenos, cierre prematuro, respuesta incierta, reinicio entre cierres y dos procesos concurrentes. Reproducir saldo y notas del pago después de la limpieza.
+- Medir por separado capital inmovilizado, saldo efectivamente recuperado y comisiones. No reembolsar ni descontar comisiones al recuperar rent. El presupuesto conservador actual no debe reciclar reservas automáticamente sin una transición contable duradera y verificada aparte.
+
+Siguiente trabajo
+Después del ensayo activo y sus cuatro gates seriales, diseñar y probar la limpieza como una fase separada del servicio, con resultados independientes para pago y recuperación de almacenamiento. No convertir este hallazgo en una afirmación de recuperación ya operativa ni de viabilidad económica pública. No se cambió ningún programa, fuente fijada ni proceso de la medición en curso.

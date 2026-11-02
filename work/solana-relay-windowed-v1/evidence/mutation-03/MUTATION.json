@@ -1,0 +1,810 @@
+{
+  "all_detected": true,
+  "undetected": [],
+  "count": 79,
+  "results": [
+    {
+      "mutation": "control_unmutated",
+      "file": "relay-publication.mjs",
+      "exit_code": 0,
+      "selected": ".",
+      "failing_tests": [],
+      "failing_count": 0
+    },
+    {
+      "mutation": "prepare_while_pending",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J3) ",
+      "failing_tests": [
+        "J3 nothing new can be prepared while any attempt is pending"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "prepare_chunks_while_pending",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J3) ",
+      "failing_tests": [
+        "J3 nothing new can be prepared while any attempt is pending"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "duplicate_chunk_indexes_allowed",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J4) ",
+      "failing_tests": [
+        "J4 a chunk window must be non-empty, distinct, in range and at most MA"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "window_unbounded",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J4) ",
+      "failing_tests": [
+        "J4 a chunk window must be non-empty, distinct, in range and at most MA"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "empty_window_allowed",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J4) ",
+      "failing_tests": [
+        "J4 a chunk window must be non-empty, distinct, in range and at most MA"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "max_window_raised",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(R8) ",
+      "failing_tests": [
+        "R8 record sizes: a window record up to 512 KiB, every other record sta"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "sign_batch_commits_only_one",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J2) ",
+      "failing_tests": [
+        "J2 a window is signed, verified and made durable in ONE commit, with o"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "attempt_counter_counts_one",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J2) ",
+      "failing_tests": [
+        "J2 a window is signed, verified and made durable in ONE commit, with o"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "sign_batch_not_stored",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J2) ",
+      "failing_tests": [
+        "J2 a window is signed, verified and made durable in ONE commit, with o"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "sign_not_stored",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J9|S2) ",
+      "failing_tests": [
+        "J9 the attempt counter counts every signed attempt, window or single",
+        "S2 window 1 is the original sender: one attempt, one commit pair and o"
+      ],
+      "failing_count": 2
+    },
+    {
+      "mutation": "commit_failure_swallowed",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(S10) ",
+      "failing_tests": [
+        "S10 a failing commit releases nothing: no send, no pending, no debit"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "stored_attempts_not_verified",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J5) ",
+      "failing_tests": [
+        "J5 a tampered or malformed pending list is refused when the journal is"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "mixed_kinds_allowed",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J5) ",
+      "failing_tests": [
+        "J5 a tampered or malformed pending list is refused when the journal is"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "pending_may_exceed_attempts",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J5) ",
+      "failing_tests": [
+        "J5 a tampered or malformed pending list is refused when the journal is"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "pending_list_unbounded",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J5) ",
+      "failing_tests": [
+        "J5 a tampered or malformed pending list is refused when the journal is"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "pending_shape_unchecked",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J5) ",
+      "failing_tests": [
+        "J5 a tampered or malformed pending list is refused when the journal is"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "unknown_signature_resolved",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J6) ",
+      "failing_tests": [
+        "J6 resolveMany resolves only the listed attempts, in one commit, and r"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "duplicate_resolution_entry",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J6) ",
+      "failing_tests": [
+        "J6 resolveMany resolves only the listed attempts, in one commit, and r"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "resolution_outcome_unchecked",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J6) ",
+      "failing_tests": [
+        "J6 resolveMany resolves only the listed attempts, in one commit, and r"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "expiry_without_missing_proof",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J7) ",
+      "failing_tests": [
+        "J7 an expiry needs BOTH the missing-signature proof and a height past "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "expiry_before_blockhash_lifetime",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J7) ",
+      "failing_tests": [
+        "J7 an expiry needs BOTH the missing-signature proof and a height past "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "last_resolution_not_recorded",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J6) ",
+      "failing_tests": [
+        "J6 resolveMany resolves only the listed attempts, in one commit, and r"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "ticket_kind_not_checked",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J8) ",
+      "failing_tests": [
+        "J8 a ticket serves only its own kind, only once, and only at the revis"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "probe_carries_a_signature",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J2) ",
+      "failing_tests": [
+        "J2 a window is signed, verified and made durable in ONE commit, with o"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "initial_pending_null",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J1) ",
+      "failing_tests": [
+        "J1 a new window journal starts empty at revision 1 and reopens identic"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "version_label_unchecked",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J5) ",
+      "failing_tests": [
+        "J5 a tampered or malformed pending list is refused when the journal is"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "wire_hash_unchecked",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J5) ",
+      "failing_tests": [
+        "J5 a tampered or malformed pending list is refused when the journal is"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "transport_unchecked",
+      "file": "relay-publication.mjs",
+      "exit_code": 1,
+      "selected": "^(J5) ",
+      "failing_tests": [
+        "J5 a tampered or malformed pending list is refused when the journal is"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "list_may_grow_while_pending",
+      "file": "relay-repository.mjs",
+      "exit_code": 1,
+      "selected": "^(R3) ",
+      "failing_tests": [
+        "R3 attempts can only enter an EMPTY list and a retained attempt can ne"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "retained_attempt_replaceable",
+      "file": "relay-repository.mjs",
+      "exit_code": 1,
+      "selected": "^(R3|R7) ",
+      "failing_tests": [
+        "R3 attempts can only enter an EMPTY list and a retained attempt can ne",
+        "R7 settlement journals keep the original single-attempt funding rules "
+      ],
+      "failing_count": 2
+    },
+    {
+      "mutation": "duplicate_pending_allowed",
+      "file": "relay-repository.mjs",
+      "exit_code": 1,
+      "selected": "^(R3) ",
+      "failing_tests": [
+        "R3 attempts can only enter an EMPTY list and a retained attempt can ne"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "new_attempts_without_debit",
+      "file": "relay-repository.mjs",
+      "exit_code": 1,
+      "selected": "^(R7) ",
+      "failing_tests": [
+        "R7 settlement journals keep the original single-attempt funding rules "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "debit_on_a_resolution",
+      "file": "relay-repository.mjs",
+      "exit_code": 1,
+      "selected": "^(R2) ",
+      "failing_tests": [
+        "R2 a shrinking pending list takes no debit, and a debit on a resolutio"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "window_record_limit_for_every_record",
+      "file": "relay-repository.mjs",
+      "exit_code": 1,
+      "selected": "^(R8) ",
+      "failing_tests": [
+        "R8 record sizes: a window record up to 512 KiB, every other record sta"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "window_record_unbounded",
+      "file": "relay-repository.mjs",
+      "exit_code": 1,
+      "selected": "^(R8) ",
+      "failing_tests": [
+        "R8 record sizes: a window record up to 512 KiB, every other record sta"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "other_records_unbounded",
+      "file": "relay-repository.mjs",
+      "exit_code": 1,
+      "selected": "^(R8) ",
+      "failing_tests": [
+        "R8 record sizes: a window record up to 512 KiB, every other record sta"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "foreign_journal_accepted",
+      "file": "relay-repository.mjs",
+      "exit_code": 1,
+      "selected": "^(R8) ",
+      "failing_tests": [
+        "R8 record sizes: a window record up to 512 KiB, every other record sta"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "request_cap_ignored",
+      "file": "relay-repository.mjs",
+      "exit_code": 1,
+      "selected": "^(R4) ",
+      "failing_tests": [
+        "R4 the per-request funding cap bounds the CUMULATIVE cost of windows; "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "pending_list_shape_unchecked",
+      "file": "relay-repository.mjs",
+      "exit_code": 1,
+      "selected": "^(R3) ",
+      "failing_tests": [
+        "R3 attempts can only enter an EMPTY list and a retained attempt can ne"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "window_charged_as_one",
+      "file": "relay-funding.mjs",
+      "exit_code": 1,
+      "selected": "^(R1|J2) ",
+      "failing_tests": [
+        "J2 a window is signed, verified and made durable in ONE commit, with o",
+        "R1 a window is charged N fee CEILINGS"
+      ],
+      "failing_count": 2
+    },
+    {
+      "mutation": "fee_cap_unchecked",
+      "file": "relay-funding.mjs",
+      "exit_code": 1,
+      "selected": "^(R6) ",
+      "failing_tests": [
+        "R6 the quote refuses a window when ANY fee is unavailable or above the"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "zero_fee_accepted",
+      "file": "relay-funding.mjs",
+      "exit_code": 1,
+      "selected": "^(R6) ",
+      "failing_tests": [
+        "R6 the quote refuses a window when ANY fee is unavailable or above the"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "balance_unchecked",
+      "file": "relay-funding.mjs",
+      "exit_code": 1,
+      "selected": "^(R6) ",
+      "failing_tests": [
+        "R6 the quote refuses a window when ANY fee is unavailable or above the"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "stale_balance_accepted",
+      "file": "relay-funding.mjs",
+      "exit_code": 1,
+      "selected": "^(R6) ",
+      "failing_tests": [
+        "R6 the quote refuses a window when ANY fee is unavailable or above the"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "foreign_authority_unchecked",
+      "file": "relay-funding.mjs",
+      "exit_code": 1,
+      "selected": "^(R10) ",
+      "failing_tests": [
+        "R10 the window quote is bound to the sponsor, to a non-empty bounded l"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "whole_transaction_sent_to_the_fee_rpc",
+      "file": "relay-funding.mjs",
+      "exit_code": 1,
+      "selected": "^(R1) ",
+      "failing_tests": [
+        "R1 a window is charged N fee CEILINGS"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "empty_window_quoted",
+      "file": "relay-funding.mjs",
+      "exit_code": 1,
+      "selected": "^(R10) ",
+      "failing_tests": [
+        "R10 the window quote is bound to the sponsor, to a non-empty bounded l"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "every_commit_quoted",
+      "file": "relay-funding.mjs",
+      "exit_code": 1,
+      "selected": "^(R1|J6) ",
+      "failing_tests": [
+        "J6 resolveMany resolves only the listed attempts, in one commit, and r",
+        "R1 a window is charged N fee CEILINGS"
+      ],
+      "failing_count": 2
+    },
+    {
+      "mutation": "attempt_cap_ignored",
+      "file": "relay-funding.mjs",
+      "exit_code": 1,
+      "selected": "^(R5) ",
+      "failing_tests": [
+        "R5 the attempt cap counts the whole window, and a window that fits exa"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "window_size_ignored_in_choice",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S12|S13) ",
+      "failing_tests": [
+        "S12 a window left pending is finished whatever window the restarted se",
+        "S13 the window size is validated by the sender and never exceeded"
+      ],
+      "failing_count": 2
+    },
+    {
+      "mutation": "window_path_never_chosen",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S3) ",
+      "failing_tests": [
+        "S3 the step results of a clean window are pending, then step_confirmed"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "window_size_unvalidated",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S13) ",
+      "failing_tests": [
+        "S13 the window size is validated by the sender and never exceeded"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "chunk_simulation_rejection_ignored",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S11) ",
+      "failing_tests": [
+        "S11 a simulation that rejects any chunk stops the window before anythi"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "effect_not_checked_before_resolving",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S9) ",
+      "failing_tests": [
+        "S9 a confirmed status whose effect is not visible in the buffer stays "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "failure_recorded_as_confirmed",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S8) ",
+      "failing_tests": [
+        "S8 a chunk that lands with an error is recorded as failed, the others "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "failure_not_fatal",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S8) ",
+      "failing_tests": [
+        "S8 a chunk that lands with an error is recorded as failed, the others "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "failure_not_listed_last",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S8) ",
+      "failing_tests": [
+        "S8 a chunk that lands with an error is recorded as failed, the others "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "processed_counts_as_landed",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S16) ",
+      "failing_tests": [
+        "S16 a status that is only processed is neither a confirmation, nor an "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "expiry_without_blockheight",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S6) ",
+      "failing_tests": [
+        "S6 a blockhash that expired with the chunk still unknown resolves it a"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "expiry_without_second_lookup",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S7) ",
+      "failing_tests": [
+        "S7 a chunk that shows up at the second lookup is CONFIRMED, never expi"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "dead_blockhash_sent_again",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S17) ",
+      "failing_tests": [
+        "S17 an attempt that shows up as processed only between the two lookups"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "landed_chunk_sent_again",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S9) ",
+      "failing_tests": [
+        "S9 a confirmed status whose effect is not visible in the buffer stays "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "awaiting_progress_not_reported",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S9) ",
+      "failing_tests": [
+        "S9 a confirmed status whose effect is not visible in the buffer stays "
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "all_expired_reported_as_confirmed",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S6) ",
+      "failing_tests": [
+        "S6 a blockhash that expired with the chunk still unknown resolves it a"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "concurrent_steps_allowed",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S14) ",
+      "failing_tests": [
+        "S14 only one step runs at a time"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "min_slot_error_fatal",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S15) ",
+      "failing_tests": [
+        "S15 a cluster that has not reached the minimum slot is a pending resul"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "unknown_send_outcome_fatal",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S3) ",
+      "failing_tests": [
+        "S3 the step results of a clean window are pending, then step_confirmed"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "different_send_signature_accepted",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S18) ",
+      "failing_tests": [
+        "S18 the sender refuses an RPC that answers inconsistently: another sig"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "short_status_list_accepted",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S18) ",
+      "failing_tests": [
+        "S18 the sender refuses an RPC that answers inconsistently: another sig"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "pending_not_rechecked_before_resend",
+      "file": "publication-sender.mjs",
+      "exit_code": 1,
+      "selected": "^(S18) ",
+      "failing_tests": [
+        "S18 the sender refuses an RPC that answers inconsistently: another sig"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "chunk_window_prepare_unchecked_id",
+      "file": "publication-adapter.mjs",
+      "exit_code": 1,
+      "selected": "^(A1) ",
+      "failing_tests": [
+        "A1 the adapter checks the request id on every call and refuses to bind"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "sign_batch_unchecked_id",
+      "file": "publication-adapter.mjs",
+      "exit_code": 1,
+      "selected": "^(A1) ",
+      "failing_tests": [
+        "A1 the adapter checks the request id on every call and refuses to bind"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "resolve_many_unchecked_id",
+      "file": "publication-adapter.mjs",
+      "exit_code": 1,
+      "selected": "^(A1) ",
+      "failing_tests": [
+        "A1 the adapter checks the request id on every call and refuses to bind"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "bind_ignores_settling",
+      "file": "publication-adapter.mjs",
+      "exit_code": 1,
+      "selected": "^(A1) ",
+      "failing_tests": [
+        "A1 the adapter checks the request id on every call and refuses to bind"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "task_window_unvalidated",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(A2) ",
+      "failing_tests": [
+        "A2 opening the task wires the v2 journal and v2 funding, validates the"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "task_window_not_given_to_sender",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(A3) ",
+      "failing_tests": [
+        "A3"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "task_uses_the_frozen_sender",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(A3) ",
+      "failing_tests": [
+        "A3"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "task_uses_the_frozen_funding",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(A3) ",
+      "failing_tests": [
+        "A3"
+      ],
+      "failing_count": 1
+    },
+    {
+      "mutation": "task_uses_the_frozen_journal",
+      "file": "relay-task.mjs",
+      "exit_code": 1,
+      "selected": "^(A3) ",
+      "failing_tests": [
+        "A3"
+      ],
+      "failing_count": 1
+    }
+  ]
+}

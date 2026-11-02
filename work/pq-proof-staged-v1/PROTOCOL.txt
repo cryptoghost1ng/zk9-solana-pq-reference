@@ -1,0 +1,76 @@
+ZK9 staged FORMAT reader v1 — local experiment, not payment verification
+
+Library
+Reader::new borrows an immutable proof slice. advance(limit) processes at most
+limit state-machine operations (1..4096). Atomic leaves include a field, an
+extension element (8 fields), or a digest (8 bounded u64 varints). Costs differ:
+4096 operations do not promise a fixed Solana CU cost. The client simulates and
+reduces its requested step size on compute exhaustion; a failed transaction
+cannot persist a partially advanced checkpoint. Invalid work-limit calls leave
+the reader unchanged. Parse errors terminally fail the in-memory reader.
+
+An explicit 16-frame stack walks the fixed acyclic schema. It checks minimal
+varints, strict option tags, raw BabyBear Montgomery words, cap shapes, OOD
+preprocessed shapes, sequence/byte/work/depth limits and trailing input. Fixed
+leaves charge exactly the original successful Serde work: field9, extension85,
+digest17. Error-path charge timing may differ; callbacks remain provisional.
+No unsafe code, dependencies, allocator, FRI/transcript/AIR or entropy in library.
+
+Checkpoint v1 is exactly 640 bytes, LE integers:
+  0..8 magic ZK9STG1\0
+  8 length, 12 position, 16 Serde work, 20 fields, 24 varints, 28 sequences,
+  32 max sequence, 36 logical depth, 40 active frames, 44 status (0 active/1 done)
+  48..56 operation count u64; 56..64 zero
+  64..104 five start/end spans (u32 pairs); 104..128 zero
+  128..640 sixteen 32-byte frames: id/phase/flags/reserved, start/count/index/a/b/
+  data-start u32s, reserved u32. Unused frames and reserved bytes must be zero.
+Status2 represents an in-memory error and cannot be resumed. Frame arities, stack
+ancestry, positions, bounds and counter consistency are checked when loading.
+These checks ARE NOT authentication. resume_trusted must only consume trusted
+stored state bound to exactly the same immutable input. A caller can otherwise
+forge plausible progress. No MAC or proof of execution is claimed for this API.
+
+Solana program
+Source is owned by the fixed, previously tested buffer-program ID. On every init
+and step, check its executable Program account and linked ProgramData, loader
+ownership and upgrade-authority None. Sealed source state2, exact layout/size,
+received count, header and proof length must match. The trusted immutable buffer
+program already checked chunk hashes before sealing; scanning does not rehash
+the full source in each step. Changing transport code or ID requires a review.
+This experiment uses synthetic program IDs and a local genesis deployment.
+
+Session account: 768 bytes, owned by the scanner, rent-exempt on initialization.
+  0..8 ZK9SCAN1
+  8..40 authority pubkey, 40..72 source pubkey, 72..104 sealed root
+  104..108 complete source-envelope length, 108..112 step sequence u32
+  112..128 zero, 128..768 checkpoint
+No instruction accepts arbitrary checkpoint bytes or a desired cursor.
+
+All instructions use accounts [session writable, source readonly, authority
+signer, source Program readonly, source ProgramData readonly]. Init additionally
+requires the session signer and a completely zero-filled account. The System
+Program creates zero data; only this scanner can modify its accounts afterward.
+
+  [0] initialize, bind source identity/root/length, record initial checkpoint.
+  [1, expected_sequence:u32, max_operations:u32] advance. Sequence must exactly
+      match saved state; source binding must match. Store only the resulting
+      internally computed checkpoint and increment sequence. Completed sessions
+      cannot advance. Failed instructions roll back all account modifications.
+  [2] close with authority, refund lamports. Allowed after source closure/change,
+      so an unusable session cannot trap its storage deposit. No payment balance.
+
+Stale retries are rejected; after an uncertain send, read the confirmed session
+sequence before constructing the next step. A different authority cannot advance
+or close. Caller supplies work limit and expected sequence, never actual progress.
+Closing the source invalidates further reads. Recreating its address with a
+different root or size fails binding. Identical bytes/root recreated at the same
+address remain the same parse input; a separate creation-generation guarantee is
+not claimed or needed for this format-only computation.
+
+Trust and limits
+Program-owned progress and immutable source binding are necessary, not sufficient
+for payment authorization. Proof context, transcript, Merkle/FRI, AIR, accepted
+chain roots, spend-nullifier state and atomic settlement remain unimplemented in
+this scanner. FORMAT_COMPLETE must never release tokens, mint, bridge or update
+balances. A cryptographically invalid proof can be perfectly well formatted.
+No claim of complete quantum protection or production readiness is made.
