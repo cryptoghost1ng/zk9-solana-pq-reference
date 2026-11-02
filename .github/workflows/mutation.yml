@@ -1,0 +1,26 @@
+name: full mutation controls
+
+# Runs, on demand, the two complete mutation controls: each mutation is applied to a COPY of the sources and a NAMED check must fail for it
+# (79 mutants of the windowed relay, 36 of the relay that closes accounts). It takes a while, so it is not run on every push.
+# The same controls were run from a clean clone of this repository on the author's Mac on 2026-11-02: 79 of 79 and 36 of 36 detected.
+on:
+  workflow_dispatch:
+
+jobs:
+  mutation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        revision: [solana-relay-windowed-v1, solana-relay-cleanup-v1]
+    env:
+      ZK9_WIRE_ARCHIVE: ${{ github.workspace }}/work/solana-multiwallet-privacy-v1/evidence/privacy-live-02/public-capsule
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: mutation control (exits non-zero if any mutant is not caught by a named check)
+        working-directory: work/${{ matrix.revision }}
+        run: python3 mutation_control.py mutation-90

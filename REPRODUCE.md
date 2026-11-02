@@ -9,6 +9,7 @@ export ZK9_WIRE_ARCHIVE="$PWD/work/solana-multiwallet-privacy-v1/evidence/privac
 cd work/solana-relay-windowed-v1
 node --test --test-timeout=300000 checks.mjs        # 40 checks: journal v2, funded repository, fee quote, windowed sender, task wiring
 python3 mutation_control.py --verify-patterns        # confirms every one of the 79 mutated texts matches its source exactly once
+python3 mutation_control.py mutation-90               # the full control: ~10 minutes, every mutant must be caught by a named check (writes evidence/mutation-90)
 ```
 
 The checks use real SQLite, real Ed25519 signing, the real transaction decoder, the real buffer-account layout and a model of the cluster (`harness.mjs`, see its header for what it does and does not model).
